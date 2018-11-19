@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <UserSecretsId>aspnet-SampleStore.UI-8DDCD30F-2AE5-4A77-9BCD-1FF214E95ABA</UserSecretsId>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>SampleStore.UI.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.6" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SampleStore.Common\SampleStore.Common.csproj" />
+    <ProjectReference Include="..\SampleStore.Data.EF\SampleStore.Data.EF.csproj" />
+    <ProjectReference Include="..\SampleStore.Data.Extensions\SampleStore.Data.Extensions.csproj" />
+    <ProjectReference Include="..\SampleStore.Data.Seed\SampleStore.Data.Seed.csproj" />
+    <ProjectReference Include="..\SampleStore.Data\SampleStore.Data.csproj" />
+    <ProjectReference Include="..\SampleStore.Identity\SampleStore.Identity.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Identity\Services\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="web.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>

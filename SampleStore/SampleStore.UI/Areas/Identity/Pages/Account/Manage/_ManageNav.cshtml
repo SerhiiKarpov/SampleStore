@@ -1,0 +1,15 @@
+﻿@inject SignInManager<User> SignInManager
+@addTagHelper *, SampleStore.UI
+@{
+    var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
+}
+<ul class="nav nav-pills nav-stacked">
+    <li active-page="Index"><a asp-page="./Index">Profile</a></li>
+    <li active-page="ChangePassword"><a id="change-password" asp-page="./ChangePassword">Password</a></li>
+    @if (hasExternalLogins)
+    {
+        <li active-page="ExternalLogins"><a id="external-login" asp-page="./ExternalLogins">External logins</a></li>
+    }
+    <li active-page="TwoFactorAuthentication"><a asp-page="./TwoFactorAuthentication">Two-factor authentication</a></li>
+    <li active-page="PersonalData"><a asp-page="./PersonalData">Personal data</a></li>
+</ul>

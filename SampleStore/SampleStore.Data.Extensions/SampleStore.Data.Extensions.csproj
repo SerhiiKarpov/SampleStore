@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>SampleStore.Data.Extensions.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SampleStore.Data.Entities\SampleStore.Data.Entities.csproj" />
+    <ProjectReference Include="..\SampleStore.Data\SampleStore.Data.csproj" />
+  </ItemGroup>
+
+</Project>
