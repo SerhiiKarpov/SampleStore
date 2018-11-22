@@ -10,7 +10,7 @@
     using SampleStore.Common;
     using SampleStore.Data.Entities.Identity;
     using SampleStore.Data.Seed.Extensions;
-    using SampleStore.Identity.Constants;
+    using SampleStore.Services.Identity.Constants;
 
     /// <summary>
     /// Class encapsulating create roles command.

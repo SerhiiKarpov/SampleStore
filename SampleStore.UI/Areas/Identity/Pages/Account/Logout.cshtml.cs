@@ -65,15 +65,6 @@
         #region Methods
 
         /// <summary>
-        /// Called when [get].
-        /// </summary>
-#pragma warning disable CA1822 // Mark members as static
-        public void OnGet()
-#pragma warning restore CA1822 // Mark members as static
-        {
-        }
-
-        /// <summary>
         /// Called when [post].
         /// </summary>
         /// <param name="returnUrl">The return URL.</param>

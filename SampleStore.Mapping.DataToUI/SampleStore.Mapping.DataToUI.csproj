@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>SampleStore.Mapping.DataToUI.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SampleStore.Data.Entities\SampleStore.Data.Entities.csproj" />
+    <ProjectReference Include="..\SampleStore.Mapping\SampleStore.Mapping.csproj" />
+    <ProjectReference Include="..\SampleStore.UI\SampleStore.UI.csproj" />
+  </ItemGroup>
+
+</Project>

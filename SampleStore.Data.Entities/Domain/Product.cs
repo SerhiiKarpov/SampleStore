@@ -14,6 +14,7 @@
         /// <summary>
         /// Gets or sets the description.
         /// </summary>
+        [StringLength(500)]
         public string Description
         {
             get; set;
@@ -22,6 +23,8 @@
         /// <summary>
         /// Gets or sets the name.
         /// </summary>
+        [Required]
+        [StringLength(50)]
         public string Name
         {
             get; set;

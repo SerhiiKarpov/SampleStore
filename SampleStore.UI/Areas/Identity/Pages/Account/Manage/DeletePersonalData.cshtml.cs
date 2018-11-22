@@ -130,13 +130,11 @@
             }
 
             RequirePassword = await _userManager.HasPasswordAsync(user);
-            if (RequirePassword)
+            if (RequirePassword
+                && !await _userManager.CheckPasswordAsync(user, Input.Password ?? string.Empty))
             {
-                if (!await _userManager.CheckPasswordAsync(user, Input.Password))
-                {
-                    ModelState.AddModelError(string.Empty, "Password not correct.");
-                    return Page();
-                }
+                ModelState.AddModelError(string.Empty, "Password not correct.");
+                return Page();
             }
 
             var result = await _userManager.DeleteAsync(user);

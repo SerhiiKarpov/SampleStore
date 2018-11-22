@@ -11,6 +11,7 @@
 
     using SampleStore.Common;
     using SampleStore.Data.Entities.Identity;
+    using SampleStore.Mapping;
     using SampleStore.UI.Pages;
     using SampleStore.UI.ViewModels.Identity;
 
@@ -34,6 +35,11 @@
         private readonly ILogger<RegisterModel> _logger;
 
         /// <summary>
+        /// The mapper provider
+        /// </summary>
+        private readonly IMapperProvider _mapperProvider;
+
+        /// <summary>
         /// The sign in manager
         /// </summary>
         private readonly SignInManager<User> _signInManager;
@@ -48,22 +54,25 @@
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RegisterModel"/> class.
+        /// Initializes a new instance of the <see cref="RegisterModel" /> class.
         /// </summary>
         /// <param name="userManager">The user manager.</param>
         /// <param name="signInManager">The sign in manager.</param>
         /// <param name="logger">The logger.</param>
         /// <param name="emailSender">The email sender.</param>
+        /// <param name="mapperProvider">The mapper provider.</param>
         public RegisterModel(
             UserManager<User> userManager,
             SignInManager<User> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IMapperProvider mapperProvider)
         {
             _userManager = userManager.ThrowIfArgumentIsNull(nameof(userManager));
             _signInManager = signInManager.ThrowIfArgumentIsNull(nameof(signInManager));
             _logger = logger.ThrowIfArgumentIsNull(nameof(logger));
             _emailSender = emailSender.ThrowIfArgumentIsNull(nameof(emailSender));
+            _mapperProvider = mapperProvider.ThrowIfArgumentIsNull(nameof(mapperProvider));
         }
 
         #endregion Constructors
@@ -124,12 +133,7 @@
                 return Page();
             }
 
-            var user = new User
-            {
-                FullName = Input.Name,
-                DateOfBirth = Input.DateOfBirth,
-                Email = Input.Email
-            };
+            var user = _mapperProvider.GetMapper<RegistrationViewModel, User>().Map(Input);
             var result = await _userManager.CreateAsync(user, Input.Password);
             if (!result.Succeeded)
             {
@@ -150,10 +154,12 @@
                 values: new { userId = user.Id, code },
                 protocol: Request.Scheme);
 
-            await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+            // TODO: Copy of this code exists in ExternalLogin.cshtml.cs. Please extract it.
+            await _emailSender.SendEmailAsync(
+                Input.Email,
+                "Confirm your email",
+                $"Please confirm your account by clicking <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>here</a>.");
 
-            await _signInManager.SignInAsync(user, isPersistent: false);
             return LocalRedirect(returnUrl);
         }
 

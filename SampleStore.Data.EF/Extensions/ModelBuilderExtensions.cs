@@ -28,7 +28,11 @@
         /// <returns>The specified builder to chain method calls.</returns>
         public static ModelBuilder BuildDomainModel(this ModelBuilder builder)
         {
-            builder.Entity<Product>();
+            builder.Entity<Product>(
+                x =>
+                {
+                    x.Property(p => p.Price).HasColumnType("decimal(18,2)");
+                });
             builder.Entity<Photo>(
                 x =>
                 {

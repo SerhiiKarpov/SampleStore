@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <UserSecretsId>aspnet-SampleStore.UI-8DDCD30F-2AE5-4A77-9BCD-1FF214E95ABA</UserSecretsId>
+    <ApplicationIcon />
+    <OutputType>Exe</OutputType>
+    <StartupObject />
+    <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>SampleStore.Host.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="2.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount" Version="2.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Twitter" Version="2.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.6" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SampleStore.Common\SampleStore.Common.csproj" />
+    <ProjectReference Include="..\SampleStore.Data.EF\SampleStore.Data.EF.csproj" />
+    <ProjectReference Include="..\SampleStore.Data.Extensions\SampleStore.Data.Extensions.csproj" />
+    <ProjectReference Include="..\SampleStore.Data.Seed\SampleStore.Data.Seed.csproj" />
+    <ProjectReference Include="..\SampleStore.Data\SampleStore.Data.csproj" />
+    <ProjectReference Include="..\SampleStore.Mapping.AutoMapper\SampleStore.Mapping.AutoMapper.csproj" />
+    <ProjectReference Include="..\SampleStore.Mapping.DataToServices\SampleStore.Mapping.DataToServices.csproj" />
+    <ProjectReference Include="..\SampleStore.Mapping.DataToUI\SampleStore.Mapping.DataToUI.csproj" />
+    <ProjectReference Include="..\SampleStore.Mapping.ServicesToUI\SampleStore.Mapping.ServicesToUI.csproj" />
+    <ProjectReference Include="..\SampleStore.Services.Email.SendGrid\SampleStore.Services.Email.SendGrid.csproj" />
+    <ProjectReference Include="..\SampleStore.Services.Identity\SampleStore.Services.Identity.csproj" />
+    <ProjectReference Include="..\SampleStore.UI\SampleStore.UI.csproj" />
+  </ItemGroup>
+
+</Project>

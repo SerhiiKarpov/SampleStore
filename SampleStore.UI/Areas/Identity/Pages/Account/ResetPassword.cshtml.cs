@@ -77,14 +77,12 @@
             {
                 return BadRequest("A code must be supplied for password reset.");
             }
-            else
+
+            Input = new ResetPasswordViewModel
             {
-                Input = new ResetPasswordViewModel
-                {
-                    Code = code
-                };
-                return Page();
-            }
+                Code = code
+            };
+            return Page();
         }
 
         /// <summary>
@@ -115,6 +113,7 @@
             {
                 ModelState.AddModelError(string.Empty, error.Description);
             }
+
             return Page();
         }
 

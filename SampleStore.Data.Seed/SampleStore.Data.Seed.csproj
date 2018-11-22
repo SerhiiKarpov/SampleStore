@@ -16,7 +16,7 @@
   <ItemGroup>
     <ProjectReference Include="..\SampleStore.Data.Entities\SampleStore.Data.Entities.csproj" />
     <ProjectReference Include="..\SampleStore.Data\SampleStore.Data.csproj" />
-    <ProjectReference Include="..\SampleStore.Identity\SampleStore.Identity.csproj" />
+    <ProjectReference Include="..\SampleStore.Services.Identity\SampleStore.Services.Identity.csproj" />
   </ItemGroup>
 
 </Project>

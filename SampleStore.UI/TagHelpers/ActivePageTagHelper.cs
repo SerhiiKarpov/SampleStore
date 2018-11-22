@@ -2,6 +2,7 @@
 {
     using System;
     using System.IO;
+    using System.Linq;
     using System.Text;
 
     using Microsoft.AspNetCore.Mvc.Rendering;
@@ -21,6 +22,11 @@
         /// The active class
         /// </summary>
         private const string ActiveClass = "active";
+
+        /// <summary>
+        /// The active page delimiter
+        /// </summary>
+        private const string ActivePageDelimiter = ",";
 
         /// <summary>
         /// The class attribute name
@@ -72,7 +78,8 @@
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             var currentPage = Path.GetFileNameWithoutExtension(ViewContext.ActionDescriptor.DisplayName);
-            if (!string.Equals(currentPage, ActivePage, StringComparison.OrdinalIgnoreCase))
+            var activePages = ActivePage.Split(ActivePageDelimiter, StringSplitOptions.RemoveEmptyEntries);
+            if (activePages.All(activePage => !string.Equals(currentPage, activePage, StringComparison.OrdinalIgnoreCase)))
             {
                 return;
             }

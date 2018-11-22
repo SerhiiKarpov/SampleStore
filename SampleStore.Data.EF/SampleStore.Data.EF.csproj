@@ -22,6 +22,9 @@
     <Compile Remove="Migrations\20181116070743_Initial.cs" />
     <Compile Remove="Migrations\20181116124212_Initial.cs" />
     <Compile Remove="Migrations\20181116133411_Initial.cs" />
+    <Compile Remove="Migrations\20181119110831_Initial.cs" />
+    <Compile Remove="Migrations\20181120085848_Initial.cs" />
+    <Compile Remove="Migrations\20181121084836_Initial.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -34,6 +37,10 @@
     <ProjectReference Include="..\SampleStore.Common\SampleStore.Common.csproj" />
     <ProjectReference Include="..\SampleStore.Data.Entities\SampleStore.Data.Entities.csproj" />
     <ProjectReference Include="..\SampleStore.Data\SampleStore.Data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

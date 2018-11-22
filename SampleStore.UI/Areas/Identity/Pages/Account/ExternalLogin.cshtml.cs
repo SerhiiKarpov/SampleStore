@@ -1,15 +1,17 @@
 ﻿namespace SampleStore.UI.Areas.Identity.Pages.Account
 {
-    using System.Security.Claims;
+    using System.Text.Encodings.Web;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Identity.UI.Services;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
 
     using SampleStore.Common;
     using SampleStore.Data.Entities.Identity;
+    using SampleStore.Mapping;
     using SampleStore.UI.Pages;
     using SampleStore.UI.ViewModels.Identity;
 
@@ -23,9 +25,19 @@
         #region Fields
 
         /// <summary>
+        /// The email sender
+        /// </summary>
+        private readonly IEmailSender _emailSender;
+
+        /// <summary>
         /// The logger
         /// </summary>
         private readonly ILogger<ExternalLoginModel> _logger;
+
+        /// <summary>
+        /// The mapper provider
+        /// </summary>
+        private readonly IMapperProvider _mapperProvider;
 
         /// <summary>
         /// The sign in manager
@@ -42,19 +54,25 @@
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ExternalLoginModel"/> class.
+        /// Initializes a new instance of the <see cref="ExternalLoginModel" /> class.
         /// </summary>
         /// <param name="signInManager">The sign in manager.</param>
         /// <param name="userManager">The user manager.</param>
+        /// <param name="emailSender">The email sender.</param>
         /// <param name="logger">The logger.</param>
+        /// <param name="mapperProvider">The mapper provider.</param>
         public ExternalLoginModel(
             SignInManager<User> signInManager,
             UserManager<User> userManager,
-            ILogger<ExternalLoginModel> logger)
+            IEmailSender emailSender,
+            ILogger<ExternalLoginModel> logger,
+            IMapperProvider mapperProvider)
         {
             _signInManager = signInManager.ThrowIfArgumentIsNull(nameof(signInManager));
             _userManager = userManager.ThrowIfArgumentIsNull(nameof(userManager));
+            _emailSender = emailSender.ThrowIfArgumentIsNull(nameof(emailSender));
             _logger = logger.ThrowIfArgumentIsNull(nameof(logger));
+            _mapperProvider = mapperProvider.ThrowIfArgumentIsNull(nameof(mapperProvider));
         }
 
         #endregion Constructors
@@ -133,6 +151,7 @@
                 ErrorMessage = $"Error from external provider: {remoteError}";
                 return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
             }
+
             var info = await _signInManager.GetExternalLoginInfoAsync();
             if (info == null)
             {
@@ -147,24 +166,18 @@
                 _logger.LogInformation("{Name} logged in with {LoginProvider} provider.", info.Principal.Identity.Name, info.LoginProvider);
                 return LocalRedirect(returnUrl);
             }
+
             if (result.IsLockedOut)
             {
                 return RedirectToPage("./Lockout");
             }
-            else
-            {
-                // If the user does not have an account, then ask the user to create an account.
-                ReturnUrl = returnUrl;
-                LoginProvider = info.LoginProvider;
-                if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
-                {
-                    Input = new ExternalLoginViewModel
-                    {
-                        Email = info.Principal.FindFirstValue(ClaimTypes.Email)
-                    };
-                }
-                return Page();
-            }
+
+            // If the user does not have an account, then ask the user to create an account.
+            ReturnUrl = returnUrl;
+            LoginProvider = info.LoginProvider;
+            Input = _mapperProvider.GetMapper<ExternalLoginInfo, ExternalLoginViewModel>().Map(info);
+
+            return Page();
         }
 
         /// <summary>
@@ -189,6 +202,7 @@
         public async Task<IActionResult> OnPostConfirmationAsync(string returnUrl = null)
         {
             returnUrl = returnUrl ?? Url.Content("~/");
+
             // Get the information about the user from the external login provider
             var info = await _signInManager.GetExternalLoginInfoAsync();
             if (info == null)
@@ -199,18 +213,31 @@
 
             if (ModelState.IsValid)
             {
-                var user = new User { Email = Input.Email };
+                var user = _mapperProvider.GetMapper<ExternalLoginViewModel, User>().Map(Input);
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
                     result = await _userManager.AddLoginAsync(user, info);
                     if (result.Succeeded)
                     {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        // TODO: Copy of this code exists in Register.cshtml.cs. Please extract it.
+                        var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                        var callbackUrl = Url.Page(
+                            "/Account/ConfirmEmail",
+                            pageHandler: null,
+                            values: new { userId = user.Id, code },
+                            protocol: Request.Scheme);
+
+                        await _emailSender.SendEmailAsync(
+                            Input.Email,
+                            "Confirm your email",
+                            $"Please confirm your account by clicking <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>here</a>.");
+
                         _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
                         return LocalRedirect(returnUrl);
                     }
                 }
+
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);

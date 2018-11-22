@@ -25,6 +25,7 @@
         /// <summary>
         /// Gets or sets the identifier.
         /// </summary>
+        [Key]
         public Guid Id
         {
             get; set;

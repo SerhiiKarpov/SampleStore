@@ -26,7 +26,9 @@ namespace SampleStore.Data.EF.Migrations
 
                     b.Property<byte[]>("Image");
 
-                    b.Property<string>("MimeType");
+                    b.Property<string>("MimeType")
+                        .IsRequired()
+                        .HasMaxLength(50);
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
@@ -42,13 +44,17 @@ namespace SampleStore.Data.EF.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Description");
+                    b.Property<string>("Description")
+                        .HasMaxLength(500);
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50);
 
                     b.Property<Guid?>("PhotoId");
 
-                    b.Property<decimal>("Price");
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<double>("Quantity");
 
@@ -68,7 +74,9 @@ namespace SampleStore.Data.EF.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50);
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
@@ -104,15 +112,21 @@ namespace SampleStore.Data.EF.Migrations
 
                     b.Property<DateTime>("DateOfBirth");
 
-                    b.Property<string>("Email");
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(100);
 
                     b.Property<bool>("EmailConfirmed");
 
-                    b.Property<string>("FullName");
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasMaxLength(100);
 
-                    b.Property<string>("PasswordHash");
+                    b.Property<string>("PasswordHash")
+                        .HasMaxLength(100);
 
-                    b.Property<string>("PhoneNumber");
+                    b.Property<string>("PhoneNumber")
+                        .HasMaxLength(50);
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
@@ -149,6 +163,18 @@ namespace SampleStore.Data.EF.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<string>("LoginProvider")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<string>("ProviderDisplayName")
+                        .IsRequired()
+                        .HasMaxLength(100);
+
+                    b.Property<string>("ProviderKey")
+                        .IsRequired()
+                        .HasMaxLength(500);
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
@@ -190,9 +216,13 @@ namespace SampleStore.Data.EF.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("LoginProvider");
+                    b.Property<string>("LoginProvider")
+                        .IsRequired()
+                        .HasMaxLength(50);
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100);
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
@@ -200,7 +230,8 @@ namespace SampleStore.Data.EF.Migrations
 
                     b.Property<Guid>("UserId");
 
-                    b.Property<string>("Value");
+                    b.Property<string>("Value")
+                        .HasMaxLength(500);
 
                     b.HasKey("Id");
 
