@@ -220,6 +220,8 @@
                     result = await _userManager.AddLoginAsync(user, info);
                     if (result.Succeeded)
                     {
+                        await _userManager.AddClaimsAsync(user, info.Principal.Claims);
+
                         // TODO: Copy of this code exists in Register.cshtml.cs. Please extract it.
                         var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                         var callbackUrl = Url.Page(

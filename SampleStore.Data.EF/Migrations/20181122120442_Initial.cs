@@ -7,7 +7,7 @@
     /// <summary>
     /// Class encapsulating initial.
     /// </summary>
-    /// <seealso cref="Microsoft.EntityFrameworkCore.Migrations.Migration" />
+    /// <seealso cref="Migration" />
     public partial class Initial : Migration
     {
         #region Methods
@@ -182,7 +182,9 @@
                 {
                     Id = table.Column<Guid>(nullable: false),
                     RowVersion = table.Column<byte[]>(rowVersion: true, nullable: true),
-                    UserId = table.Column<Guid>(nullable: false)
+                    Type = table.Column<string>(maxLength: 100, nullable: true),
+                    UserId = table.Column<Guid>(nullable: false),
+                    Value = table.Column<string>(maxLength: 200, nullable: true)
                 },
                 constraints: table =>
                 {

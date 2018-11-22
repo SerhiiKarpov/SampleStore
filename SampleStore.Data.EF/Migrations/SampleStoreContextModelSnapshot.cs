@@ -150,7 +150,13 @@ namespace SampleStore.Data.EF.Migrations
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate();
 
+                    b.Property<string>("Type")
+                        .HasMaxLength(100);
+
                     b.Property<Guid>("UserId");
+
+                    b.Property<string>("Value")
+                        .HasMaxLength(200);
 
                     b.HasKey("Id");
 

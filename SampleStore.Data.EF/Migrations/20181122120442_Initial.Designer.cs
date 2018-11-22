@@ -10,13 +10,9 @@ using SampleStore.Data.EF;
 namespace SampleStore.Data.EF.Migrations
 {
     [DbContext(typeof(SampleStoreContext))]
-    [Migration("20181122084241_Initial")]
+    [Migration("20181122120442_Initial")]
     partial class Initial
     {
-        /// <summary>
-        /// Implemented to builds the <see cref="P:Microsoft.EntityFrameworkCore.Migrations.Migration.TargetModel" />.
-        /// </summary>
-        /// <param name="modelBuilder">The <see cref="T:Microsoft.EntityFrameworkCore.ModelBuilder" /> to use to build the model.</param>
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
@@ -156,7 +152,13 @@ namespace SampleStore.Data.EF.Migrations
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate();
 
+                    b.Property<string>("Type")
+                        .HasMaxLength(100);
+
                     b.Property<Guid>("UserId");
+
+                    b.Property<string>("Value")
+                        .HasMaxLength(200);
 
                     b.HasKey("Id");
 
