@@ -7,7 +7,7 @@
 
     using Microsoft.AspNetCore.Identity.UI.Services;
 
-    using SampleStore.Common;
+    using SampleStore.Common.Extensions;
 
     /// <summary>
     /// Class encapsulating send grid email sender.

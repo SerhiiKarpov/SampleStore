@@ -2,7 +2,7 @@
 {
     using Microsoft.Extensions.DependencyInjection;
 
-    using SampleStore.Common;
+    using SampleStore.Common.Extensions;
     using SampleStore.Data.Seed.Commands;
 
     /// <summary>
@@ -21,9 +21,9 @@
             services.ThrowIfArgumentIsNull(nameof(services));
 
             services.AddScoped<DatabaseSeeder>();
-            services.AddTransient<ICreateSuperAdminCommand, CreateSuperAdminCommand>();
-            services.AddTransient<ICreateRolesCommand, CreateRolesCommand>();
-            services.AddTransient<IAddUserToRolesCommand, AddUserToRolesCommand>();
+            services.AddTransient<ICreateSuperAdminCommandFactory, SeederCommandFactory>();
+            services.AddTransient<ICreateRolesCommandFactory, SeederCommandFactory>();
+            services.AddTransient<IAddUserToRolesCommandFactory, SeederCommandFactory>();
         }
 
         #endregion Methods

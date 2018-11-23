@@ -7,7 +7,7 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
 
-    using SampleStore.Common;
+    using SampleStore.Common.Extensions;
     using SampleStore.Data;
     using SampleStore.Data.Entities.Domain;
     using SampleStore.Data.Extensions;

@@ -5,7 +5,7 @@
 
     using Microsoft.AspNetCore.Identity;
 
-    using SampleStore.Common;
+    using SampleStore.Common.Extensions;
     using SampleStore.Data.Entities.Identity;
     using SampleStore.Data.Extensions;
     using SampleStore.Data.Seed.Commands;
@@ -20,17 +20,17 @@
         /// <summary>
         /// The add user to roles command
         /// </summary>
-        private readonly IAddUserToRolesCommand _addUserToRolesCommand;
+        private readonly IAddUserToRolesCommandFactory _addUserToRolesCommandFactory;
 
         /// <summary>
         /// The create roles command
         /// </summary>
-        private readonly ICreateRolesCommand _createRolesCommand;
+        private readonly ICreateRolesCommandFactory _createRolesCommandFactory;
 
         /// <summary>
         /// The create super admin command
         /// </summary>
-        private readonly ICreateSuperAdminCommand _createSuperAdminCommand;
+        private readonly ICreateSuperAdminCommandFactory _createSuperAdminCommandFactory;
 
         /// <summary>
         /// The query materializer
@@ -51,21 +51,21 @@
         /// </summary>
         /// <param name="userManager">The user manager.</param>
         /// <param name="queryMaterializer">The query materializer.</param>
-        /// <param name="createSuperAdminCommand">The create super admin command.</param>
-        /// <param name="createRolesCommand">The create roles command.</param>
-        /// <param name="addUserToRolesCommand">The add user to roles command.</param>
+        /// <param name="createSuperAdminCommandFactory">The create super admin command.</param>
+        /// <param name="createRolesCommandFactory">The create roles command.</param>
+        /// <param name="addUserToRolesCommandFactory">The add user to roles command.</param>
         public DatabaseSeeder(
             UserManager<User> userManager,
             IQueryMaterializer queryMaterializer,
-            ICreateSuperAdminCommand createSuperAdminCommand,
-            ICreateRolesCommand createRolesCommand,
-            IAddUserToRolesCommand addUserToRolesCommand)
+            ICreateSuperAdminCommandFactory createSuperAdminCommandFactory,
+            ICreateRolesCommandFactory createRolesCommandFactory,
+            IAddUserToRolesCommandFactory addUserToRolesCommandFactory)
         {
             _userManager = userManager.ThrowIfArgumentIsNull(nameof(userManager));
             _queryMaterializer = queryMaterializer.ThrowIfArgumentIsNull(nameof(queryMaterializer));
-            _createSuperAdminCommand = createSuperAdminCommand.ThrowIfArgumentIsNull(nameof(createSuperAdminCommand));
-            _createRolesCommand = createRolesCommand.ThrowIfArgumentIsNull(nameof(createRolesCommand));
-            _addUserToRolesCommand = addUserToRolesCommand.ThrowIfArgumentIsNull(nameof(addUserToRolesCommand));
+            _createSuperAdminCommandFactory = createSuperAdminCommandFactory.ThrowIfArgumentIsNull(nameof(createSuperAdminCommandFactory));
+            _createRolesCommandFactory = createRolesCommandFactory.ThrowIfArgumentIsNull(nameof(createRolesCommandFactory));
+            _addUserToRolesCommandFactory = addUserToRolesCommandFactory.ThrowIfArgumentIsNull(nameof(addUserToRolesCommandFactory));
         }
 
         #endregion Constructors
@@ -92,9 +92,9 @@
         /// </returns>
         public async Task Seed(User superAdminPrototype, string defaultPassword)
         {
-            var roles = await _createRolesCommand.CreateRoles();
-            var superAdmin = await _createSuperAdminCommand.CreateSuperAdmin(superAdminPrototype, defaultPassword);
-            await _addUserToRolesCommand.AddUserToRoles(superAdmin, roles);
+            var roles = await _createRolesCommandFactory.CreateCommand().Do();
+            var superAdmin = await _createSuperAdminCommandFactory.CreateCommand(superAdminPrototype, defaultPassword).Do();
+            await _addUserToRolesCommandFactory.CreateCommand(superAdmin, roles).Do();
         }
 
         #endregion Methods

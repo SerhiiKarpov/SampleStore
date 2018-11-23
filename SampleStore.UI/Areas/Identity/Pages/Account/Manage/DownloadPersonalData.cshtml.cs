@@ -10,7 +10,7 @@
 
     using Newtonsoft.Json;
 
-    using SampleStore.Common;
+    using SampleStore.Common.Extensions;
     using SampleStore.Data.Entities.Identity;
     using SampleStore.UI.Pages;
 

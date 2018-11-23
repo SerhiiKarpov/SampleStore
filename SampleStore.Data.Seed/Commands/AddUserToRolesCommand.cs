@@ -1,19 +1,21 @@
 ﻿namespace SampleStore.Data.Seed.Commands
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Identity;
 
-    using SampleStore.Common;
+    using SampleStore.Common.Commands;
+    using SampleStore.Common.Extensions;
     using SampleStore.Data.Entities.Identity;
     using SampleStore.Data.Seed.Extensions;
 
     /// <summary>
     /// Class encapsulating add user to roles command.
     /// </summary>
-    /// <seealso cref="IAddUserToRolesCommand" />
-    public class AddUserToRolesCommand : IAddUserToRolesCommand
+    /// <seealso cref="IAddUserToRolesCommandFactory" />
+    public class AddUserToRolesCommand : ICommand<bool>
     {
         #region Fields
 
@@ -21,6 +23,16 @@
         /// The role manager
         /// </summary>
         private readonly RoleManager<Role> _roleManager;
+
+        /// <summary>
+        /// The roles
+        /// </summary>
+        private readonly IEnumerable<Role> _roles;
+
+        /// <summary>
+        /// The user
+        /// </summary>
+        private readonly User _user;
 
         /// <summary>
         /// The user manager
@@ -36,10 +48,14 @@
         /// </summary>
         /// <param name="userManager">The user manager.</param>
         /// <param name="roleManager">The role manager.</param>
-        public AddUserToRolesCommand(UserManager<User> userManager, RoleManager<Role> roleManager)
+        /// <param name="user">The user.</param>
+        /// <param name="roles">The roles.</param>
+        public AddUserToRolesCommand(UserManager<User> userManager, RoleManager<Role> roleManager, User user, IEnumerable<Role> roles)
         {
             _userManager = userManager.ThrowIfArgumentIsNull(nameof(userManager));
             _roleManager = roleManager.ThrowIfArgumentIsNull(nameof(roleManager));
+            _user = user.ThrowIfArgumentIsNull(nameof(user));
+            _roles = roles.ThrowIfArgumentIsNull(nameof(roles));
         }
 
         #endregion Constructors
@@ -47,27 +63,17 @@
         #region Methods
 
         /// <summary>
-        /// Adds the user to roles.
+        /// Executes the command encapsulated by this instance.
         /// </summary>
-        /// <param name="user">The user.</param>
-        /// <param name="roles">The roles.</param>
         /// <returns>
-        /// The <see cref="T:System.Threading.Tasks.Task" />.
+        /// The command result.
         /// </returns>
-        public async Task AddUserToRoles(User user, IEnumerable<Role> roles)
+        public async Task<bool> Do()
         {
-            user.ThrowIfArgumentIsNull(nameof(user));
-            roles.ThrowIfArgumentIsNull(nameof(roles));
-
-            var roleNames = new List<string>();
-            foreach (var role in roles)
-            {
-                var roleName = await _roleManager.GetRoleNameAsync(role);
-                roleNames.Add(roleName);
-            }
-
-            var addToRolesResult = await _userManager.AddToRolesAsync(user, roleNames);
-            addToRolesResult.ThrowIfFailed(() => $"Failed to add user {user.Email} to roles: {string.Join(", ", roleNames)}. Check logs for details.");
+            var roleNames = await Task.WhenAll(_roles.Select(role => _roleManager.GetRoleNameAsync(role)));
+            var addToRolesResult = await _userManager.AddToRolesAsync(_user, roleNames);
+            addToRolesResult.ThrowIfFailed(() => $"Failed to add user {_user.Email} to roles: {string.Join(", ", roleNames)}. Check logs for details.");
+            return true;
         }
 
         #endregion Methods

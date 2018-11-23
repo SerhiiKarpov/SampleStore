@@ -5,7 +5,7 @@
     using Microsoft.AspNetCore.Identity.UI.Services;
     using Microsoft.Extensions.DependencyInjection;
 
-    using SampleStore.Common;
+    using SampleStore.Common.Extensions;
 
     /// <summary>
     /// Class encapsulating service collection extensions.
@@ -21,6 +21,7 @@
         /// <param name="buildOptions">The build options.</param>
         public static void AddSendGridEmailSender(this IServiceCollection services, Action<SendGridEmailSenderOptions> buildOptions)
         {
+            services.ThrowIfArgumentIsNull(nameof(services));
             buildOptions.ThrowIfArgumentIsNull(nameof(buildOptions));
 
             var options = new SendGridEmailSenderOptions();

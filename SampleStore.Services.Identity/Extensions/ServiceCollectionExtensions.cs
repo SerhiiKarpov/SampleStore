@@ -3,7 +3,7 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.Extensions.DependencyInjection;
 
-    using SampleStore.Common;
+    using SampleStore.Common.Extensions;
     using SampleStore.Data.Entities.Identity;
 
     /// <summary>

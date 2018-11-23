@@ -6,7 +6,7 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
-    using SampleStore.Common;
+    using SampleStore.Common.Extensions;
     using SampleStore.Data.Entities.Identity;
     using SampleStore.UI.Pages;
     using SampleStore.UI.ViewModels.Identity;

@@ -6,7 +6,7 @@
 
     using Microsoft.EntityFrameworkCore;
 
-    using SampleStore.Common;
+    using SampleStore.Common.Extensions;
 
     /// <summary>
     /// Class encapsulating ef unit of work.

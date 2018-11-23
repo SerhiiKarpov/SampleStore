@@ -4,7 +4,7 @@
     using System.Collections;
     using System.Linq;
 
-    using SampleStore.Common;
+    using SampleStore.Common.Extensions;
 
     /// <summary>
     /// Class encapsulating concurrency exception.

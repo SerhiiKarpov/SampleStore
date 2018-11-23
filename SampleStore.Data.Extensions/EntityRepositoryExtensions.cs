@@ -6,7 +6,7 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    using SampleStore.Common;
+    using SampleStore.Common.Extensions;
     using SampleStore.Data.Entities;
 
     /// <summary>

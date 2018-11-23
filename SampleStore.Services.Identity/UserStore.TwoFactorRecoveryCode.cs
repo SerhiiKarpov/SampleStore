@@ -8,7 +8,7 @@
 
     using Microsoft.AspNetCore.Identity;
 
-    using SampleStore.Common;
+    using SampleStore.Common.Extensions;
     using SampleStore.Data.Entities.Identity;
 
     /// <summary>

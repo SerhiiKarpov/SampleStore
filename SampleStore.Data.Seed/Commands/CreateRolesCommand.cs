@@ -7,7 +7,8 @@
 
     using Microsoft.AspNetCore.Identity;
 
-    using SampleStore.Common;
+    using SampleStore.Common.Commands;
+    using SampleStore.Common.Extensions;
     using SampleStore.Data.Entities.Identity;
     using SampleStore.Data.Seed.Extensions;
     using SampleStore.Services.Identity.Constants;
@@ -15,8 +16,8 @@
     /// <summary>
     /// Class encapsulating create roles command.
     /// </summary>
-    /// <seealso cref="ICreateRolesCommand" />
-    public class CreateRolesCommand : ICreateRolesCommand
+    /// <seealso cref="ICreateRolesCommandFactory" />
+    public class CreateRolesCommand : ICommand<List<Role>>
     {
         #region Fields
 
@@ -53,7 +54,7 @@
         /// Creates the roles.
         /// </summary>
         /// <returns>The created roles.</returns>
-        public async Task<List<Role>> CreateRoles()
+        public async Task<List<Role>> Do()
         {
             var existingRoles = await _queryMaterializer.ToList(_roleManager.Roles);
             var existingRoleNames = await Task.WhenAll(existingRoles.Select(_roleManager.GetRoleNameAsync));
@@ -67,7 +68,10 @@
                 }
 
                 var roleResult = await _roleManager.CreateAsync(role);
-                roleResult.ThrowIfFailed(() => $"Failed to create role {roleName}.");
+                if (!roleResult.Succeeded)
+                {
+                    roleResult.ThrowIfFailed(() => $"Failed to create role {roleName}.");
+                }
             }
 
             var roles = await _queryMaterializer.ToList(_roleManager.Roles);

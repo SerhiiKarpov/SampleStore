@@ -5,7 +5,7 @@
 
     using global::AutoMapper;
 
-    using SampleStore.Common;
+    using SampleStore.Common.Extensions;
 
     /// <summary>
     /// Class encapsulating am mapping.

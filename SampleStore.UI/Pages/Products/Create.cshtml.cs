@@ -4,7 +4,7 @@
 
     using Microsoft.AspNetCore.Mvc;
 
-    using SampleStore.Common;
+    using SampleStore.Common.Extensions;
     using SampleStore.Data;
     using SampleStore.Data.Entities.Domain;
     using SampleStore.Data.Extensions;

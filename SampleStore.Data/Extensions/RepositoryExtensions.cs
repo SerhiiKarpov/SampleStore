@@ -1,6 +1,6 @@
 ﻿namespace SampleStore.Data.Extensions
 {
-    using SampleStore.Common;
+    using SampleStore.Common.Extensions;
 
     /// <summary>
     /// Class encapsulating repository extensions.

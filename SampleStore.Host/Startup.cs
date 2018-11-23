@@ -14,7 +14,7 @@ namespace SampleStore.Host
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
 
-    using SampleStore.Common;
+    using SampleStore.Common.Extensions;
     using SampleStore.Data.EF.Extensions;
     using SampleStore.Data.Seed.Extensions;
     using SampleStore.Host.Configuration;

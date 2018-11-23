@@ -1,24 +1,24 @@
 ﻿namespace SampleStore.Data.Seed.Commands
 {
     using System.Collections.Generic;
-    using System.Threading.Tasks;
 
+    using SampleStore.Common.Commands;
     using SampleStore.Data.Entities.Identity;
 
     /// <summary>
-    /// An interface for create roles command.
+    /// An interface for create roles command factory.
     /// </summary>
-    public interface ICreateRolesCommand
+    public interface ICreateRolesCommandFactory
     {
         #region Methods
 
         /// <summary>
-        /// Creates the roles.
+        /// Creates the command.
         /// </summary>
         /// <returns>
-        /// The roles.
+        /// The command.
         /// </returns>
-        Task<List<Role>> CreateRoles();
+        ICommand<List<Role>> CreateCommand();
 
         #endregion Methods
     }

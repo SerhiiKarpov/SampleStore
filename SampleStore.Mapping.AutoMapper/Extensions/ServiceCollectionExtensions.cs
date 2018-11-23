@@ -6,6 +6,8 @@
 
     using Microsoft.Extensions.DependencyInjection;
 
+    using SampleStore.Common.Extensions;
+
     /// <summary>
     /// Class encapsulating service collection extensions.
     /// </summary>
@@ -20,6 +22,9 @@
         /// <param name="configure">The configure.</param>
         public static void AddAutoMapper(this IServiceCollection services, Action<IMappingConfiguration> configure)
         {
+            services.ThrowIfArgumentIsNull(nameof(services));
+            configure.ThrowIfArgumentIsNull(nameof(configure));
+
             var configuration = new MapperConfiguration(ce => configure(new AmMappingConfiguration(ce)));
             configuration.AssertConfigurationIsValid();
             var mapperProvider = new AmMapperProvider(configuration);

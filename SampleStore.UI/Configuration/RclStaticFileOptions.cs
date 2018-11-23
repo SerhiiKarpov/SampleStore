@@ -8,7 +8,7 @@
     using Microsoft.Extensions.FileProviders;
     using Microsoft.Extensions.Options;
 
-    using SampleStore.Common;
+    using SampleStore.Common.Extensions;
 
     /// <summary>
     /// Class encapsulating RCL static file options.
