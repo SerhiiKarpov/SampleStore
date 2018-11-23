@@ -43,3 +43,6 @@ SampleStore.Mapping.DataToUI/SampleStore.Mapping.DataToUI.xml
 SampleStore.Services.Identity/bin/
 SampleStore.Services.Identity/obj/
 SampleStore.Services.Identity/SampleStore.Identity.xml
+SampleStore.Data.Seed.Tests/obj/
+SampleStore.Data.Seed.Tests/bin/
+SampleStore.Data.Seed.Tests/SampleStore.Data.Seed.Tests.xml

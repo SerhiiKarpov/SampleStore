@@ -4,6 +4,7 @@
     using System.Text;
 
     using Microsoft.AspNetCore.Identity;
+    using SampleStore.Common.Extensions;
 
     /// <summary>
     /// Class encapsulating identity result extensions.
@@ -20,6 +21,9 @@
         /// <exception cref="InvalidOperationException">The thrown error.</exception>
         public static void ThrowIfFailed(this IdentityResult result, Func<string> getMessage)
         {
+            result.ThrowIfArgumentIsNull(nameof(result));
+            getMessage.ThrowIfArgumentIsNull(nameof(getMessage));
+
             if (result.Succeeded)
             {
                 return;

@@ -6,6 +6,7 @@
 
     using SampleStore.Common.Commands;
     using SampleStore.Common.Extensions;
+    using SampleStore.Common.Services;
     using SampleStore.Data.Entities.Identity;
 
     /// <summary>
@@ -17,6 +18,11 @@
     public class SeederCommandFactory : IAddUserToRolesCommandFactory, ICreateRolesCommandFactory, ICreateSuperAdminCommandFactory
     {
         #region Fields
+
+        /// <summary>
+        /// The date time service
+        /// </summary>
+        private readonly IDateTime _dateTimeService;
 
         /// <summary>
         /// The query materializer
@@ -38,16 +44,18 @@
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SeederCommandFactory"/> class.
+        /// Initializes a new instance of the <see cref="SeederCommandFactory" /> class.
         /// </summary>
         /// <param name="userManager">The user manager.</param>
         /// <param name="roleManager">The role manager.</param>
         /// <param name="queryMaterializer">The query materializer.</param>
-        public SeederCommandFactory(UserManager<User> userManager, RoleManager<Role> roleManager, IQueryMaterializer queryMaterializer)
+        /// <param name="dateTimeService">The date time service.</param>
+        public SeederCommandFactory(UserManager<User> userManager, RoleManager<Role> roleManager, IQueryMaterializer queryMaterializer, IDateTime dateTimeService)
         {
             _userManager = userManager.ThrowIfArgumentIsNull(nameof(userManager));
             _roleManager = roleManager.ThrowIfArgumentIsNull(nameof(roleManager));
             _queryMaterializer = queryMaterializer.ThrowIfArgumentIsNull(nameof(queryMaterializer));
+            _dateTimeService = dateTimeService.ThrowIfArgumentIsNull(nameof(dateTimeService));
         }
 
         #endregion Constructors
@@ -88,7 +96,7 @@
         /// </returns>
         ICommand<User> ICreateSuperAdminCommandFactory.CreateCommand(User prototype, string password)
         {
-            return new CreateSuperAdminCommand(_userManager, prototype, password);
+            return new CreateSuperAdminCommand(_userManager, _dateTimeService, prototype, password);
         }
 
         #endregion Methods

@@ -156,6 +156,8 @@ namespace SampleStore.Host
         {
             services.ThrowIfArgumentIsNull(nameof(services));
 
+            services.AddCommonServices();
+
             // TODO: Sort this out.
             services.Configure<CookiePolicyOptions>(
                 options =>
