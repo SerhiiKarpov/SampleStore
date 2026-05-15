@@ -22,13 +22,13 @@
         #region Methods
 
         /// <summary>
-        /// Constructs a target object using the specified expression.
+        /// Constructs a target object using the specified factory function.
         /// </summary>
-        /// <param name="expression">The expression.</param>
+        /// <param name="factory">The factory.</param>
         /// <returns>
         /// The <seealso cref="IMapping{TSource, TTarget}"/>.
         /// </returns>
-        IMapping<TSource, TTarget> Construct(Expression<Func<TSource, TTarget>> expression);
+        IMapping<TSource, TTarget> Construct(Func<TSource, TTarget> factory);
 
         /// <summary>
         /// Ignores the specified target member.

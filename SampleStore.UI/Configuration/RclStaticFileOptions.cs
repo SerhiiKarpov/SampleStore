@@ -1,11 +1,7 @@
-﻿namespace SampleStore.UI.Configuration
+namespace SampleStore.UI.Configuration
 {
-    using System;
-
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.StaticFiles;
-    using Microsoft.Extensions.FileProviders;
     using Microsoft.Extensions.Options;
 
     using SampleStore.Common.Extensions;
@@ -21,7 +17,7 @@
         /// <summary>
         /// The environment
         /// </summary>
-        private readonly IHostingEnvironment _environment;
+        private readonly IWebHostEnvironment _environment;
 
         #endregion Fields
 
@@ -31,7 +27,7 @@
         /// Initializes a new instance of the <see cref="RclStaticFileOptions"/> class.
         /// </summary>
         /// <param name="environment">The environment.</param>
-        public RclStaticFileOptions(IHostingEnvironment environment)
+        public RclStaticFileOptions(IWebHostEnvironment environment)
         {
             _environment = environment.ThrowIfArgumentIsNull(nameof(environment));
         }
@@ -45,22 +41,10 @@
         /// </summary>
         /// <param name="name">The name of the options instance being configured.</param>
         /// <param name="options">The options instance to configured.</param>
-        /// <exception cref="InvalidOperationException">Missing FileProvider.</exception>
-        public void PostConfigure(string name, StaticFileOptions options)
+        public void PostConfigure(string? name, StaticFileOptions options)
         {
-            name.ThrowIfArgumentIsNull(nameof(name));
-            options.ThrowIfArgumentIsNull(nameof(options));
-
-            // Basic initialization in case the options weren't initialized by any other component
-            options.ContentTypeProvider = options.ContentTypeProvider ?? new FileExtensionContentTypeProvider();
-            var baseFileProvider = options.FileProvider
-                ?? _environment.WebRootFileProvider
-                ?? throw new InvalidOperationException("Missing FileProvider.");
-
-            var basePath = "wwwroot";
-
-            var manifestEmbeddedFileProvider = new ManifestEmbeddedFileProvider(GetType().Assembly, basePath);
-            options.FileProvider = new CompositeFileProvider(baseFileProvider, manifestEmbeddedFileProvider);
+            // Static web assets from RCLs are served automatically by the .NET 10 Razor SDK.
+            // The legacy ManifestEmbeddedFileProvider approach has been removed.
         }
 
         #endregion Methods

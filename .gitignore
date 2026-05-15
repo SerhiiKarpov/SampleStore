@@ -17,3 +17,4 @@ SampleStore.Host/SampleStore.Host.xml
 SampleStore.Mapping.DataToUI/SampleStore.Mapping.DataToUI.xml
 SampleStore.Services.Identity/SampleStore.Identity.xml
 SampleStore.Data.Seed.Tests/SampleStore.Data.Seed.Tests.xml
+.claude/settings.local.json

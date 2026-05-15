@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -9,29 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20181114141350_Initial.cs" />
-    <Compile Remove="Migrations\20181115071917_Initial.cs" />
-    <Compile Remove="Migrations\20181115082341_Initial.cs" />
-    <Compile Remove="Migrations\20181115113737_Initial.cs" />
-    <Compile Remove="Migrations\20181115124444_Initial.cs" />
-    <Compile Remove="Migrations\20181115151445_Initial.cs" />
-    <Compile Remove="Migrations\20181115151704_Initial.cs" />
-    <Compile Remove="Migrations\20181115152331_Initial.cs" />
-    <Compile Remove="Migrations\20181116064833_Initial.cs" />
-    <Compile Remove="Migrations\20181116065517_Initial.cs" />
-    <Compile Remove="Migrations\20181116070743_Initial.cs" />
-    <Compile Remove="Migrations\20181116124212_Initial.cs" />
-    <Compile Remove="Migrations\20181116133411_Initial.cs" />
-    <Compile Remove="Migrations\20181119110831_Initial.cs" />
-    <Compile Remove="Migrations\20181120085848_Initial.cs" />
-    <Compile Remove="Migrations\20181121084836_Initial.cs" />
-    <Compile Remove="Migrations\20181122084241_Initial.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.4" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.4" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.0" />
   </ItemGroup>
 
   <ItemGroup>

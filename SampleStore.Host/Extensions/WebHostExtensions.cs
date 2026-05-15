@@ -1,11 +1,11 @@
-﻿namespace SampleStore.Host.Extensions
+namespace SampleStore.Host.Extensions
 {
     using System;
     using System.Threading.Tasks;
 
-    using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Logging;
 
     using SampleStore.Data.Entities.Identity;
@@ -42,7 +42,7 @@
         /// </summary>
         /// <param name="host">The host.</param>
         /// <returns>The passed host to enable method call chaining.</returns>
-        public static IWebHost EnsureSeeded(this IWebHost host)
+        public static IHost EnsureSeeded(this IHost host)
         {
             DoEnsureSeeded(host).GetAwaiter().GetResult();
             return host;
@@ -53,30 +53,28 @@
         /// </summary>
         /// <param name="host">The host.</param>
         /// <returns>The <see cref="Task"/>.</returns>
-        private static async Task DoEnsureSeeded(IWebHost host)
+        private static async Task DoEnsureSeeded(IHost host)
         {
-            using(var scope = host.Services.CreateScope())
+            using var scope = host.Services.CreateScope();
+            var services = scope.ServiceProvider;
+
+            try
             {
-                var services = scope.ServiceProvider;
+                var configuration = services.GetRequiredService<IConfiguration>();
+                var superAdminPrototype = configuration.GetSection(SuperAdminPrototypeSection).Get<User>();
+                var seederPassword = configuration[SeederPasswordKey];
 
-                try
+                var seeder = services.GetRequiredService<DatabaseSeeder>();
+                var needsSeeding = await seeder.NeedsSeeding();
+                if (needsSeeding)
                 {
-                    var configuration = services.GetRequiredService<IConfiguration>();
-                    var superAdminPrototype = configuration.GetSection(SuperAdminPrototypeSection).Get<User>();
-                    var seederPassword = configuration[SeederPasswordKey];
-
-                    var seeder = services.GetRequiredService<DatabaseSeeder>();
-                    var needsSeeding = await seeder.NeedsSeeding();
-                    if (needsSeeding)
-                    {
-                        await seeder.Seed(superAdminPrototype, seederPassword);
-                    }
+                    await seeder.Seed(superAdminPrototype!, seederPassword!);
                 }
-                catch (Exception x)
-                {
-                    var logger = services.GetRequiredService<ILogger<DatabaseSeeder>>();
-                    logger.LogError(x, SeedingErrorMessage);
-                }
+            }
+            catch (Exception x)
+            {
+                var logger = services.GetRequiredService<ILogger<DatabaseSeeder>>();
+                logger.LogError(x, SeedingErrorMessage);
             }
         }
 

@@ -5,6 +5,7 @@
 
     using global::AutoMapper;
 
+
     using SampleStore.Common.Extensions;
 
     /// <summary>
@@ -40,17 +41,17 @@
         #region Methods
 
         /// <summary>
-        /// Maps all members.
+        /// Constructs a target object using the specified factory function.
         /// </summary>
-        /// <param name="expression">The expression.</param>
+        /// <param name="factory">The factory.</param>
         /// <returns>
         /// The <seealso cref="T:SampleStore.Mapping.IMapping`2" />.
         /// </returns>
-        public IMapping<TSource, TTarget> Construct(Expression<Func<TSource, TTarget>> expression)
+        public IMapping<TSource, TTarget> Construct(Func<TSource, TTarget> factory)
         {
-            expression.ThrowIfArgumentIsNull(nameof(expression));
+            factory.ThrowIfArgumentIsNull(nameof(factory));
 
-            _expression.ConstructUsing(expression);
+            _expression.ConstructUsing((src, _) => factory(src));
             return this;
         }
 

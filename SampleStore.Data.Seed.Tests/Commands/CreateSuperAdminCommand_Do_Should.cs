@@ -159,7 +159,7 @@
         /// Throws if user manager failed to create user.
         /// </summary>
         [Fact]
-        public static void Throw_If_UserManager_Failed_To_Create_User()
+        public static async System.Threading.Tasks.Task Throw_If_UserManager_Failed_To_Create_User()
         {
             // Arrange
             var userManagerMock = UserManagerTestHelper.CreateUserManagerFake();
@@ -178,7 +178,7 @@
             Func<Task> act = () => command.Do();
 
             // Assert
-            Assert.ThrowsAsync<InvalidOperationException>(act);
+            await Assert.ThrowsAsync<InvalidOperationException>(act);
         }
 
         #endregion Methods

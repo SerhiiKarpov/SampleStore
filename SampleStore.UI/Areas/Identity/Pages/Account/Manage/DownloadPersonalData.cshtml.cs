@@ -8,7 +8,7 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
 
-    using Newtonsoft.Json;
+    using System.Text.Json;
 
     using SampleStore.Common.Extensions;
     using SampleStore.Data.Entities.Identity;
@@ -96,7 +96,7 @@
             };
 
             Response.Headers.Add("Content-Disposition", "attachment; filename=PersonalData.json");
-            return new FileContentResult(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(personalData)), "text/json");
+            return new FileContentResult(Encoding.UTF8.GetBytes(JsonSerializer.Serialize(personalData)), "text/json");
         }
 
         #endregion Methods

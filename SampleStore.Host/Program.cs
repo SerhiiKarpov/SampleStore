@@ -1,36 +1,112 @@
-﻿namespace SampleStore.Host
+using System.Security.Claims;
+
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+
+using SampleStore.Common.Extensions;
+using SampleStore.Data.EF.Extensions;
+using SampleStore.Data.Seed.Extensions;
+using SampleStore.Host.Configuration;
+using SampleStore.Host.Extensions;
+using SampleStore.Mapping.AutoMapper.Extensions;
+using SampleStore.Mapping.DataToServices.AutoMapper.Extensions;
+using SampleStore.Mapping.DataToUI.Extensions;
+using SampleStore.Mapping.ServicesToUI.Extensions;
+using SampleStore.Services.Email.SendGrid.Extensions;
+using SampleStore.Services.Identity.Extensions;
+using SampleStore.UI.Extensions;
+
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddCommonServices();
+
+builder.Services.Configure<CookiePolicyOptions>(options =>
 {
-    using Microsoft.AspNetCore;
-    using Microsoft.AspNetCore.Hosting;
+    options.CheckConsentNeeded = _ => true;
+    options.MinimumSameSitePolicy = SameSiteMode.None;
+});
 
-    using SampleStore.Host.Extensions;
+builder.Services.AddEntityFrameworkDataAccess(builder.Configuration.GetConnectionString("DefaultConnection")!);
+builder.Services.AddDatabaseSeeder();
 
-    /// <summary>
-    /// Class encapsulating program.
-    /// </summary>
-    public static class Program
+builder.Services.AddAutoMapper(options => options
+    .AddDataToServicesMappings()
+    .AddDataToUIMappings()
+    .AddServicesToUIMappings());
+
+builder.Services.AddCustomizedIdentity();
+
+builder.Services.AddAuthentication()
+    .AddFacebook(options =>
     {
-        #region Methods
+        var elo = builder.Configuration.GetSection("Authentication:Facebook").Get<ExternalLoginOptions>()!;
+        options.AppId = elo.ClientId;
+        options.AppSecret = elo.ClientSecret;
+        options.CallbackPath = elo.CallbackPath;
+        options.Fields.Add("first_name", "last_name", "email", "birthday");
+        options.Scope.Add("public_profile", "email", "user_birthday");
+    })
+    .AddGoogle(options =>
+    {
+        var elo = builder.Configuration.GetSection("Authentication:Google").Get<ExternalLoginOptions>()!;
+        options.ClientId = elo.ClientId;
+        options.ClientSecret = elo.ClientSecret;
+        options.CallbackPath = elo.CallbackPath;
+        options.ClaimActions.MapJsonKey(ClaimTypes.DateOfBirth, "birthday");
+    })
+    .AddMicrosoftAccount(options =>
+    {
+        var elo = builder.Configuration.GetSection("Authentication:Microsoft").Get<ExternalLoginOptions>()!;
+        options.ClientId = elo.ClientId;
+        options.ClientSecret = elo.ClientSecret;
+        options.CallbackPath = elo.CallbackPath;
+    });
 
-        /// <summary>
-        /// Creates the web host builder.
-        /// </summary>
-        /// <param name="args">The arguments.</param>
-        /// <returns></returns>
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args)
-        {
-            return WebHost.CreateDefaultBuilder(args).UseStartup<Startup>();
-        }
+builder.Services.AddSendGridEmailSender(options =>
+{
+    options.SenderEmail = builder.Configuration["EmailSender:SenderEmail"];
+    options.SendGridUser = builder.Configuration["EmailSender:SendGrid:User"];
+    options.SendGridKey = builder.Configuration["EmailSender:SendGrid:Key"];
+});
 
-        /// <summary>
-        /// Defines the entry point of the application.
-        /// </summary>
-        /// <param name="args">The arguments.</param>
-        public static void Main(string[] args)
-        {
-            CreateWebHostBuilder(args).Build().EnsureSeeded().Run();
-        }
+builder.Services.Configure<IdentityOptions>(builder.Configuration.GetSection("Identity"));
+builder.Services.Configure<CookieAuthenticationOptions>(
+    IdentityConstants.ApplicationScheme,
+    builder.Configuration.GetSection("CookieAuthentication"));
 
-        #endregion Methods
-    }
+builder.Services.ConfigureUI();
+
+builder.Services.AddRazorPages(options =>
+{
+    options.Conventions.AuthorizeFolder("/");
+    options.Conventions.AllowAnonymousToAreaFolder("Identity", "/Account");
+});
+
+var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
 }
+else
+{
+    app.UseExceptionHandler("/Error");
+    app.UseHsts();
+}
+
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseCookiePolicy();
+app.UseAuthentication();
+app.UseAuthorization();
+app.MapRazorPages();
+
+app.EnsureSeeded();
+app.Run();
