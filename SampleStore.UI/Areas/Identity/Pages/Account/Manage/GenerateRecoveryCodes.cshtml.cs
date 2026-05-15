@@ -59,7 +59,7 @@
         /// The recovery codes.
         /// </value>
         [TempData]
-        public IEnumerable<string> RecoveryCodes
+        public string[] RecoveryCodes
         {
             get; set;
         }
