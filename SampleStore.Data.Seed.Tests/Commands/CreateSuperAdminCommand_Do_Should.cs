@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -7,7 +7,7 @@ using Bogus;
 
 using Microsoft.AspNetCore.Identity;
 
-using Moq;
+using NSubstitute;
 
 using SampleStore.Common.Helpers;
 using SampleStore.Common.Services;
@@ -27,21 +27,21 @@ public static class CreateSuperAdminCommand_Do_Should
         // Arrange
         var userManagerMock = UserManagerTestHelper.CreateUserManagerFake();
         userManagerMock
-            .Setup(x => x.CreateAsync(It.IsAny<User>(), It.IsAny<string>()))
-            .Returns(Task.FromResult(IdentityResult.Success));
+            .CreateAsync(Arg.Any<User>(), Arg.Any<string>())
+            .Returns(IdentityResult.Success);
 
-        var dateTimeServiceStub = Mock.Of<IDateTime>();
+        var dateTimeServiceStub = Substitute.For<IDateTime>();
 
         var prototypeStub = new Faker<User>().Generate();
         var passwordStub = string.Empty;
 
-        var command = new CreateSuperAdminCommand(userManagerMock.Object, dateTimeServiceStub, prototypeStub, passwordStub);
+        var command = new CreateSuperAdminCommand(userManagerMock, dateTimeServiceStub, prototypeStub, passwordStub);
 
         // Act
         var superAdmin = await command.Do();
 
         // Assert
-        userManagerMock.Verify(x => x.CreateAsync(superAdmin, passwordStub), Times.Once);
+        await userManagerMock.Received(1).CreateAsync(superAdmin, passwordStub);
     }
 
     [Fact]
@@ -49,14 +49,14 @@ public static class CreateSuperAdminCommand_Do_Should
     {
         // Arrange
         var userManagerStub = UserManagerTestHelper.CreateUserManagerFake();
-        userManagerStub.Setup(x => x.CreateAsync(It.IsAny<User>(), It.IsAny<string>())).Returns(Task.FromResult(IdentityResult.Success));
+        userManagerStub.CreateAsync(Arg.Any<User>(), Arg.Any<string>()).Returns(IdentityResult.Success);
 
-        var dateTimeServiceStub = Mock.Of<IDateTime>();
+        var dateTimeServiceStub = Substitute.For<IDateTime>();
 
         var prototypeMock = new Faker<User>().Generate();
         var passwordStub = string.Empty;
 
-        var command = new CreateSuperAdminCommand(userManagerStub.Object, dateTimeServiceStub, prototypeMock, passwordStub);
+        var command = new CreateSuperAdminCommand(userManagerStub, dateTimeServiceStub, prototypeMock, passwordStub);
 
         // Act
         var superAdmin = await command.Do();
@@ -84,17 +84,17 @@ public static class CreateSuperAdminCommand_Do_Should
     {
         // Arrange
         var userManagerStub = UserManagerTestHelper.CreateUserManagerFake();
-        userManagerStub.Setup(x => x.CreateAsync(It.IsAny<User>(), It.IsAny<string>())).Returns(Task.FromResult(IdentityResult.Success));
+        userManagerStub.CreateAsync(Arg.Any<User>(), Arg.Any<string>()).Returns(IdentityResult.Success);
 
         var utcNowStub = new DateTime(2000, 1, 1, 1, 1, 1);
         var expectedDateOfBirth = utcNowStub.Date;
-        var dateTimeServiceStub = new Mock<IDateTime>();
-        dateTimeServiceStub.Setup(dts => dts.UtcNow).Returns(utcNowStub);
+        var dateTimeServiceStub = Substitute.For<IDateTime>();
+        dateTimeServiceStub.UtcNow.Returns(utcNowStub);
 
         var prototypeStub = new User();
         var passwordStub = string.Empty;
 
-        var command = new CreateSuperAdminCommand(userManagerStub.Object, dateTimeServiceStub.Object, prototypeStub, passwordStub);
+        var command = new CreateSuperAdminCommand(userManagerStub, dateTimeServiceStub, prototypeStub, passwordStub);
 
         // Act
         var superAdmin = await command.Do();
@@ -109,14 +109,14 @@ public static class CreateSuperAdminCommand_Do_Should
     {
         // Arrange
         var userManagerStub = UserManagerTestHelper.CreateUserManagerFake();
-        userManagerStub.Setup(x => x.CreateAsync(It.IsAny<User>(), It.IsAny<string>())).Returns(Task.FromResult(IdentityResult.Success));
+        userManagerStub.CreateAsync(Arg.Any<User>(), Arg.Any<string>()).Returns(IdentityResult.Success);
 
-        var dateTimeServiceStub = Mock.Of<IDateTime>();
+        var dateTimeServiceStub = Substitute.For<IDateTime>();
 
         var prototype = new User { EmailConfirmed = false };
         var password = string.Empty;
 
-        var command = new CreateSuperAdminCommand(userManagerStub.Object, dateTimeServiceStub, prototype, password);
+        var command = new CreateSuperAdminCommand(userManagerStub, dateTimeServiceStub, prototype, password);
 
         // Act
         var superAdmin = await command.Do();
@@ -132,15 +132,15 @@ public static class CreateSuperAdminCommand_Do_Should
         // Arrange
         var userManagerMock = UserManagerTestHelper.CreateUserManagerFake();
         userManagerMock
-            .Setup(x => x.CreateAsync(It.IsAny<User>(), It.IsAny<string>()))
-            .Returns(Task.FromResult(IdentityResult.Failed(new IdentityError())));
+            .CreateAsync(Arg.Any<User>(), Arg.Any<string>())
+            .Returns(IdentityResult.Failed(new IdentityError()));
 
-        var dateTimeServiceStub = Mock.Of<IDateTime>();
+        var dateTimeServiceStub = Substitute.For<IDateTime>();
 
         var prototypeStub = new User();
         var passwordStub = string.Empty;
 
-        var command = new CreateSuperAdminCommand(userManagerMock.Object, dateTimeServiceStub, prototypeStub, passwordStub);
+        var command = new CreateSuperAdminCommand(userManagerMock, dateTimeServiceStub, prototypeStub, passwordStub);
 
         // Act
         Func<Task> act = () => command.Do();

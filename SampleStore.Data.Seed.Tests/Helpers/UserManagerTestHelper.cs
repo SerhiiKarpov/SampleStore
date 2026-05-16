@@ -1,4 +1,4 @@
-﻿
+
 using System;
 using System.Linq;
 
@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-using Moq;
+using NSubstitute;
 
 using SampleStore.Data.Entities.Identity;
 
@@ -24,19 +24,18 @@ public static class UserManagerTestHelper
     /// <returns>
     /// The user manager fake.
     /// </returns>
-    public static Mock<UserManager<User>> CreateUserManagerFake()
+    public static UserManager<User> CreateUserManagerFake()
     {
-        var fake = new Mock<UserManager<User>>(
-            Mock.Of<IUserStore<User>>(),
-            Mock.Of<IOptions<IdentityOptions>>(),
-            Mock.Of<IPasswordHasher<User>>(),
+        return Substitute.For<UserManager<User>>(
+            Substitute.For<IUserStore<User>>(),
+            Substitute.For<IOptions<IdentityOptions>>(),
+            Substitute.For<IPasswordHasher<User>>(),
             Enumerable.Empty<IUserValidator<User>>(),
             Enumerable.Empty<IPasswordValidator<User>>(),
-            Mock.Of<ILookupNormalizer>(),
+            Substitute.For<ILookupNormalizer>(),
             new IdentityErrorDescriber(),
-            Mock.Of<IServiceProvider>(),
-            Mock.Of<ILogger<UserManager<User>>>());
-        return fake;
+            Substitute.For<IServiceProvider>(),
+            Substitute.For<ILogger<UserManager<User>>>());
     }
 
     #endregion Methods

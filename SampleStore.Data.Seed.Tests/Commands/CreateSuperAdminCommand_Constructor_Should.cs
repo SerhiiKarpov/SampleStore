@@ -1,7 +1,7 @@
-﻿
+
 using System;
 
-using Moq;
+using NSubstitute;
 
 using SampleStore.Common.Services;
 using SampleStore.Data.Entities.Identity;
@@ -30,7 +30,7 @@ public static class CreateSuperAdminCommand_Constructor_Should
         var prototypeStub = new User();
 
         // Act
-        Action act = () => new CreateSuperAdminCommand(userManagerStub.Object, null!, prototypeStub, passwordStub);
+        Action act = () => new CreateSuperAdminCommand(userManagerStub, null!, prototypeStub, passwordStub);
 
         // Assert
         Assert.Throws<ArgumentNullException>(act);
@@ -44,11 +44,11 @@ public static class CreateSuperAdminCommand_Constructor_Should
     {
         // Arrange
         var userManagerStub = UserManagerTestHelper.CreateUserManagerFake();
-        var dateTimeServiceStub = Mock.Of<IDateTime>();
+        var dateTimeServiceStub = Substitute.For<IDateTime>();
         var prototypeStub = new User();
 
         // Act
-        Action act = () => new CreateSuperAdminCommand(userManagerStub.Object, dateTimeServiceStub, prototypeStub, null!);
+        Action act = () => new CreateSuperAdminCommand(userManagerStub, dateTimeServiceStub, prototypeStub, null!);
 
         // Assert
         Assert.Throws<ArgumentNullException>(act);
@@ -62,11 +62,11 @@ public static class CreateSuperAdminCommand_Constructor_Should
     {
         // Arrange
         var userManagerStub = UserManagerTestHelper.CreateUserManagerFake();
-        var dateTimeServiceStub = Mock.Of<IDateTime>();
+        var dateTimeServiceStub = Substitute.For<IDateTime>();
         var passwordStub = string.Empty;
 
         // Act
-        Action act = () => new CreateSuperAdminCommand(userManagerStub.Object, dateTimeServiceStub, null!, passwordStub);
+        Action act = () => new CreateSuperAdminCommand(userManagerStub, dateTimeServiceStub, null!, passwordStub);
 
         // Assert
         Assert.Throws<ArgumentNullException>(act);
@@ -79,7 +79,7 @@ public static class CreateSuperAdminCommand_Constructor_Should
     public static void Throw_If_UserManager_Is_Null()
     {
         // Arrange
-        var dateTimeServiceStub = Mock.Of<IDateTime>();
+        var dateTimeServiceStub = Substitute.For<IDateTime>();
         var passwordStub = string.Empty;
         var prototypeStub = new User();
 
