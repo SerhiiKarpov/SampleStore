@@ -1,7 +1,3 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>SampleStore.Data.Entities.xml</DocumentationFile>
-  </PropertyGroup>
-
 </Project>
