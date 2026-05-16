@@ -1,31 +1,30 @@
-﻿namespace SampleStore.Data.Entities.Identity
+﻿
+using System;
+
+namespace SampleStore.Data.Entities.Identity;
+/// <summary>
+/// Class encapsulating user role.
+/// </summary>
+/// <seealso cref="Entity" />
+public class UserRole : Entity
 {
-    using System;
+    #region Properties
 
     /// <summary>
-    /// Class encapsulating user role.
+    /// Gets or sets the role identifier.
     /// </summary>
-    /// <seealso cref="Entity" />
-    public class UserRole : Entity
+    public Guid RoleId
     {
-        #region Properties
-
-        /// <summary>
-        /// Gets or sets the role identifier.
-        /// </summary>
-        public Guid RoleId
-        {
-            get; set;
-        }
-
-        /// <summary>
-        /// Gets or sets the user identifier.
-        /// </summary>
-        public Guid UserId
-        {
-            get; set;
-        }
-
-        #endregion Properties
+        get; set;
     }
+
+    /// <summary>
+    /// Gets or sets the user identifier.
+    /// </summary>
+    public Guid UserId
+    {
+        get; set;
+    }
+
+    #endregion Properties
 }

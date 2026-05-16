@@ -1,25 +1,24 @@
-﻿namespace SampleStore.UI.Extensions
-{
-    using Microsoft.Extensions.DependencyInjection;
+﻿
+using Microsoft.Extensions.DependencyInjection;
 
-    using SampleStore.UI.Configuration;
+using SampleStore.UI.Configuration;
+
+namespace SampleStore.UI.Extensions;
+/// <summary>
+/// Class encapsulating service collection extensions.
+/// </summary>
+public static class ServiceCollectionExtensions
+{
+    #region Methods
 
     /// <summary>
-    /// Class encapsulating service collection extensions.
+    /// Configures the UI.
     /// </summary>
-    public static class ServiceCollectionExtensions
+    /// <param name="services">The services.</param>
+    public static void ConfigureUI(this IServiceCollection services)
     {
-        #region Methods
-
-        /// <summary>
-        /// Configures the UI.
-        /// </summary>
-        /// <param name="services">The services.</param>
-        public static void ConfigureUI(this IServiceCollection services)
-        {
-            services.ConfigureOptions<RclStaticFileOptions>();
-        }
-
-        #endregion Methods
+        services.ConfigureOptions<RclStaticFileOptions>();
     }
+
+    #endregion Methods
 }

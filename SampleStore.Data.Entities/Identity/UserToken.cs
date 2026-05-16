@@ -1,53 +1,52 @@
-﻿namespace SampleStore.Data.Entities.Identity
+﻿
+using System;
+using System.ComponentModel.DataAnnotations;
+
+namespace SampleStore.Data.Entities.Identity;
+/// <summary>
+/// Class encapsulating user token.
+/// </summary>
+/// <seealso cref="Entity" />
+public class UserToken : Entity
 {
-    using System;
-    using System.ComponentModel.DataAnnotations;
+    #region Properties
 
     /// <summary>
-    /// Class encapsulating user token.
+    /// Gets or sets the login provider.
     /// </summary>
-    /// <seealso cref="Entity" />
-    public class UserToken : Entity
+    [Required]
+    [StringLength(50)]
+    public string LoginProvider
     {
-        #region Properties
-
-        /// <summary>
-        /// Gets or sets the login provider.
-        /// </summary>
-        [Required]
-        [StringLength(50)]
-        public string LoginProvider
-        {
-            get; set;
-        }
-
-        /// <summary>
-        /// Gets or sets the name.
-        /// </summary>
-        [Required]
-        [StringLength(100)]
-        public string Name
-        {
-            get; set;
-        }
-
-        /// <summary>
-        /// Gets or sets the user identifier.
-        /// </summary>
-        public Guid UserId
-        {
-            get; set;
-        }
-
-        /// <summary>
-        /// Gets or sets the value.
-        /// </summary>
-        [StringLength(500)]
-        public string Value
-        {
-            get; set;
-        }
-
-        #endregion Properties
+        get; set;
     }
+
+    /// <summary>
+    /// Gets or sets the name.
+    /// </summary>
+    [Required]
+    [StringLength(100)]
+    public string Name
+    {
+        get; set;
+    }
+
+    /// <summary>
+    /// Gets or sets the user identifier.
+    /// </summary>
+    public Guid UserId
+    {
+        get; set;
+    }
+
+    /// <summary>
+    /// Gets or sets the value.
+    /// </summary>
+    [StringLength(500)]
+    public string Value
+    {
+        get; set;
+    }
+
+    #endregion Properties
 }

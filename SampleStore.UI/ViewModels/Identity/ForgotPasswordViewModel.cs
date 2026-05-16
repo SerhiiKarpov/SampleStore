@@ -1,27 +1,26 @@
-﻿namespace SampleStore.UI.ViewModels.Identity
+﻿
+using System.ComponentModel.DataAnnotations;
+
+namespace SampleStore.UI.ViewModels.Identity;
+/// <summary>
+/// Class encapsulating forgot password view model.
+/// </summary>
+public class ForgotPasswordViewModel
 {
-    using System.ComponentModel.DataAnnotations;
+    #region Properties
 
     /// <summary>
-    /// Class encapsulating forgot password view model.
+    /// Gets or sets the email.
     /// </summary>
-    public class ForgotPasswordViewModel
+    /// <value>
+    /// The email.
+    /// </value>
+    [Required]
+    [EmailAddress]
+    public string Email
     {
-        #region Properties
-
-        /// <summary>
-        /// Gets or sets the email.
-        /// </summary>
-        /// <value>
-        /// The email.
-        /// </value>
-        [Required]
-        [EmailAddress]
-        public string Email
-        {
-            get; set;
-        }
-
-        #endregion Properties
+        get; set;
     }
+
+    #endregion Properties
 }

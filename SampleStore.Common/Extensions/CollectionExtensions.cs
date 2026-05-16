@@ -1,31 +1,30 @@
-﻿namespace SampleStore.Common.Extensions
+﻿
+using System.Collections.Generic;
+
+namespace SampleStore.Common.Extensions;
+/// <summary>
+/// Class encapsulating collection extensions.
+/// </summary>
+public static class CollectionExtensions
 {
-    using System.Collections.Generic;
+    #region Methods
 
     /// <summary>
-    /// Class encapsulating collection extensions.
+    /// Adds the specified items.
     /// </summary>
-    public static class CollectionExtensions
+    /// <typeparam name="TItem">The type of the item.</typeparam>
+    /// <param name="collection">The collection.</param>
+    /// <param name="items">The items.</param>
+    public static void Add<TItem>(this ICollection<TItem> collection, params TItem[] items)
     {
-        #region Methods
+        collection.ThrowIfArgumentIsNull(nameof(collection));
+        items.ThrowIfArgumentIsNull(nameof(items));
 
-        /// <summary>
-        /// Adds the specified items.
-        /// </summary>
-        /// <typeparam name="TItem">The type of the item.</typeparam>
-        /// <param name="collection">The collection.</param>
-        /// <param name="items">The items.</param>
-        public static void Add<TItem>(this ICollection<TItem> collection, params TItem[] items)
+        foreach (var item in items)
         {
-            collection.ThrowIfArgumentIsNull(nameof(collection));
-            items.ThrowIfArgumentIsNull(nameof(items));
-
-            foreach (var item in items)
-            {
-                collection.Add(item);
-            }
+            collection.Add(item);
         }
-
-        #endregion Methods
     }
+
+    #endregion Methods
 }

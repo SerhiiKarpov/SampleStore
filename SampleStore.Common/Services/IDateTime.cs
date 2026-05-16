@@ -1,25 +1,24 @@
-﻿namespace SampleStore.Common.Services
+﻿
+using System;
+
+namespace SampleStore.Common.Services;
+/// <summary>
+/// An interface for date time.
+/// </summary>
+public interface IDateTime
 {
-    using System;
+    #region Properties
 
     /// <summary>
-    /// An interface for date time.
+    /// Gets the UTC now.
     /// </summary>
-    public interface IDateTime
+    /// <value>
+    /// The UTC now.
+    /// </value>
+    DateTime UtcNow
     {
-        #region Properties
-
-        /// <summary>
-        /// Gets the UTC now.
-        /// </summary>
-        /// <value>
-        /// The UTC now.
-        /// </value>
-        DateTime UtcNow
-        {
-            get;
-        }
-
-        #endregion Properties
+        get;
     }
+
+    #endregion Properties
 }

@@ -1,30 +1,29 @@
-﻿namespace SampleStore.Common.Extensions
-{
-    using Microsoft.Extensions.DependencyInjection;
+﻿
+using Microsoft.Extensions.DependencyInjection;
 
-    using SampleStore.Common.Services;
+using SampleStore.Common.Services;
+
+namespace SampleStore.Common.Extensions;
+/// <summary>
+/// Class encapsulating service collection extensions.
+/// </summary>
+public static class ServiceCollectionExtensions
+{
+    #region Methods
 
     /// <summary>
-    /// Class encapsulating service collection extensions.
+    /// Adds the common services.
     /// </summary>
-    public static class ServiceCollectionExtensions
+    /// <param name="services">The services.</param>
+    /// <returns>
+    /// The services parameter to chain calls.
+    /// </returns>
+    public static IServiceCollection AddCommonServices(this IServiceCollection services)
     {
-        #region Methods
+        services.AddSingleton<IDateTime, DateTimeService>();
 
-        /// <summary>
-        /// Adds the common services.
-        /// </summary>
-        /// <param name="services">The services.</param>
-        /// <returns>
-        /// The services parameter to chain calls.
-        /// </returns>
-        public static IServiceCollection AddCommonServices(this IServiceCollection services)
-        {
-            services.AddSingleton<IDateTime, DateTimeService>();
-
-            return services;
-        }
-
-        #endregion Methods
+        return services;
     }
+
+    #endregion Methods
 }

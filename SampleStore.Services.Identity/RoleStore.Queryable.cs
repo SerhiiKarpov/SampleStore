@@ -1,33 +1,32 @@
-﻿namespace SampleStore.Services.Identity
+﻿
+using System.Linq;
+
+using Microsoft.AspNetCore.Identity;
+
+using SampleStore.Data.Entities.Identity;
+
+namespace SampleStore.Services.Identity;
+/// <summary>
+/// Class encapsulating role store.
+/// </summary>
+/// <seealso cref="IQueryableRoleStore{Role}" />
+public partial class RoleStore : IQueryableRoleStore<Role>
 {
-    using System.Linq;
-
-    using Microsoft.AspNetCore.Identity;
-
-    using SampleStore.Data.Entities.Identity;
+    #region Properties
 
     /// <summary>
-    /// Class encapsulating role store.
+    /// Returns an <see cref="T:System.Linq.IQueryable`1" /> collection of roles.
     /// </summary>
-    /// <seealso cref="IQueryableRoleStore{Role}" />
-    public partial class RoleStore : IQueryableRoleStore<Role>
+    /// <value>
+    /// An <see cref="T:System.Linq.IQueryable`1" /> collection of roles.
+    /// </value>
+    public IQueryable<Role> Roles
     {
-        #region Properties
-
-        /// <summary>
-        /// Returns an <see cref="T:System.Linq.IQueryable`1" /> collection of roles.
-        /// </summary>
-        /// <value>
-        /// An <see cref="T:System.Linq.IQueryable`1" /> collection of roles.
-        /// </value>
-        public IQueryable<Role> Roles
+        get
         {
-            get
-            {
-                return _unitOfWork.GetRepository<Role>().Query;
-            }
+            return _unitOfWork.GetRepository<Role>().Query;
         }
-
-        #endregion Properties
     }
+
+    #endregion Properties
 }

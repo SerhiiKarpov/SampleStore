@@ -1,26 +1,25 @@
-﻿namespace SampleStore.UI.Areas.Identity.Pages.Account
+﻿
+using SampleStore.UI.Pages;
+
+namespace SampleStore.UI.Areas.Identity.Pages.Account;
+/// <summary>
+/// Class encapsulating access denied model.
+/// </summary>
+/// <seealso cref="PageModelBase" />
+public class AccessDeniedModel : PageModelBase
 {
-    using SampleStore.UI.Pages;
+    #region Properties
 
     /// <summary>
-    /// Class encapsulating access denied model.
+    /// Gets the title.
     /// </summary>
-    /// <seealso cref="PageModelBase" />
-    public class AccessDeniedModel : PageModelBase
+    public override string Title
     {
-        #region Properties
-
-        /// <summary>
-        /// Gets the title.
-        /// </summary>
-        public override string Title
+        get
         {
-            get
-            {
-                return "Access denied";
-            }
+            return "Access denied";
         }
-
-        #endregion Properties
     }
+
+    #endregion Properties
 }

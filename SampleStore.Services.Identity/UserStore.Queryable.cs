@@ -1,33 +1,32 @@
-﻿namespace SampleStore.Services.Identity
+﻿
+using System.Linq;
+
+using Microsoft.AspNetCore.Identity;
+
+using SampleStore.Data.Entities.Identity;
+
+namespace SampleStore.Services.Identity;
+/// <summary>
+/// Class encapsulating user store.
+/// </summary>
+/// <seealso cref="IQueryableUserStore{User}" />
+public partial class UserStore : IQueryableUserStore<User>
 {
-    using System.Linq;
-
-    using Microsoft.AspNetCore.Identity;
-
-    using SampleStore.Data.Entities.Identity;
+    #region Properties
 
     /// <summary>
-    /// Class encapsulating user store.
+    /// Returns an <see cref="T:System.Linq.IQueryable`1" /> collection of users.
     /// </summary>
-    /// <seealso cref="IQueryableUserStore{User}" />
-    public partial class UserStore : IQueryableUserStore<User>
+    /// <value>
+    /// An <see cref="T:System.Linq.IQueryable`1" /> collection of users.
+    /// </value>
+    public IQueryable<User> Users
     {
-        #region Properties
-
-        /// <summary>
-        /// Returns an <see cref="T:System.Linq.IQueryable`1" /> collection of users.
-        /// </summary>
-        /// <value>
-        /// An <see cref="T:System.Linq.IQueryable`1" /> collection of users.
-        /// </value>
-        public IQueryable<User> Users
+        get
         {
-            get
-            {
-                return _unitOfWork.GetRepository<User>().Query;
-            }
+            return _unitOfWork.GetRepository<User>().Query;
         }
-
-        #endregion Properties
     }
+
+    #endregion Properties
 }

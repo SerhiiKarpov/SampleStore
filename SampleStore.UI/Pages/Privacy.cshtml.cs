@@ -1,27 +1,26 @@
-﻿namespace SampleStore.UI.Pages
+﻿
+using Microsoft.AspNetCore.Authorization;
+
+namespace SampleStore.UI.Pages;
+/// <summary>
+/// Class encapsulating privacy model.
+/// </summary>
+/// <seealso cref="PageModelBase" />
+[AllowAnonymous]
+public class PrivacyModel : PageModelBase
 {
-    using Microsoft.AspNetCore.Authorization;
+    #region Properties
 
     /// <summary>
-    /// Class encapsulating privacy model.
+    /// Gets the title.
     /// </summary>
-    /// <seealso cref="PageModelBase" />
-    [AllowAnonymous]
-    public class PrivacyModel : PageModelBase
+    public override string Title
     {
-        #region Properties
-
-        /// <summary>
-        /// Gets the title.
-        /// </summary>
-        public override string Title
+        get
         {
-            get
-            {
-                return "Privacy Policy";
-            }
+            return "Privacy Policy";
         }
-
-        #endregion Properties
     }
+
+    #endregion Properties
 }

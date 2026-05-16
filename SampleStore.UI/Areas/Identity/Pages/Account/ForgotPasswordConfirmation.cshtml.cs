@@ -1,29 +1,28 @@
-﻿namespace SampleStore.UI.Areas.Identity.Pages.Account
-{
-    using Microsoft.AspNetCore.Authorization;
+﻿
+using Microsoft.AspNetCore.Authorization;
 
-    using SampleStore.UI.Pages;
+using SampleStore.UI.Pages;
+
+namespace SampleStore.UI.Areas.Identity.Pages.Account;
+/// <summary>
+/// Class encapsulating forgot password confirmation.
+/// </summary>
+/// <seealso cref="PageModelBase" />
+[AllowAnonymous]
+public class ForgotPasswordConfirmation : PageModelBase
+{
+    #region Properties
 
     /// <summary>
-    /// Class encapsulating forgot password confirmation.
+    /// Gets the title.
     /// </summary>
-    /// <seealso cref="PageModelBase" />
-    [AllowAnonymous]
-    public class ForgotPasswordConfirmation : PageModelBase
+    public override string Title
     {
-        #region Properties
-
-        /// <summary>
-        /// Gets the title.
-        /// </summary>
-        public override string Title
+        get
         {
-            get
-            {
-                return "Forgot password confirmation";
-            }
+            return "Forgot password confirmation";
         }
-
-        #endregion Properties
     }
+
+    #endregion Properties
 }

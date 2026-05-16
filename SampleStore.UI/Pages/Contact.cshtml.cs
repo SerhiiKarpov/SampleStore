@@ -1,47 +1,46 @@
-﻿namespace SampleStore.UI.Pages
+﻿
+using Microsoft.AspNetCore.Authorization;
+
+namespace SampleStore.UI.Pages;
+/// <summary>
+/// Class encapsulating contact model.
+/// </summary>
+/// <seealso cref="PageModelBase" />
+[AllowAnonymous]
+public class ContactModel : PageModelBase
 {
-    using Microsoft.AspNetCore.Authorization;
+    #region Properties
 
     /// <summary>
-    /// Class encapsulating contact model.
+    /// Gets or sets the message.
     /// </summary>
-    /// <seealso cref="PageModelBase" />
-    [AllowAnonymous]
-    public class ContactModel : PageModelBase
+    public string Message
     {
-        #region Properties
-
-        /// <summary>
-        /// Gets or sets the message.
-        /// </summary>
-        public string Message
-        {
-            get; set;
-        }
-
-        /// <summary>
-        /// Gets the title.
-        /// </summary>
-        public override string Title
-        {
-            get
-            {
-                return "Contact";
-            }
-        }
-
-        #endregion Properties
-
-        #region Methods
-
-        /// <summary>
-        /// Called when [get].
-        /// </summary>
-        public void OnGet()
-        {
-            Message = "Your contact page.";
-        }
-
-        #endregion Methods
+        get; set;
     }
+
+    /// <summary>
+    /// Gets the title.
+    /// </summary>
+    public override string Title
+    {
+        get
+        {
+            return "Contact";
+        }
+    }
+
+    #endregion Properties
+
+    #region Methods
+
+    /// <summary>
+    /// Called when [get].
+    /// </summary>
+    public void OnGet()
+    {
+        Message = "Your contact page.";
+    }
+
+    #endregion Methods
 }

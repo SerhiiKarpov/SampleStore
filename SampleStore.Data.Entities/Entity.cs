@@ -1,47 +1,46 @@
-﻿namespace SampleStore.Data.Entities
+﻿
+using System;
+using System.ComponentModel.DataAnnotations;
+
+namespace SampleStore.Data.Entities;
+/// <summary>
+/// Class encapsulating entity.
+/// </summary>
+public abstract class Entity
 {
-    using System;
-    using System.ComponentModel.DataAnnotations;
+    #region Constructors
 
     /// <summary>
-    /// Class encapsulating entity.
+    /// Initializes a new instance of the <see cref="Entity"/> class.
     /// </summary>
-    public abstract class Entity
+    protected Entity()
     {
-        #region Constructors
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Entity"/> class.
-        /// </summary>
-        protected Entity()
-        {
-            Id = Guid.NewGuid();
-        }
-
-        #endregion Constructors
-
-        #region Properties
-
-        /// <summary>
-        /// Gets or sets the identifier.
-        /// </summary>
-        [Key]
-        public Guid Id
-        {
-            get; set;
-        }
-
-        /// <summary>
-        /// Gets or sets the row version.
-        /// </summary>
-        [Timestamp]
-#pragma warning disable CA1819 // Properties should not return arrays
-        public byte[] RowVersion
-#pragma warning restore CA1819 // Properties should not return arrays
-        {
-            get; set;
-        }
-
-        #endregion Properties
+        Id = Guid.NewGuid();
     }
+
+    #endregion Constructors
+
+    #region Properties
+
+    /// <summary>
+    /// Gets or sets the identifier.
+    /// </summary>
+    [Key]
+    public Guid Id
+    {
+        get; set;
+    }
+
+    /// <summary>
+    /// Gets or sets the row version.
+    /// </summary>
+    [Timestamp]
+#pragma warning disable CA1819 // Properties should not return arrays
+    public byte[] RowVersion
+#pragma warning restore CA1819 // Properties should not return arrays
+    {
+        get; set;
+    }
+
+    #endregion Properties
 }

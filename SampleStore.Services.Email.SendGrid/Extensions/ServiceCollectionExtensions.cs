@@ -1,34 +1,33 @@
-﻿namespace SampleStore.Services.Email.SendGrid.Extensions
+﻿
+using System;
+
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.Extensions.DependencyInjection;
+
+using SampleStore.Common.Extensions;
+
+namespace SampleStore.Services.Email.SendGrid.Extensions;
+/// <summary>
+/// Class encapsulating service collection extensions.
+/// </summary>
+public static class ServiceCollectionExtensions
 {
-    using System;
-
-    using Microsoft.AspNetCore.Identity.UI.Services;
-    using Microsoft.Extensions.DependencyInjection;
-
-    using SampleStore.Common.Extensions;
+    #region Methods
 
     /// <summary>
-    /// Class encapsulating service collection extensions.
+    /// Adds the send grid email sender.
     /// </summary>
-    public static class ServiceCollectionExtensions
+    /// <param name="services">The services.</param>
+    /// <param name="buildOptions">The build options.</param>
+    public static void AddSendGridEmailSender(this IServiceCollection services, Action<SendGridEmailSenderOptions> buildOptions)
     {
-        #region Methods
+        services.ThrowIfArgumentIsNull(nameof(services));
+        buildOptions.ThrowIfArgumentIsNull(nameof(buildOptions));
 
-        /// <summary>
-        /// Adds the send grid email sender.
-        /// </summary>
-        /// <param name="services">The services.</param>
-        /// <param name="buildOptions">The build options.</param>
-        public static void AddSendGridEmailSender(this IServiceCollection services, Action<SendGridEmailSenderOptions> buildOptions)
-        {
-            services.ThrowIfArgumentIsNull(nameof(services));
-            buildOptions.ThrowIfArgumentIsNull(nameof(buildOptions));
-
-            var options = new SendGridEmailSenderOptions();
-            buildOptions(options);
-            services.AddSingleton<IEmailSender>(new SendGridEmailSender(options));
-        }
-
-        #endregion Methods
+        var options = new SendGridEmailSenderOptions();
+        buildOptions(options);
+        services.AddSingleton<IEmailSender>(new SendGridEmailSender(options));
     }
+
+    #endregion Methods
 }

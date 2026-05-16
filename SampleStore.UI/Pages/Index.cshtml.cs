@@ -1,31 +1,30 @@
-﻿namespace SampleStore.UI.Pages
+﻿
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+
+namespace SampleStore.UI.Pages;
+/// <summary>
+/// Class encapsulating index model.
+/// </summary>
+/// <seealso cref="PageModel" />
+[AllowAnonymous]
+public class IndexModel : PageModelBase
 {
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Mvc.RazorPages;
+    #region Properties
 
     /// <summary>
-    /// Class encapsulating index model.
+    /// Gets the title.
     /// </summary>
-    /// <seealso cref="PageModel" />
-    [AllowAnonymous]
-    public class IndexModel : PageModelBase
+    /// <value>
+    /// The title.
+    /// </value>
+    public override string Title
     {
-        #region Properties
-
-        /// <summary>
-        /// Gets the title.
-        /// </summary>
-        /// <value>
-        /// The title.
-        /// </value>
-        public override string Title
+        get
         {
-            get
-            {
-                return "Home page";
-            }
+            return "Home page";
         }
-
-        #endregion Properties
     }
+
+    #endregion Properties
 }

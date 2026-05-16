@@ -1,25 +1,24 @@
-﻿namespace SampleStore.Data.Seed.Commands
+﻿
+using SampleStore.Common.Commands;
+using SampleStore.Data.Entities.Identity;
+
+namespace SampleStore.Data.Seed.Commands;
+/// <summary>
+/// An interface for create super admin command factory.
+/// </summary>
+public interface ICreateSuperAdminCommandFactory
 {
-    using SampleStore.Common.Commands;
-    using SampleStore.Data.Entities.Identity;
+    #region Methods
 
     /// <summary>
-    /// An interface for create super admin command factory.
+    /// Creates the command.
     /// </summary>
-    public interface ICreateSuperAdminCommandFactory
-    {
-        #region Methods
+    /// <param name="prototype">The prototype.</param>
+    /// <param name="password">The password.</param>
+    /// <returns>
+    /// The command.
+    /// </returns>
+    ICommand<User> CreateCommand(User prototype, string password);
 
-        /// <summary>
-        /// Creates the command.
-        /// </summary>
-        /// <param name="prototype">The prototype.</param>
-        /// <param name="password">The password.</param>
-        /// <returns>
-        /// The command.
-        /// </returns>
-        ICommand<User> CreateCommand(User prototype, string password);
-
-        #endregion Methods
-    }
+    #endregion Methods
 }

@@ -1,29 +1,28 @@
-﻿namespace SampleStore.UI.ViewModels.Identity
+﻿
+using System.ComponentModel.DataAnnotations;
+
+namespace SampleStore.UI.ViewModels.Identity;
+/// <summary>
+/// Class encapsulating enable authenticator view model.
+/// </summary>
+public class EnableAuthenticatorViewModel
 {
-    using System.ComponentModel.DataAnnotations;
+    #region Properties
 
     /// <summary>
-    /// Class encapsulating enable authenticator view model.
+    /// Gets or sets the code.
     /// </summary>
-    public class EnableAuthenticatorViewModel
+    /// <value>
+    /// The code.
+    /// </value>
+    [Required]
+    [StringLength(7, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+    [DataType(DataType.Text)]
+    [Display(Name = "Verification Code")]
+    public string Code
     {
-        #region Properties
-
-        /// <summary>
-        /// Gets or sets the code.
-        /// </summary>
-        /// <value>
-        /// The code.
-        /// </value>
-        [Required]
-        [StringLength(7, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
-        [DataType(DataType.Text)]
-        [Display(Name = "Verification Code")]
-        public string Code
-        {
-            get; set;
-        }
-
-        #endregion Properties
+        get; set;
     }
+
+    #endregion Properties
 }

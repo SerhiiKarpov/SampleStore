@@ -1,23 +1,22 @@
-﻿namespace SampleStore.Common.Commands
+﻿
+using System.Threading.Tasks;
+
+namespace SampleStore.Common.Commands;
+/// <summary>
+/// An interface for command.
+/// </summary>
+/// <typeparam name="TResult">The type of the result.</typeparam>
+public interface ICommand<TResult>
 {
-    using System.Threading.Tasks;
+    #region Methods
 
     /// <summary>
-    /// An interface for command.
+    /// Executes the command encapsulated by this instance.
     /// </summary>
-    /// <typeparam name="TResult">The type of the result.</typeparam>
-    public interface ICommand<TResult>
-    {
-        #region Methods
+    /// <returns>
+    /// The command result.
+    /// </returns>
+    Task<TResult> Do();
 
-        /// <summary>
-        /// Executes the command encapsulated by this instance.
-        /// </summary>
-        /// <returns>
-        /// The command result.
-        /// </returns>
-        Task<TResult> Do();
-
-        #endregion Methods
-    }
+    #endregion Methods
 }

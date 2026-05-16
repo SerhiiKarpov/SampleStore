@@ -1,26 +1,25 @@
-﻿namespace SampleStore.UI.Pages
+﻿
+using Microsoft.AspNetCore.Mvc.RazorPages;
+
+namespace SampleStore.UI.Pages;
+/// <summary>
+/// Class encapsulating page model base.
+/// </summary>
+/// <seealso cref="PageModel" />
+public abstract class PageModelBase : PageModel
 {
-    using Microsoft.AspNetCore.Mvc.RazorPages;
+    #region Properties
 
     /// <summary>
-    /// Class encapsulating page model base.
+    /// Gets the title.
     /// </summary>
-    /// <seealso cref="PageModel" />
-    public abstract class PageModelBase : PageModel
+    /// <value>
+    /// The title.
+    /// </value>
+    public abstract string Title
     {
-        #region Properties
-
-        /// <summary>
-        /// Gets the title.
-        /// </summary>
-        /// <value>
-        /// The title.
-        /// </value>
-        public abstract string Title
-        {
-            get;
-        }
-
-        #endregion Properties
+        get;
     }
+
+    #endregion Properties
 }

@@ -1,29 +1,28 @@
-﻿namespace SampleStore.Common.Services
+﻿
+using System;
+
+namespace SampleStore.Common.Services;
+/// <summary>
+/// Class encapsulating date time service.
+/// </summary>
+/// <seealso cref="SampleStore.Common.Services.IDateTime" />
+public class DateTimeService : IDateTime
 {
-    using System;
+    #region Properties
 
     /// <summary>
-    /// Class encapsulating date time service.
+    /// Gets the UTC now.
     /// </summary>
-    /// <seealso cref="SampleStore.Common.Services.IDateTime" />
-    public class DateTimeService : IDateTime
+    /// <value>
+    /// The UTC now.
+    /// </value>
+    public DateTime UtcNow
     {
-        #region Properties
-
-        /// <summary>
-        /// Gets the UTC now.
-        /// </summary>
-        /// <value>
-        /// The UTC now.
-        /// </value>
-        public DateTime UtcNow
+        get
         {
-            get
-            {
-                return DateTime.UtcNow;
-            }
+            return DateTime.UtcNow;
         }
-
-        #endregion Properties
     }
+
+    #endregion Properties
 }

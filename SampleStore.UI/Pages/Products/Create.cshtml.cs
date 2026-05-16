@@ -1,94 +1,93 @@
-﻿namespace SampleStore.UI.Pages.Products
+﻿
+using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Mvc;
+
+using SampleStore.Common.Extensions;
+using SampleStore.Data;
+using SampleStore.Data.Entities.Domain;
+using SampleStore.Data.Extensions;
+
+namespace SampleStore.UI.Pages.Products;
+/// <summary>
+/// Class encapsulating create model.
+/// </summary>
+/// <seealso cref="PageModelBase" />
+public class CreateModel : PageModelBase
 {
-    using System.Threading.Tasks;
-
-    using Microsoft.AspNetCore.Mvc;
-
-    using SampleStore.Common.Extensions;
-    using SampleStore.Data;
-    using SampleStore.Data.Entities.Domain;
-    using SampleStore.Data.Extensions;
+    #region Fields
 
     /// <summary>
-    /// Class encapsulating create model.
+    /// The unit of work
     /// </summary>
-    /// <seealso cref="PageModelBase" />
-    public class CreateModel : PageModelBase
+    private readonly IUnitOfWork _unitOfWork;
+
+    #endregion Fields
+
+    #region Constructors
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="CreateModel"/> class.
+    /// </summary>
+    /// <param name="unitOfWork">The unit of work.</param>
+    public CreateModel(IUnitOfWork unitOfWork)
     {
-        #region Fields
+        _unitOfWork = unitOfWork.ThrowIfArgumentIsNull(nameof(unitOfWork)) ;
+    }
 
-        /// <summary>
-        /// The unit of work
-        /// </summary>
-        private readonly IUnitOfWork _unitOfWork;
+    #endregion Constructors
 
-        #endregion Fields
+    #region Properties
 
-        #region Constructors
+    /// <summary>
+    /// Gets or sets the product.
+    /// </summary>
+    [BindProperty]
+    public Product Product
+    {
+        get; set;
+    }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CreateModel"/> class.
-        /// </summary>
-        /// <param name="unitOfWork">The unit of work.</param>
-        public CreateModel(IUnitOfWork unitOfWork)
+    /// <summary>
+    /// Gets the title.
+    /// </summary>
+    public override string Title
+    {
+        get
         {
-            _unitOfWork = unitOfWork.ThrowIfArgumentIsNull(nameof(unitOfWork)) ;
+            return "Create";
         }
+    }
 
-        #endregion Constructors
+    #endregion Properties
 
-        #region Properties
+    #region Methods
 
-        /// <summary>
-        /// Gets or sets the product.
-        /// </summary>
-        [BindProperty]
-        public Product Product
-        {
-            get; set;
-        }
+    /// <summary>
+    /// Called when [get].
+    /// </summary>
+    /// <returns>The <see cref="IActionResult"/>.</returns>
+    public IActionResult OnGet()
+    {
+        return Page();
+    }
 
-        /// <summary>
-        /// Gets the title.
-        /// </summary>
-        public override string Title
-        {
-            get
-            {
-                return "Create";
-            }
-        }
-
-        #endregion Properties
-
-        #region Methods
-
-        /// <summary>
-        /// Called when [get].
-        /// </summary>
-        /// <returns>The <see cref="IActionResult"/>.</returns>
-        public IActionResult OnGet()
+    /// <summary>
+    /// Called when [post asynchronous].
+    /// </summary>
+    /// <returns>The <see cref="IActionResult"/>.</returns>
+    public async Task<IActionResult> OnPostAsync()
+    {
+        if (!ModelState.IsValid)
         {
             return Page();
         }
 
-        /// <summary>
-        /// Called when [post asynchronous].
-        /// </summary>
-        /// <returns>The <see cref="IActionResult"/>.</returns>
-        public async Task<IActionResult> OnPostAsync()
-        {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
+        _unitOfWork.GetRepository<Product>().Add(Product);
+        await _unitOfWork.SaveChanges();
 
-            _unitOfWork.GetRepository<Product>().Add(Product);
-            await _unitOfWork.SaveChanges();
-
-            return RedirectToPage("./Index");
-        }
-
-        #endregion Methods
+        return RedirectToPage("./Index");
     }
+
+    #endregion Methods
 }
