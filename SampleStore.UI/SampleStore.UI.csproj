@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
     <UserSecretsId>aspnet-SampleStore.UI-8DDCD30F-2AE5-4A77-9BCD-1FF214E95ABA</UserSecretsId>
     <ApplicationIcon />
     <OutputType>Library</OutputType>
