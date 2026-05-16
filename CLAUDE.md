@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ```bash
 # Build the full solution
-dotnet build SampleStore.sln
+dotnet build SampleStore.slnx
 
 # Run the application
 dotnet run --project SampleStore.Host/SampleStore.Host.csproj
@@ -23,11 +23,11 @@ dotnet ef database update --project SampleStore.Data.EF --startup-project Sample
 
 ## Architecture
 
-ASP.NET Core 2.1 web application using Razor Pages (not MVC). The solution is split into 16 projects across distinct layers:
+ASP.NET Core web application using Razor Pages (not MVC), targeting .NET 10. The solution is split into 11 projects across distinct layers:
 
 ```
-SampleStore.Host              → entry point, DI wiring, Startup
-SampleStore.UI                → Razor Pages, Identity Areas
+SampleStore.Host              → entry point, DI wiring (Program.cs, minimal hosting model)
+SampleStore.UI                → Razor Pages, Identity Areas, ViewModels
 SampleStore.Data              → abstractions: IUnitOfWork, IRepository<T>, IQueryMaterializer
 SampleStore.Data.Entities     → EF POCO models (User, Role, Claims, Product, Photo)
 SampleStore.Data.EF           → EF Core DbContext + IUnitOfWork/IRepository implementations
@@ -36,11 +36,14 @@ SampleStore.Data.Seed         → DatabaseSeeder + command pattern for initial d
 SampleStore.Data.Seed.Tests   → xUnit tests (Bogus + Moq)
 SampleStore.Services.Identity → custom ASP.NET Identity UserStore/RoleStore
 SampleStore.Services.Email.SendGrid → IEmailSender via SendGrid
-SampleStore.Mapping           → IMapper<TSource,TTarget>, IMapperProvider, IMappingConfiguration
-SampleStore.Mapping.AutoMapper → AutoMapper-backed mapper implementation
-SampleStore.Mapping.DataToServices / DataToUI / ServicesToUI → mapping profile projects
 SampleStore.Common            → shared utilities and extensions
 ```
+
+### Code Quality
+
+`Directory.Build.props` applies globally to all projects:
+- `Nullable=enable` — null-safety is enforced everywhere
+- `TreatWarningsAsErrors=true` — all warnings are build errors
 
 ### Data Access
 
@@ -56,13 +59,15 @@ Custom `UserStore` and `RoleStore` implement all ASP.NET Identity interfaces and
 
 ### Mapping
 
-Three-layer DTO chain: `DataEntity → ServiceDTO → UIViewModel`. Each mapping direction lives in its own project. The `IMapper<TSource,TTarget>` / `IMapperProvider` abstraction decouples call sites from AutoMapper.
+Mapping is done via plain static extension methods (no AutoMapper). Each layer has its own internal mapper class:
+- `SampleStore.Services.Identity/Mapping/IdentityMapper.cs` — Identity entity ↔ ASP.NET Identity types
+- `SampleStore.UI/Mapping/UiMapper.cs` — ViewModels ↔ Data entities
 
 ### Dependency Injection
 
 Each layer registers itself via an extension method on `IServiceCollection`:
 - `AddCommonServices()`, `AddEntityFrameworkDataAccess()`, `AddCustomizedIdentity()`, etc.
-- `Startup.cs` composes these extension methods — add new services by following this same pattern.
+- `Program.cs` composes these — add new services by following this same pattern.
 
 ### Startup & Seeding
 
@@ -73,11 +78,11 @@ Each layer registers itself via an extension method on `IServiceCollection`:
 `appsettings.json` top-level sections:
 - `Identity` — password policy, lockout settings
 - `CookieAuthentication` — cookie expiry and paths
-- `Authentication` — OAuth callback paths (Facebook, Twitter, Google, Microsoft)
+- `Authentication` — OAuth callback paths (Facebook, Google, Microsoft)
 - `EmailSender` — SendGrid credentials
 - `SuperAdminPrototype` — default admin user seeded on first run
 - `ConnectionStrings:DefaultConnection` — SQL Server connection string
 
 ### Global Authorization
 
-All pages require authentication by default (configured via MVC filters in `Startup.cs`). Public pages opt out explicitly with `[AllowAnonymous]`.
+All pages require authentication by default (`options.Conventions.AuthorizeFolder("/")`). Identity area pages are public via `AllowAnonymousToAreaFolder("Identity", "/Account")`.
