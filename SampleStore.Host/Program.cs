@@ -2,7 +2,6 @@ using System.Security.Claims;
 
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -15,10 +14,6 @@ using SampleStore.Data.EF.Extensions;
 using SampleStore.Data.Seed.Extensions;
 using SampleStore.Host.Configuration;
 using SampleStore.Host.Extensions;
-using SampleStore.Mapping.AutoMapper.Extensions;
-using SampleStore.Mapping.DataToServices.AutoMapper.Extensions;
-using SampleStore.Mapping.DataToUI.Extensions;
-using SampleStore.Mapping.ServicesToUI.Extensions;
 using SampleStore.Services.Email.SendGrid.Extensions;
 using SampleStore.Services.Identity.Extensions;
 using SampleStore.UI.Extensions;
@@ -35,11 +30,6 @@ builder.Services.Configure<CookiePolicyOptions>(options =>
 
 builder.Services.AddEntityFrameworkDataAccess(builder.Configuration.GetConnectionString("DefaultConnection")!);
 builder.Services.AddDatabaseSeeder();
-
-builder.Services.AddAutoMapper(options => options
-    .AddDataToServicesMappings()
-    .AddDataToUIMappings()
-    .AddServicesToUIMappings());
 
 builder.Services.AddCustomizedIdentity();
 

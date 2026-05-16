@@ -24,8 +24,6 @@
     <ProjectReference Include="..\SampleStore.Data.Extensions\SampleStore.Data.Extensions.csproj" />
     <ProjectReference Include="..\SampleStore.Data.Seed\SampleStore.Data.Seed.csproj" />
     <ProjectReference Include="..\SampleStore.Data\SampleStore.Data.csproj" />
-    <ProjectReference Include="..\SampleStore.Mapping.AutoMapper\SampleStore.Mapping.AutoMapper.csproj" />
-    <ProjectReference Include="..\SampleStore.Mapping.DataToServices\SampleStore.Mapping.DataToServices.csproj" />
     <ProjectReference Include="..\SampleStore.Services.Identity\SampleStore.Services.Identity.csproj" />
   </ItemGroup>
 
