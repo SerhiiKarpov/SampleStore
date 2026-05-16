@@ -1,0 +1,13 @@
+<Solution>
+  <Project Path="SampleStore.Common/SampleStore.Common.csproj" />
+  <Project Path="SampleStore.Data.EF/SampleStore.Data.EF.csproj" />
+  <Project Path="SampleStore.Data.Entities/SampleStore.Data.Entities.csproj" />
+  <Project Path="SampleStore.Data.Extensions/SampleStore.Data.Extensions.csproj" />
+  <Project Path="SampleStore.Data.Seed.Tests/SampleStore.Data.Seed.Tests.csproj" />
+  <Project Path="SampleStore.Data.Seed/SampleStore.Data.Seed.csproj" />
+  <Project Path="SampleStore.Data/SampleStore.Data.csproj" />
+  <Project Path="SampleStore.Host/SampleStore.Host.csproj" />
+  <Project Path="SampleStore.Services.Email.SendGrid/SampleStore.Services.Email.SendGrid.csproj" />
+  <Project Path="SampleStore.Services.Identity/SampleStore.Services.Identity.csproj" />
+  <Project Path="SampleStore.UI/SampleStore.UI.csproj" />
+</Solution>
