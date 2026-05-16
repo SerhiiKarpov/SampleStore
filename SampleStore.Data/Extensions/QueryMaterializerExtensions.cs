@@ -64,7 +64,7 @@ public static class QueryMaterializerExtensions
     /// <param name="query">The query.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>A first item or default.</returns>
-    public static async Task<TResult> FirstOrDefault<TResult>(
+    public static async Task<TResult?> FirstOrDefault<TResult>(
         this IQueryMaterializer queryMaterializer,
         IQueryable<TResult> query,
         CancellationToken cancellationToken = default(CancellationToken))
@@ -106,7 +106,7 @@ public static class QueryMaterializerExtensions
     /// <param name="query">The query.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>A signle item from the specified query or default value of item type if query doesn't return any item.</returns>
-    public static async Task<TResult> SingleOrDefault<TResult>(
+    public static async Task<TResult?> SingleOrDefault<TResult>(
         this IQueryMaterializer queryMaterializer,
         IQueryable<TResult> query,
         CancellationToken cancellationToken = default(CancellationToken))

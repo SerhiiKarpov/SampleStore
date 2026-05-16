@@ -36,7 +36,7 @@ public abstract class Entity
     /// </summary>
     [Timestamp]
 #pragma warning disable CA1819 // Properties should not return arrays
-    public byte[] RowVersion
+    public byte[]? RowVersion
 #pragma warning restore CA1819 // Properties should not return arrays
     {
         get; set;

@@ -27,7 +27,7 @@ public static class EntityRepositoryExtensions
     /// <returns>
     /// A found entity.
     /// </returns>
-    public static async Task<TEntity> Find<TEntity>(
+    public static async Task<TEntity?> Find<TEntity>(
         this IRepository<TEntity> repository,
         Expression<Func<TEntity, bool>> predicate,
         IQueryMaterializer queryMaterializer,
@@ -55,7 +55,7 @@ public static class EntityRepositoryExtensions
     /// <returns>
     /// The found entity.
     /// </returns>
-    public static Task<TEntity> FindById<TEntity>(
+    public static Task<TEntity?> FindById<TEntity>(
         this IRepository<TEntity> repository,
         Guid id,
         IQueryMaterializer queryMaterializer,

@@ -58,7 +58,7 @@ public class LoginWith2faModel : PageModelBase
     public LoginWith2faViewModel Input
     {
         get; set;
-    }
+    } = default!;
 
     /// <summary>
     /// Gets or sets a value indicating whether [remember me].
@@ -71,7 +71,7 @@ public class LoginWith2faModel : PageModelBase
     /// <summary>
     /// Gets or sets the return URL.
     /// </summary>
-    public string ReturnUrl
+    public string? ReturnUrl
     {
         get; set;
     }
@@ -98,7 +98,7 @@ public class LoginWith2faModel : PageModelBase
     /// <param name="returnUrl">The return URL.</param>
     /// <returns>The <see cref="IActionResult"/>.</returns>
     /// <exception cref="InvalidOperationException">If unable to load two-factor authentication user.</exception>
-    public async Task<IActionResult> OnGetAsync(bool rememberMe, string returnUrl = null)
+    public async Task<IActionResult> OnGetAsync(bool rememberMe, string? returnUrl = null)
     {
         // Ensure the user has gone through the username & password screen first
         var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
@@ -121,7 +121,7 @@ public class LoginWith2faModel : PageModelBase
     /// <param name="returnUrl">The return URL.</param>
     /// <returns>The <see cref="IActionResult"/>.</returns>
     /// <exception cref="InvalidOperationException">If unable to load two-factor authentication user.</exception>
-    public async Task<IActionResult> OnPostAsync(bool rememberMe, string returnUrl = null)
+    public async Task<IActionResult> OnPostAsync(bool rememberMe, string? returnUrl = null)
     {
         if (!ModelState.IsValid)
         {

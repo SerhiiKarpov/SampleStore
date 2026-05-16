@@ -43,7 +43,7 @@ public class CreateModel : PageModelBase
     /// Gets or sets the product.
     /// </summary>
     [BindProperty]
-    public Product Product
+    public Product? Product
     {
         get; set;
     }
@@ -83,7 +83,7 @@ public class CreateModel : PageModelBase
             return Page();
         }
 
-        _unitOfWork.GetRepository<Product>().Add(Product);
+        _unitOfWork.GetRepository<Product>().Add(Product!);
         await _unitOfWork.SaveChanges();
 
         return RedirectToPage("./Index");

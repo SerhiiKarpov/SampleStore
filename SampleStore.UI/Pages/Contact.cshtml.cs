@@ -14,7 +14,7 @@ public class ContactModel : PageModelBase
     /// <summary>
     /// Gets or sets the message.
     /// </summary>
-    public string Message
+    public string? Message
     {
         get; set;
     }

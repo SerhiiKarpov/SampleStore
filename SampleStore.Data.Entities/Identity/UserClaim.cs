@@ -18,7 +18,7 @@ public class UserClaim : Entity
     /// The type.
     /// </value>
     [StringLength(100)]
-    public string Type
+    public string? Type
     {
         get; set;
     }
@@ -38,7 +38,7 @@ public class UserClaim : Entity
     /// The value.
     /// </value>
     [StringLength(200)]
-    public string Value
+    public string? Value
     {
         get; set;
     }

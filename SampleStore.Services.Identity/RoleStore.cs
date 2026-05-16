@@ -93,7 +93,7 @@ public partial class RoleStore : Disposable, IRoleStore<Role>
     /// <returns>
     /// A <see cref="T:System.Threading.Tasks.Task`1" /> that result of the look up.
     /// </returns>
-    public async Task<Role> FindByIdAsync(string roleId, CancellationToken cancellationToken)
+    public async Task<Role?> FindByIdAsync(string roleId, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
@@ -114,7 +114,7 @@ public partial class RoleStore : Disposable, IRoleStore<Role>
     /// <returns>
     /// A <see cref="T:System.Threading.Tasks.Task`1" /> that result of the look up.
     /// </returns>
-    public Task<Role> FindByNameAsync(string normalizedRoleName, CancellationToken cancellationToken)
+    public Task<Role?> FindByNameAsync(string normalizedRoleName, CancellationToken cancellationToken)
     {
         return _unitOfWork.GetRepository<Role>().Find(r => r.Name == normalizedRoleName, _queryMaterializer, cancellationToken);
     }
@@ -127,11 +127,11 @@ public partial class RoleStore : Disposable, IRoleStore<Role>
     /// <returns>
     /// A <see cref="T:System.Threading.Tasks.Task`1" /> that contains the name of the role.
     /// </returns>
-    public Task<string> GetNormalizedRoleNameAsync(Role role, CancellationToken cancellationToken)
+    public Task<string?> GetNormalizedRoleNameAsync(Role role, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
         role.ThrowIfArgumentIsNull(nameof(role));
-        return Task.FromResult(role.Name);
+        return Task.FromResult<string?>(role.Name);
     }
 
     /// <summary>
@@ -157,11 +157,11 @@ public partial class RoleStore : Disposable, IRoleStore<Role>
     /// <returns>
     /// A <see cref="T:System.Threading.Tasks.Task`1" /> that contains the name of the role.
     /// </returns>
-    public Task<string> GetRoleNameAsync(Role role, CancellationToken cancellationToken)
+    public Task<string?> GetRoleNameAsync(Role role, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
         role.ThrowIfArgumentIsNull(nameof(role));
-        return Task.FromResult(role.Name);
+        return Task.FromResult<string?>(role.Name);
     }
 
     /// <summary>
@@ -173,7 +173,7 @@ public partial class RoleStore : Disposable, IRoleStore<Role>
     /// <returns>
     /// The <see cref="T:System.Threading.Tasks.Task" /> that represents the asynchronous operation.
     /// </returns>
-    public Task SetNormalizedRoleNameAsync(Role role, string normalizedName, CancellationToken cancellationToken)
+    public Task SetNormalizedRoleNameAsync(Role role, string? normalizedName, CancellationToken cancellationToken)
     {
         return SetRoleNameAsync(role, normalizedName, cancellationToken);
     }
@@ -187,11 +187,11 @@ public partial class RoleStore : Disposable, IRoleStore<Role>
     /// <returns>
     /// The <see cref="T:System.Threading.Tasks.Task" /> that represents the asynchronous operation.
     /// </returns>
-    public Task SetRoleNameAsync(Role role, string roleName, CancellationToken cancellationToken)
+    public Task SetRoleNameAsync(Role role, string? roleName, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
         role.ThrowIfArgumentIsNull(nameof(role));
-        role.Name = roleName;
+        role.Name = roleName!;
         return Task.CompletedTask;
     }
 

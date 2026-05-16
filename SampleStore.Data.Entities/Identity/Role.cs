@@ -15,7 +15,7 @@ public class Role : Entity
     /// </summary>
     [Required]
     [StringLength(50)]
-    public string Name
+    public required string Name
     {
         get; set;
     }

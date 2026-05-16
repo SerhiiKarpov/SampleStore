@@ -30,7 +30,7 @@ public static class CreateSuperAdminCommand_Constructor_Should
         var prototypeStub = new User();
 
         // Act
-        Action act = () => new CreateSuperAdminCommand(userManagerStub.Object, null, prototypeStub, passwordStub);
+        Action act = () => new CreateSuperAdminCommand(userManagerStub.Object, null!, prototypeStub, passwordStub);
 
         // Assert
         Assert.Throws<ArgumentNullException>(act);
@@ -48,7 +48,7 @@ public static class CreateSuperAdminCommand_Constructor_Should
         var prototypeStub = new User();
 
         // Act
-        Action act = () => new CreateSuperAdminCommand(userManagerStub.Object, dateTimeServiceStub, prototypeStub, null);
+        Action act = () => new CreateSuperAdminCommand(userManagerStub.Object, dateTimeServiceStub, prototypeStub, null!);
 
         // Assert
         Assert.Throws<ArgumentNullException>(act);
@@ -66,7 +66,7 @@ public static class CreateSuperAdminCommand_Constructor_Should
         var passwordStub = string.Empty;
 
         // Act
-        Action act = () => new CreateSuperAdminCommand(userManagerStub.Object, dateTimeServiceStub, null, passwordStub);
+        Action act = () => new CreateSuperAdminCommand(userManagerStub.Object, dateTimeServiceStub, null!, passwordStub);
 
         // Assert
         Assert.Throws<ArgumentNullException>(act);
@@ -84,7 +84,7 @@ public static class CreateSuperAdminCommand_Constructor_Should
         var prototypeStub = new User();
 
         // Act
-        Action act = () => new CreateSuperAdminCommand(null, dateTimeServiceStub, prototypeStub, passwordStub);
+        Action act = () => new CreateSuperAdminCommand(null!, dateTimeServiceStub, prototypeStub, passwordStub);
 
         // Assert
         Assert.Throws<ArgumentNullException>(act);

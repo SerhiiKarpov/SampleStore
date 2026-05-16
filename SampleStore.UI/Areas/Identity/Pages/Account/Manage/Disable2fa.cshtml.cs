@@ -57,7 +57,7 @@ public class Disable2faModel : PageModelBase
     /// The status message.
     /// </value>
     [TempData]
-    public string StatusMessage
+    public string? StatusMessage
     {
         get; set;
     }

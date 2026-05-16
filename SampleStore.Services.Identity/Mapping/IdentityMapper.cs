@@ -17,7 +17,7 @@ internal static class IdentityMapper
         }
 
         destination.LoginProvider = source.LoginProvider;
-        destination.ProviderDisplayName = source.ProviderDisplayName;
+        destination.ProviderDisplayName = source.ProviderDisplayName!;
         destination.ProviderKey = source.ProviderKey;
     }
 
@@ -29,8 +29,12 @@ internal static class IdentityMapper
             return null;
         }
 
-        var destination = new UserLogin();
-        Map(source, destination);
+        var destination = new UserLogin
+        {
+            LoginProvider = source.LoginProvider,
+            ProviderDisplayName = source.ProviderDisplayName!,
+            ProviderKey = source.ProviderKey
+        };
         return destination;
     }
 
@@ -77,6 +81,6 @@ internal static class IdentityMapper
             return null;
         }
 
-        return new(source.Type, source.Value);
+        return new(source.Type!, source.Value!);
     }
 }

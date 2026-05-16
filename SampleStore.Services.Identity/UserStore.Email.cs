@@ -25,7 +25,7 @@ public partial class UserStore : IUserEmailStore<User>
     /// <returns>
     /// The task object containing the results of the asynchronous lookup operation, the user if any associated with the specified normalized email address.
     /// </returns>
-    public Task<User> FindByEmailAsync(string normalizedEmail, CancellationToken cancellationToken)
+    public Task<User?> FindByEmailAsync(string normalizedEmail, CancellationToken cancellationToken)
     {
         return _unitOfWork.GetRepository<User>().Find(u => u.Email == normalizedEmail, _queryMaterializer, cancellationToken);
     }
@@ -38,11 +38,11 @@ public partial class UserStore : IUserEmailStore<User>
     /// <returns>
     /// The task object containing the results of the asynchronous operation, the email address for the specified <paramref name="user" />.
     /// </returns>
-    public Task<string> GetEmailAsync(User user, CancellationToken cancellationToken)
+    public Task<string?> GetEmailAsync(User user, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
         user.ThrowIfArgumentIsNull(nameof(user));
-        return Task.FromResult(user.Email);
+        return Task.FromResult<string?>(user.Email);
     }
 
     /// <summary>
@@ -70,7 +70,7 @@ public partial class UserStore : IUserEmailStore<User>
     /// <returns>
     /// The task object containing the results of the asynchronous lookup operation, the normalized email address if any associated with the specified user.
     /// </returns>
-    public Task<string> GetNormalizedEmailAsync(User user, CancellationToken cancellationToken)
+    public Task<string?> GetNormalizedEmailAsync(User user, CancellationToken cancellationToken)
     {
         return GetEmailAsync(user, cancellationToken);
     }
@@ -84,11 +84,11 @@ public partial class UserStore : IUserEmailStore<User>
     /// <returns>
     /// The task object representing the asynchronous operation.
     /// </returns>
-    public Task SetEmailAsync(User user, string email, CancellationToken cancellationToken)
+    public Task SetEmailAsync(User user, string? email, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
         user.ThrowIfArgumentIsNull(nameof(user));
-        user.Email = email;
+        user.Email = email!;
         return Task.CompletedTask;
     }
 
@@ -118,7 +118,7 @@ public partial class UserStore : IUserEmailStore<User>
     /// <returns>
     /// The task object representing the asynchronous operation.
     /// </returns>
-    public Task SetNormalizedEmailAsync(User user, string normalizedEmail, CancellationToken cancellationToken)
+    public Task SetNormalizedEmailAsync(User user, string? normalizedEmail, CancellationToken cancellationToken)
     {
         return SetEmailAsync(user, normalizedEmail, cancellationToken);
     }

@@ -68,13 +68,17 @@ internal static class UiMapper
             return;
         }
 
-        destination.Email = source.Principal.FindFirstValue(ClaimTypes.Email);
+        destination.Email = source.Principal.FindFirstValue(ClaimTypes.Email) ?? string.Empty;
         destination.Name =
             source.Principal.HasClaim(claim => claim.Type == ClaimTypes.GivenName)
                     && source.Principal.HasClaim(claim => claim.Type == ClaimTypes.Surname)
                 ? $"{source.Principal.FindFirstValue(ClaimTypes.GivenName)} {source.Principal.FindFirstValue(ClaimTypes.Surname)}"
-                : source.Principal.FindFirstValue(ClaimTypes.Name);
-        destination.DateOfBirth = DateTime.Parse(source.Principal.FindFirstValue(ClaimTypes.DateOfBirth));
+                : source.Principal.FindFirstValue(ClaimTypes.Name) ?? string.Empty;
+        destination.DateOfBirth =
+            source.Principal.FindFirstValue(ClaimTypes.DateOfBirth) is { } dobString
+                    && DateTime.TryParse(dobString, out var dob)
+                ? dob
+                : null;
     }
 
     [return: NotNullIfNotNull(nameof(source))]

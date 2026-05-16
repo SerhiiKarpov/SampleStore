@@ -51,7 +51,7 @@ public class DetailsModel : PageModelBase
     /// <summary>
     /// Gets or sets the product.
     /// </summary>
-    public Product Product
+    public Product? Product
     {
         get; set;
     }

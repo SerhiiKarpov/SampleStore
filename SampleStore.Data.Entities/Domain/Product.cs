@@ -15,7 +15,7 @@ public class Product : Entity
     /// Gets or sets the description.
     /// </summary>
     [StringLength(500)]
-    public string Description
+    public string? Description
     {
         get; set;
     }
@@ -25,7 +25,7 @@ public class Product : Entity
     /// </summary>
     [Required]
     [StringLength(50)]
-    public string Name
+    public required string Name
     {
         get; set;
     }

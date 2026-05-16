@@ -37,7 +37,7 @@ public partial class UserStore : IUserAuthenticatorKeyStore<User>
     /// <returns>
     /// The <see cref="T:System.Threading.Tasks.Task" /> that represents the asynchronous operation, containing the security stamp for the specified <paramref name="user" />.
     /// </returns>
-    public Task<string> GetAuthenticatorKeyAsync(User user, CancellationToken cancellationToken)
+    public Task<string?> GetAuthenticatorKeyAsync(User user, CancellationToken cancellationToken)
     {
         return GetTokenAsync(user, AuthenticatorKeyTokenLoginProvider, AuthenticatorKeyTokenName, cancellationToken);
     }

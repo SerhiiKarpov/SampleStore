@@ -71,7 +71,7 @@ public class AddUserToRolesCommand : ICommand<bool>
     public async Task<bool> Do()
     {
         var roleNames = await Task.WhenAll(_roles.Select(role => _roleManager.GetRoleNameAsync(role)));
-        var addToRolesResult = await _userManager.AddToRolesAsync(_user, roleNames);
+        var addToRolesResult = await _userManager.AddToRolesAsync(_user, roleNames!);
         addToRolesResult.ThrowIfFailed(() => $"Failed to add user {_user.Email} to roles: {string.Join(", ", roleNames)}. Check logs for details.");
         return true;
     }

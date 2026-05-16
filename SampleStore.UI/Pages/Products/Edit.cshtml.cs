@@ -53,7 +53,7 @@ public class EditModel : PageModelBase
     /// Gets or sets the product.
     /// </summary>
     [BindProperty]
-    public Product Product
+    public Product? Product
     {
         get; set;
     }
@@ -109,7 +109,7 @@ public class EditModel : PageModelBase
             return Page();
         }
 
-        await _unitOfWork.GetRepository<Product>().Update(Product, _queryMaterializer);
+        await _unitOfWork.GetRepository<Product>().Update(Product!, _queryMaterializer);
 
         try
         {
@@ -117,7 +117,7 @@ public class EditModel : PageModelBase
         }
         catch (ConcurrencyException)
         {
-            if (!await ProductExists(Product.Id))
+            if (!await ProductExists(Product!.Id))
             {
                 return NotFound();
             }

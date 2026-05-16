@@ -64,7 +64,7 @@ public class ResetAuthenticatorModel : PageModelBase
     /// The status message.
     /// </value>
     [TempData]
-    public string StatusMessage
+    public string? StatusMessage
     {
         get; set;
     }

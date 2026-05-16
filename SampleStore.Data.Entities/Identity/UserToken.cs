@@ -16,7 +16,7 @@ public class UserToken : Entity
     /// </summary>
     [Required]
     [StringLength(50)]
-    public string LoginProvider
+    public required string LoginProvider
     {
         get; set;
     }
@@ -26,7 +26,7 @@ public class UserToken : Entity
     /// </summary>
     [Required]
     [StringLength(100)]
-    public string Name
+    public required string Name
     {
         get; set;
     }
@@ -43,7 +43,7 @@ public class UserToken : Entity
     /// Gets or sets the value.
     /// </summary>
     [StringLength(500)]
-    public string Value
+    public string? Value
     {
         get; set;
     }

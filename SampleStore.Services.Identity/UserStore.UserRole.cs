@@ -71,7 +71,7 @@ public partial class UserStore : IUserRoleStore<User>
         foreach (var role in roles)
         {
             var roleName = await _roleStore.GetRoleNameAsync(role, cancellationToken);
-            roleNames.Add(roleName);
+            roleNames.Add(roleName!);
         }
 
         return roleNames;

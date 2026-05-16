@@ -49,7 +49,7 @@ public class ResetPasswordModel : PageModelBase
     public ResetPasswordViewModel Input
     {
         get; set;
-    }
+    } = default!;
 
     /// <summary>
     /// Gets the title.
@@ -71,7 +71,7 @@ public class ResetPasswordModel : PageModelBase
     /// </summary>
     /// <param name="code">The code.</param>
     /// <returns>The <see cref="IActionResult"/>.</returns>
-    public IActionResult OnGet(string code = null)
+    public IActionResult OnGet(string? code = null)
     {
         if (code == null)
         {

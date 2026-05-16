@@ -1,26 +1,10 @@
-﻿
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace SampleStore.UI.ViewModels.Identity;
-/// <summary>
-/// Class encapsulating delete personal data view model.
-/// </summary>
+
 public class DeletePersonalDataViewModel
 {
-    #region Properties
-
-    /// <summary>
-    /// Gets or sets the password.
-    /// </summary>
-    /// <value>
-    /// The password.
-    /// </value>
     [Required]
     [DataType(DataType.Password)]
-    public string Password
-    {
-        get; set;
-    }
-
-    #endregion Properties
+    public string Password { get; set; } = string.Empty;
 }

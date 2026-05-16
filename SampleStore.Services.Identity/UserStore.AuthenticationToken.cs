@@ -29,7 +29,7 @@ public partial class UserStore : IUserAuthenticationTokenStore<User>
     /// <returns>
     /// The <see cref="T:System.Threading.Tasks.Task" /> that represents the asynchronous operation.
     /// </returns>
-    public async Task<string> GetTokenAsync(User user, string loginProvider, string name, CancellationToken cancellationToken)
+    public async Task<string?> GetTokenAsync(User user, string loginProvider, string name, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
         user.ThrowIfArgumentIsNull(nameof(user));
@@ -78,7 +78,7 @@ public partial class UserStore : IUserAuthenticationTokenStore<User>
     /// <returns>
     /// The <see cref="T:System.Threading.Tasks.Task" /> that represents the asynchronous operation.
     /// </returns>
-    public async Task SetTokenAsync(User user, string loginProvider, string name, string value, CancellationToken cancellationToken)
+    public async Task SetTokenAsync(User user, string loginProvider, string name, string? value, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
         user.ThrowIfArgumentIsNull(nameof(user));

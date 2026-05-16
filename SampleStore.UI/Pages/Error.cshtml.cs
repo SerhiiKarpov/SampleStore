@@ -18,7 +18,7 @@ public class ErrorModel : PageModelBase
     /// <summary>
     /// Gets or sets the request identifier.
     /// </summary>
-    public string RequestId
+    public string? RequestId
     {
         get; set;
     }

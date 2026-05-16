@@ -111,7 +111,7 @@ public class TwoFactorAuthenticationModel : PageModelBase
     /// Gets or sets the status message.
     /// </summary>
     [TempData]
-    public string StatusMessage
+    public string? StatusMessage
     {
         get; set;
     }

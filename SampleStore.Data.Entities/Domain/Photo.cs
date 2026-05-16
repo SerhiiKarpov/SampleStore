@@ -14,7 +14,7 @@ public class Photo : Entity
     /// Gets or sets the image.
     /// </summary>
 #pragma warning disable CA1819 // Properties should not return arrays
-    public byte[] Image
+    public byte[]? Image
 #pragma warning restore CA1819 // Properties should not return arrays
     {
         get; set;
@@ -25,7 +25,7 @@ public class Photo : Entity
     /// </summary>
     [Required]
     [StringLength(50)]
-    public string MimeType
+    public required string MimeType
     {
         get; set;
     }

@@ -13,7 +13,7 @@ public class SendGridEmailSenderOptions
     /// <value>
     /// The send grid key.
     /// </value>
-    public string SendGridKey
+    public string? SendGridKey
     {
         get; set;
     }
@@ -24,7 +24,7 @@ public class SendGridEmailSenderOptions
     /// <value>
     /// The send grid user.
     /// </value>
-    public string SendGridUser
+    public string? SendGridUser
     {
         get; set;
     }
@@ -35,7 +35,7 @@ public class SendGridEmailSenderOptions
     /// <value>
     /// The sender email.
     /// </value>
-    public string SenderEmail
+    public string? SenderEmail
     {
         get; set;
     }

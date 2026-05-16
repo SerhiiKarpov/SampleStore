@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,33 +12,12 @@ using SampleStore.Data.Entities.Identity;
 using SampleStore.UI.Pages;
 
 namespace SampleStore.UI.Areas.Identity.Pages.Account.Manage;
-/// <summary>
-/// Class encapsulating external logins model.
-/// </summary>
-/// <seealso cref="PageModelBase" />
+
 public class ExternalLoginsModel : PageModelBase
 {
-    #region Fields
-
-    /// <summary>
-    /// The sign in manager
-    /// </summary>
     private readonly SignInManager<User> _signInManager;
-
-    /// <summary>
-    /// The user manager
-    /// </summary>
     private readonly UserManager<User> _userManager;
 
-    #endregion Fields
-
-    #region Constructors
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="ExternalLoginsModel"/> class.
-    /// </summary>
-    /// <param name="userManager">The user manager.</param>
-    /// <param name="signInManager">The sign in manager.</param>
     public ExternalLoginsModel(
         UserManager<User> userManager,
         SignInManager<User> signInManager)
@@ -48,77 +26,17 @@ public class ExternalLoginsModel : PageModelBase
         _signInManager = signInManager.ThrowIfArgumentIsNull(nameof(signInManager));
     }
 
-    #endregion Constructors
+    public IList<UserLoginInfo> CurrentLogins { get; set; } = [];
 
-    #region Properties
+    public IList<AuthenticationScheme> OtherLogins { get; set; } = [];
 
-    /// <summary>
-    /// Gets or sets the current logins.
-    /// </summary>
-    /// <value>
-    /// The current logins.
-    /// </value>
-    public IList<UserLoginInfo> CurrentLogins
-    {
-        get; set;
-    }
+    public bool ShowRemoveButton { get; set; }
 
-    /// <summary>
-    /// Gets or sets the other logins.
-    /// </summary>
-    /// <value>
-    /// The other logins.
-    /// </value>
-    public IList<AuthenticationScheme> OtherLogins
-    {
-        get; set;
-    }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether [show remove button].
-    /// </summary>
-    /// <value>
-    ///   <c>true</c> if [show remove button]; otherwise, <c>false</c>.
-    /// </value>
-    public bool ShowRemoveButton
-    {
-        get; set;
-    }
-
-    /// <summary>
-    /// Gets or sets the status message.
-    /// </summary>
-    /// <value>
-    /// The status message.
-    /// </value>
     [TempData]
-    public string StatusMessage
-    {
-        get; set;
-    }
+    public string? StatusMessage { get; set; }
 
-    /// <summary>
-    /// Gets the title.
-    /// </summary>
-    /// <value>
-    /// The title.
-    /// </value>
-    public override string Title
-    {
-        get
-        {
-            return "Manage your external logins";
-        }
-    }
+    public override string Title => "Manage your external logins";
 
-    #endregion Properties
-
-    #region Methods
-
-    /// <summary>
-    /// Called when get asynchronous.
-    /// </summary>
-    /// <returns>The <see cref="IActionResult"/>.</returns>
     public async Task<IActionResult> OnGetAsync()
     {
         var user = await _userManager.GetUserAsync(User);
@@ -135,15 +53,6 @@ public class ExternalLoginsModel : PageModelBase
         return Page();
     }
 
-    /// <summary>
-    /// Called when get link login callback asynchronous.
-    /// </summary>
-    /// <returns>The <see cref="IActionResult"/>.</returns>
-    /// <exception cref="InvalidOperationException">
-    /// Unexpected error occurred loading external login info for user with ID '{user.Id}
-    /// or
-    /// Unexpected error occurred adding external login for user with ID '{user.Id}
-    /// </exception>
     public async Task<IActionResult> OnGetLinkLoginCallbackAsync()
     {
         var user = await _userManager.GetUserAsync(User);
@@ -171,11 +80,6 @@ public class ExternalLoginsModel : PageModelBase
         return RedirectToPage();
     }
 
-    /// <summary>
-    /// Called when post link login asynchronous.
-    /// </summary>
-    /// <param name="provider">The provider.</param>
-    /// <returns>The <see cref="IActionResult"/>.</returns>
     public async Task<IActionResult> OnPostLinkLoginAsync(string provider)
     {
         // Clear the existing external cookie to ensure a clean login process
@@ -187,13 +91,6 @@ public class ExternalLoginsModel : PageModelBase
         return new ChallengeResult(provider, properties);
     }
 
-    /// <summary>
-    /// Called when post remove login asynchronous.
-    /// </summary>
-    /// <param name="loginProvider">The login provider.</param>
-    /// <param name="providerKey">The provider key.</param>
-    /// <returns>The <see cref="IActionResult"/>.</returns>
-    /// <exception cref="InvalidOperationException">Unexpected error occurred removing external login for user with ID.</exception>
     public async Task<IActionResult> OnPostRemoveLoginAsync(string loginProvider, string providerKey)
     {
         var user = await _userManager.GetUserAsync(User);
@@ -213,6 +110,4 @@ public class ExternalLoginsModel : PageModelBase
         StatusMessage = "The external login was removed.";
         return RedirectToPage();
     }
-
-    #endregion Methods
 }

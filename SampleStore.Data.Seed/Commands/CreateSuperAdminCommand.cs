@@ -70,7 +70,7 @@ public class CreateSuperAdminCommand : ICommand<User>
     /// </returns>
     public async Task<User> Do()
     {
-        var superAdmin = new User();
+        var superAdmin = new User { Email = string.Empty, FullName = string.Empty };
         _prototype.CopyTo(superAdmin);
         superAdmin.DateOfBirth = _dateTimeService.UtcNow.Date;
         superAdmin.EmailConfirmed = true;

@@ -24,7 +24,7 @@ public partial class UserStore : IUserPhoneNumberStore<User>
     /// <returns>
     /// The <see cref="T:System.Threading.Tasks.Task" /> that represents the asynchronous operation, containing the user's telephone number, if any.
     /// </returns>
-    public Task<string> GetPhoneNumberAsync(User user, CancellationToken cancellationToken)
+    public Task<string?> GetPhoneNumberAsync(User user, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
         user.ThrowIfArgumentIsNull(nameof(user));
@@ -56,7 +56,7 @@ public partial class UserStore : IUserPhoneNumberStore<User>
     /// <returns>
     /// The <see cref="T:System.Threading.Tasks.Task" /> that represents the asynchronous operation.
     /// </returns>
-    public Task SetPhoneNumberAsync(User user, string phoneNumber, CancellationToken cancellationToken)
+    public Task SetPhoneNumberAsync(User user, string? phoneNumber, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
         user.ThrowIfArgumentIsNull(nameof(user));

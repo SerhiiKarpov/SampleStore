@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Identity;
@@ -12,39 +11,13 @@ using SampleStore.UI.Pages;
 using SampleStore.UI.ViewModels.Identity;
 
 namespace SampleStore.UI.Areas.Identity.Pages.Account.Manage;
-/// <summary>
-/// Class encapsulating delete personal data model.
-/// </summary>
-/// <seealso cref="PageModelBase" />
+
 public class DeletePersonalDataModel : PageModelBase
 {
-    #region Fields
-
-    /// <summary>
-    /// The logger
-    /// </summary>
     private readonly ILogger<DeletePersonalDataModel> _logger;
-
-    /// <summary>
-    /// The sign in manager
-    /// </summary>
     private readonly SignInManager<User> _signInManager;
-
-    /// <summary>
-    /// The user manager
-    /// </summary>
     private readonly UserManager<User> _userManager;
 
-    #endregion Fields
-
-    #region Constructors
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="DeletePersonalDataModel"/> class.
-    /// </summary>
-    /// <param name="userManager">The user manager.</param>
-    /// <param name="signInManager">The sign in manager.</param>
-    /// <param name="logger">The logger.</param>
     public DeletePersonalDataModel(
         UserManager<User> userManager,
         SignInManager<User> signInManager,
@@ -55,55 +28,13 @@ public class DeletePersonalDataModel : PageModelBase
         _logger = logger.ThrowIfArgumentIsNull(nameof(logger));
     }
 
-    #endregion Constructors
-
-    #region Properties
-
-    /// <summary>
-    /// Gets or sets the input.
-    /// </summary>
-    /// <value>
-    /// The input.
-    /// </value>
     [BindProperty]
-    public DeletePersonalDataViewModel Input
-    {
-        get; set;
-    }
+    public DeletePersonalDataViewModel? Input { get; set; }
 
-    /// <summary>
-    /// Gets or sets a value indicating whether [require password].
-    /// </summary>
-    /// <value>
-    ///   <c>true</c> if [require password]; otherwise, <c>false</c>.
-    /// </value>
-    public bool RequirePassword
-    {
-        get; set;
-    }
+    public bool RequirePassword { get; set; }
 
-    /// <summary>
-    /// Gets the title.
-    /// </summary>
-    /// <value>
-    /// The title.
-    /// </value>
-    public override string Title
-    {
-        get
-        {
-            return "Delete Personal Data";
-        }
-    }
+    public override string Title => "Delete Personal Data";
 
-    #endregion Properties
-
-    #region Methods
-
-    /// <summary>
-    /// Called when get.
-    /// </summary>
-    /// <returns>The <see cref="IActionResult"/>.</returns>
     public async Task<IActionResult> OnGet()
     {
         var user = await _userManager.GetUserAsync(User);
@@ -116,11 +47,6 @@ public class DeletePersonalDataModel : PageModelBase
         return Page();
     }
 
-    /// <summary>
-    /// Called when post asynchronous.
-    /// </summary>
-    /// <returns>The <see cref="IActionResult"/>.</returns>
-    /// <exception cref="InvalidOperationException">Unexpected error occurred deleteing user with ID.</exception>
     public async Task<IActionResult> OnPostAsync()
     {
         var user = await _userManager.GetUserAsync(User);
@@ -131,7 +57,7 @@ public class DeletePersonalDataModel : PageModelBase
 
         RequirePassword = await _userManager.HasPasswordAsync(user);
         if (RequirePassword
-            && !await _userManager.CheckPasswordAsync(user, Input.Password ?? string.Empty))
+            && !await _userManager.CheckPasswordAsync(user, Input?.Password ?? string.Empty))
         {
             ModelState.AddModelError(string.Empty, "Password not correct.");
             return Page();
@@ -150,6 +76,4 @@ public class DeletePersonalDataModel : PageModelBase
 
         return Redirect("~/");
     }
-
-    #endregion Methods
 }

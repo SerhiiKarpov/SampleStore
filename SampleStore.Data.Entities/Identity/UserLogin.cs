@@ -19,7 +19,7 @@ public class UserLogin : Entity
     /// </value>
     [Required]
     [StringLength(50)]
-    public string LoginProvider
+    public required string LoginProvider
     {
         get; set;
     }
@@ -32,7 +32,7 @@ public class UserLogin : Entity
     /// </value>
     [Required]
     [StringLength(100)]
-    public string ProviderDisplayName
+    public required string ProviderDisplayName
     {
         get; set;
     }
@@ -45,7 +45,7 @@ public class UserLogin : Entity
     /// </value>
     [Required]
     [StringLength(500)]
-    public string ProviderKey
+    public required string ProviderKey
     {
         get; set;
     }

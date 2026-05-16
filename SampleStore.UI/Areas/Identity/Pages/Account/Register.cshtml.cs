@@ -78,12 +78,12 @@ public class RegisterModel : PageModelBase
     public RegistrationViewModel Input
     {
         get; set;
-    }
+    } = default!;
 
     /// <summary>
     /// Gets or sets the return URL.
     /// </summary>
-    public string ReturnUrl
+    public string? ReturnUrl
     {
         get; set;
     }
@@ -107,7 +107,7 @@ public class RegisterModel : PageModelBase
     /// Called when [get].
     /// </summary>
     /// <param name="returnUrl">The return URL.</param>
-    public void OnGet(string returnUrl = null)
+    public void OnGet(string? returnUrl = null)
     {
         ReturnUrl = returnUrl;
     }
@@ -117,7 +117,7 @@ public class RegisterModel : PageModelBase
     /// </summary>
     /// <param name="returnUrl">The return URL.</param>
     /// <returns>The <see cref="IActionResult"/>.</returns>
-    public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+    public async Task<IActionResult> OnPostAsync(string? returnUrl = null)
     {
         returnUrl = returnUrl ?? Url.Content("~/");
         if (!ModelState.IsValid)
@@ -150,7 +150,7 @@ public class RegisterModel : PageModelBase
         await _emailSender.SendEmailAsync(
             Input.Email,
             "Confirm your email",
-            $"Please confirm your account by clicking <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>here</a>.");
+            $"Please confirm your account by clicking <a href='{HtmlEncoder.Default.Encode(callbackUrl!)}'>here</a>.");
 
         return LocalRedirect(returnUrl);
     }

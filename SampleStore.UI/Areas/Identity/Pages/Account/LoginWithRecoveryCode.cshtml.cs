@@ -58,12 +58,12 @@ public class LoginWithRecoveryCodeModel : PageModelBase
     public LoginWithRecoveryCodeViewModel Input
     {
         get; set;
-    }
+    } = default!;
 
     /// <summary>
     /// Gets or sets the return URL.
     /// </summary>
-    public string ReturnUrl
+    public string? ReturnUrl
     {
         get; set;
     }
@@ -89,7 +89,7 @@ public class LoginWithRecoveryCodeModel : PageModelBase
     /// <param name="returnUrl">The return URL.</param>
     /// <returns>The <see cref="IActionResult"/>.</returns>
     /// <exception cref="InvalidOperationException">If unable to load two-factor authentication user</exception>
-    public async Task<IActionResult> OnGetAsync(string returnUrl = null)
+    public async Task<IActionResult> OnGetAsync(string? returnUrl = null)
     {
         // Ensure the user has gone through the username & password screen first
         var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
@@ -109,7 +109,7 @@ public class LoginWithRecoveryCodeModel : PageModelBase
     /// <param name="returnUrl">The return URL.</param>
     /// <returns>The <see cref="IActionResult"/>.</returns>
     /// <exception cref="InvalidOperationException"></exception>
-    public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+    public async Task<IActionResult> OnPostAsync(string? returnUrl = null)
     {
         if (!ModelState.IsValid)
         {

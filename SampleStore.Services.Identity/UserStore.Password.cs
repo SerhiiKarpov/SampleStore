@@ -24,7 +24,7 @@ public partial class UserStore : IUserPasswordStore<User>
     /// <returns>
     /// The <see cref="T:System.Threading.Tasks.Task" /> that represents the asynchronous operation, returning the password hash for the specified <paramref name="user" />.
     /// </returns>
-    public Task<string> GetPasswordHashAsync(User user, CancellationToken cancellationToken)
+    public Task<string?> GetPasswordHashAsync(User user, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
         user.ThrowIfArgumentIsNull(nameof(user));
@@ -56,7 +56,7 @@ public partial class UserStore : IUserPasswordStore<User>
     /// <returns>
     /// The <see cref="T:System.Threading.Tasks.Task" /> that represents the asynchronous operation.
     /// </returns>
-    public Task SetPasswordHashAsync(User user, string passwordHash, CancellationToken cancellationToken)
+    public Task SetPasswordHashAsync(User user, string? passwordHash, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
         user.ThrowIfArgumentIsNull(nameof(user));

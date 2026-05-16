@@ -75,7 +75,7 @@ public class ExternalLoginModel : PageModelBase
     /// Gets or sets the error message.
     /// </summary>
     [TempData]
-    public string ErrorMessage
+    public string? ErrorMessage
     {
         get; set;
     }
@@ -87,12 +87,12 @@ public class ExternalLoginModel : PageModelBase
     public ExternalLoginViewModel Input
     {
         get; set;
-    }
+    } = default!;
 
     /// <summary>
     /// Gets or sets the login provider.
     /// </summary>
-    public string LoginProvider
+    public string? LoginProvider
     {
         get; set;
     }
@@ -100,7 +100,7 @@ public class ExternalLoginModel : PageModelBase
     /// <summary>
     /// Gets or sets the return URL.
     /// </summary>
-    public string ReturnUrl
+    public string? ReturnUrl
     {
         get; set;
     }
@@ -135,7 +135,7 @@ public class ExternalLoginModel : PageModelBase
     /// <param name="returnUrl">The return URL.</param>
     /// <param name="remoteError">The remote error.</param>
     /// <returns>The <see cref="IActionResult"/>.</returns>
-    public async Task<IActionResult> OnGetCallbackAsync(string returnUrl = null, string remoteError = null)
+    public async Task<IActionResult> OnGetCallbackAsync(string? returnUrl = null, string? remoteError = null)
     {
         returnUrl = returnUrl ?? Url.Content("~/");
         if (remoteError != null)
@@ -155,7 +155,7 @@ public class ExternalLoginModel : PageModelBase
         var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
         if (result.Succeeded)
         {
-            _logger.LogInformation("{Name} logged in with {LoginProvider} provider.", info.Principal.Identity.Name, info.LoginProvider);
+            _logger.LogInformation("{Name} logged in with {LoginProvider} provider.", info.Principal.Identity?.Name, info.LoginProvider);
             return LocalRedirect(returnUrl);
         }
 
@@ -178,7 +178,7 @@ public class ExternalLoginModel : PageModelBase
     /// <param name="provider">The provider.</param>
     /// <param name="returnUrl">The return URL.</param>
     /// <returns>The <see cref="IActionResult"/>.</returns>
-    public IActionResult OnPost(string provider, string returnUrl = null)
+    public IActionResult OnPost(string provider, string? returnUrl = null)
     {
         // Request a redirect to the external login provider.
         var redirectUrl = Url.Page("./ExternalLogin", pageHandler: "Callback", values: new { returnUrl });
@@ -191,7 +191,7 @@ public class ExternalLoginModel : PageModelBase
     /// </summary>
     /// <param name="returnUrl">The return URL.</param>
     /// <returns>The <see cref="IActionResult"/>.</returns>
-    public async Task<IActionResult> OnPostConfirmationAsync(string returnUrl = null)
+    public async Task<IActionResult> OnPostConfirmationAsync(string? returnUrl = null)
     {
         returnUrl = returnUrl ?? Url.Content("~/");
 
@@ -225,7 +225,7 @@ public class ExternalLoginModel : PageModelBase
                     await _emailSender.SendEmailAsync(
                         Input.Email,
                         "Confirm your email",
-                        $"Please confirm your account by clicking <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>here</a>.");
+                        $"Please confirm your account by clicking <a href='{HtmlEncoder.Default.Encode(callbackUrl!)}'>here</a>.");
 
                     _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
                     return LocalRedirect(returnUrl);

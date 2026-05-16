@@ -107,7 +107,7 @@ public partial class UserStore : Disposable, IUserStore<User>
     /// <returns>
     /// The <see cref="T:System.Threading.Tasks.Task" /> that represents the asynchronous operation, containing the user matching the specified <paramref name="userId" /> if it exists.
     /// </returns>
-    public async Task<User> FindByIdAsync(string userId, CancellationToken cancellationToken)
+    public async Task<User?> FindByIdAsync(string userId, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
@@ -128,7 +128,7 @@ public partial class UserStore : Disposable, IUserStore<User>
     /// <returns>
     /// The <see cref="T:System.Threading.Tasks.Task" /> that represents the asynchronous operation, containing the user matching the specified <paramref name="normalizedUserName" /> if it exists.
     /// </returns>
-    public async Task<User> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
+    public async Task<User?> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
@@ -144,7 +144,7 @@ public partial class UserStore : Disposable, IUserStore<User>
     /// <returns>
     /// The <see cref="T:System.Threading.Tasks.Task" /> that represents the asynchronous operation, containing the normalized user name for the specified <paramref name="user" />.
     /// </returns>
-    public Task<string> GetNormalizedUserNameAsync(User user, CancellationToken cancellationToken)
+    public Task<string?> GetNormalizedUserNameAsync(User user, CancellationToken cancellationToken)
     {
         return GetUserNameAsync(user, cancellationToken);
     }
@@ -172,7 +172,7 @@ public partial class UserStore : Disposable, IUserStore<User>
     /// <returns>
     /// The <see cref="T:System.Threading.Tasks.Task" /> that represents the asynchronous operation, containing the name for the specified <paramref name="user" />.
     /// </returns>
-    public Task<string> GetUserNameAsync(User user, CancellationToken cancellationToken)
+    public Task<string?> GetUserNameAsync(User user, CancellationToken cancellationToken)
     {
         return GetEmailAsync(user, cancellationToken);
     }
@@ -186,7 +186,7 @@ public partial class UserStore : Disposable, IUserStore<User>
     /// <returns>
     /// The <see cref="T:System.Threading.Tasks.Task" /> that represents the asynchronous operation.
     /// </returns>
-    public Task SetNormalizedUserNameAsync(User user, string normalizedName, CancellationToken cancellationToken)
+    public Task SetNormalizedUserNameAsync(User user, string? normalizedName, CancellationToken cancellationToken)
     {
         return SetUserNameAsync(user, normalizedName, cancellationToken);
     }
@@ -201,7 +201,7 @@ public partial class UserStore : Disposable, IUserStore<User>
     /// The <see cref="Task" /> that represents the asynchronous operation.
     /// </returns>
     /// <exception cref="ArgumentNullException">user</exception>
-    public Task SetUserNameAsync(User user, string userName, CancellationToken cancellationToken)
+    public Task SetUserNameAsync(User user, string? userName, CancellationToken cancellationToken)
     {
         return SetEmailAsync(user, userName, cancellationToken);
     }

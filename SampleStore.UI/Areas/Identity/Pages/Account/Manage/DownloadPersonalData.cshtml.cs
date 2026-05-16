@@ -92,10 +92,10 @@ public class DownloadPersonalDataModel : PageModelBase
             { "FullName", user.FullName },
             { "DateOfBirth", user.DateOfBirth.ToString() },
             { "Email", user.Email },
-            { "PhoneNumber", user.PhoneNumber }
+            { "PhoneNumber", user.PhoneNumber ?? string.Empty }
         };
 
-        Response.Headers.Add("Content-Disposition", "attachment; filename=PersonalData.json");
+        Response.Headers["Content-Disposition"] = "attachment; filename=PersonalData.json";
         return new FileContentResult(Encoding.UTF8.GetBytes(JsonSerializer.Serialize(personalData)), "text/json");
     }
 

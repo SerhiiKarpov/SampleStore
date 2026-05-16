@@ -13,10 +13,7 @@ public class ExternalLoginOptions
     /// <value>
     /// The callback path.
     /// </value>
-    public string CallbackPath
-    {
-        get; set;
-    }
+    public string CallbackPath { get; set; } = string.Empty;
 
     /// <summary>
     /// Gets or sets the client identifier.
@@ -24,10 +21,7 @@ public class ExternalLoginOptions
     /// <value>
     /// The client identifier.
     /// </value>
-    public string ClientId
-    {
-        get; set;
-    }
+    public string ClientId { get; set; } = string.Empty;
 
     /// <summary>
     /// Gets or sets the client secret.
@@ -35,10 +29,7 @@ public class ExternalLoginOptions
     /// <value>
     /// The client secret.
     /// </value>
-    public string ClientSecret
-    {
-        get; set;
-    }
+    public string ClientSecret { get; set; } = string.Empty;
 
     #endregion Properties
 }

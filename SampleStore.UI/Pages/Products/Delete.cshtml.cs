@@ -54,7 +54,7 @@ public class DeleteModel : PageModelBase
     /// Gets or sets the product.
     /// </summary>
     [BindProperty]
-    public Product Product
+    public Product? Product
     {
         get; set;
     }

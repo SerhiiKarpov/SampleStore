@@ -65,7 +65,7 @@ public class IndexModel : PageModelBase
     /// Gets or sets the input.
     /// </summary>
     [BindProperty]
-    public AccountViewModel Input
+    public AccountViewModel? Input
     {
         get; set;
     }
@@ -82,7 +82,7 @@ public class IndexModel : PageModelBase
     /// Gets or sets the status message.
     /// </summary>
     [TempData]
-    public string StatusMessage
+    public string? StatusMessage
     {
         get; set;
     }
@@ -104,7 +104,7 @@ public class IndexModel : PageModelBase
     /// <summary>
     /// Gets or sets the username.
     /// </summary>
-    public string Username
+    public string? Username
     {
         get; set;
     }
@@ -135,7 +135,7 @@ public class IndexModel : PageModelBase
         {
             Name = user.FullName,
             DateOfBirth = user.DateOfBirth,
-            Email = email,
+            Email = email ?? string.Empty,
             PhoneNumber = phoneNumber
         };
 
@@ -162,7 +162,7 @@ public class IndexModel : PageModelBase
             return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
         }
 
-        if (Input.Name != user.FullName)
+        if (Input!.Name != user.FullName)
         {
             user.FullName = Input.Name;
         }
@@ -227,9 +227,9 @@ public class IndexModel : PageModelBase
             values: new { userId, code },
             protocol: Request.Scheme);
         await _emailSender.SendEmailAsync(
-            email,
+            email ?? string.Empty,
             "Confirm your email",
-            $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+            $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl!)}'>clicking here</a>.");
 
         StatusMessage = "Verification email sent. Please check your email.";
         return RedirectToPage();

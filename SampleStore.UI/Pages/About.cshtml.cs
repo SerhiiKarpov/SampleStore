@@ -1,46 +1,16 @@
-﻿
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 
 namespace SampleStore.UI.Pages;
-/// <summary>
-/// Class encapsulating about model.
-/// </summary>
-/// <seealso cref="PageModelBase" />
+
 [AllowAnonymous]
 public class AboutModel : PageModelBase
 {
-    #region Properties
+    public string Message { get; set; } = string.Empty;
 
-    /// <summary>
-    /// Gets or sets the message.
-    /// </summary>
-    public string Message
-    {
-        get; set;
-    }
+    public override string Title => "About";
 
-    /// <summary>
-    /// Gets the title.
-    /// </summary>
-    public override string Title
-    {
-        get
-        {
-            return "About";
-        }
-    }
-
-    #endregion Properties
-
-    #region Methods
-
-    /// <summary>
-    /// Called when [get].
-    /// </summary>
     public void OnGet()
     {
         Message = "Your application description page.";
     }
-
-    #endregion Methods
 }

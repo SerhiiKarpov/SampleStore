@@ -56,7 +56,7 @@ public class SetPasswordModel : PageModelBase
     /// The input.
     /// </value>
     [BindProperty]
-    public SetPasswordViewModel Input
+    public SetPasswordViewModel? Input
     {
         get; set;
     }
@@ -68,7 +68,7 @@ public class SetPasswordModel : PageModelBase
     /// The status message.
     /// </value>
     [TempData]
-    public string StatusMessage
+    public string? StatusMessage
     {
         get; set;
     }
@@ -130,7 +130,7 @@ public class SetPasswordModel : PageModelBase
             return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
         }
 
-        var addPasswordResult = await _userManager.AddPasswordAsync(user, Input.NewPassword);
+        var addPasswordResult = await _userManager.AddPasswordAsync(user, Input!.NewPassword);
         if (!addPasswordResult.Succeeded)
         {
             foreach (var error in addPasswordResult.Errors)

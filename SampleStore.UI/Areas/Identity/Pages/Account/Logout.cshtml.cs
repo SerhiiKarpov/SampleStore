@@ -69,7 +69,7 @@ public class LogoutModel : PageModelBase
     /// </summary>
     /// <param name="returnUrl">The return URL.</param>
     /// <returns>The <see cref="IActionResult"/>.</returns>
-    public async Task<IActionResult> OnPost(string returnUrl = null)
+    public async Task<IActionResult> OnPost(string? returnUrl = null)
     {
         await _signInManager.SignOutAsync();
         _logger.LogInformation("User logged out.");

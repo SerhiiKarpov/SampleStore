@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,33 +12,12 @@ using SampleStore.Data.Entities.Identity;
 using SampleStore.UI.Pages;
 
 namespace SampleStore.UI.Areas.Identity.Pages.Account.Manage;
-/// <summary>
-/// Class encapsulating generate recovery codes model.
-/// </summary>
-/// <seealso cref="PageModelBase" />
+
 public class GenerateRecoveryCodesModel : PageModelBase
 {
-    #region Fields
-
-    /// <summary>
-    /// The logger
-    /// </summary>
     private readonly ILogger<GenerateRecoveryCodesModel> _logger;
-
-    /// <summary>
-    /// The user manager
-    /// </summary>
     private readonly UserManager<User> _userManager;
 
-    #endregion Fields
-
-    #region Constructors
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="GenerateRecoveryCodesModel"/> class.
-    /// </summary>
-    /// <param name="userManager">The user manager.</param>
-    /// <param name="logger">The logger.</param>
     public GenerateRecoveryCodesModel(
         UserManager<User> userManager,
         ILogger<GenerateRecoveryCodesModel> logger)
@@ -48,57 +26,14 @@ public class GenerateRecoveryCodesModel : PageModelBase
         _logger = logger.ThrowIfArgumentIsNull(nameof(logger));
     }
 
-    #endregion Constructors
-
-    #region Properties
-
-    /// <summary>
-    /// Gets or sets the recovery codes.
-    /// </summary>
-    /// <value>
-    /// The recovery codes.
-    /// </value>
     [TempData]
-    public string[] RecoveryCodes
-    {
-        get; set;
-    }
+    public string[] RecoveryCodes { get; set; } = [];
 
-    /// <summary>
-    /// Gets or sets the status message.
-    /// </summary>
-    /// <value>
-    /// The status message.
-    /// </value>
     [TempData]
-    public string StatusMessage
-    {
-        get; set;
-    }
+    public string? StatusMessage { get; set; }
 
-    /// <summary>
-    /// Gets the title.
-    /// </summary>
-    /// <value>
-    /// The title.
-    /// </value>
-    public override string Title
-    {
-        get
-        {
-            return "Generate two-factor authentication (2FA) recovery codes";
-        }
-    }
+    public override string Title => "Generate two-factor authentication (2FA) recovery codes";
 
-    #endregion Properties
-
-    #region Methods
-
-    /// <summary>
-    /// Called when get asynchronous.
-    /// </summary>
-    /// <returns>The <see cref="IActionResult"/>.</returns>
-    /// <exception cref="InvalidOperationException">Cannot generate recovery codes for user with ID.</exception>
     public async Task<IActionResult> OnGetAsync()
     {
         var user = await _userManager.GetUserAsync(User);
@@ -117,11 +52,6 @@ public class GenerateRecoveryCodesModel : PageModelBase
         return Page();
     }
 
-    /// <summary>
-    /// Called when post asynchronous.
-    /// </summary>
-    /// <returns>The <see cref="IActionResult"/>.</returns>
-    /// <exception cref="InvalidOperationException">Cannot generate recovery codes for user with ID.</exception>
     public async Task<IActionResult> OnPostAsync()
     {
         var user = await _userManager.GetUserAsync(User);
@@ -138,12 +68,10 @@ public class GenerateRecoveryCodesModel : PageModelBase
         }
 
         var recoveryCodes = await _userManager.GenerateNewTwoFactorRecoveryCodesAsync(user, 10);
-        RecoveryCodes = recoveryCodes.ToArray();
+        RecoveryCodes = recoveryCodes!.ToArray();
 
         _logger.LogInformation("User with ID '{UserId}' has generated new 2FA recovery codes.", userId);
         StatusMessage = "You have generated new recovery codes.";
         return RedirectToPage("./ShowRecoveryCodes");
     }
-
-    #endregion Methods
 }

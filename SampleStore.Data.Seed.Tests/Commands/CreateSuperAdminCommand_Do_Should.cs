@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -19,19 +18,9 @@ using SampleStore.Data.Seed.Tests.Helpers;
 using Xunit;
 
 namespace SampleStore.Data.Seed.Tests.Commands;
-/// <summary>
-/// Class encapsulating unit-tests for <see cref="CreateSuperAdminCommand"/> Do() method.
-/// </summary>
+
 public static class CreateSuperAdminCommand_Do_Should
 {
-    #region Methods
-
-    /// <summary>
-    /// Delegates to user manager.
-    /// </summary>
-    /// <returns>
-    /// The to user manager.
-    /// </returns>
     [Fact]
     public static async Task Delegate_To_UserManager()
     {
@@ -55,12 +44,6 @@ public static class CreateSuperAdminCommand_Do_Should
         userManagerMock.Verify(x => x.CreateAsync(superAdmin, passwordStub), Times.Once);
     }
 
-    /// <summary>
-    /// Sets all properties from prototype except identifier date of birth email confirmed.
-    /// </summary>
-    /// <returns>
-    /// The all properties from prototype except identifier date of birth email confirmed.
-    /// </returns>
     [Fact]
     public static async Task Set_All_Properties_From_Prototype_Except_Id_DateOfBirth_EmailConfirmed()
     {
@@ -96,12 +79,6 @@ public static class CreateSuperAdminCommand_Do_Should
         }
     }
 
-    /// <summary>
-    /// Sets the date of birth to UTC now date.
-    /// </summary>
-    /// <returns>
-    /// The date of birth to UTC now date.
-    /// </returns>
     [Fact]
     public static async Task Set_DateOfBirth_To_UtcNow_Date()
     {
@@ -127,12 +104,6 @@ public static class CreateSuperAdminCommand_Do_Should
         Assert.Equal(expectedDateOfBirth, superAdmin.DateOfBirth);
     }
 
-    /// <summary>
-    /// Sets the email confirmed to true.
-    /// </summary>
-    /// <returns>
-    /// The email confirmed to true.
-    /// </returns>
     [Fact]
     public static async Task Set_EmailConfirmed_To_True()
     {
@@ -155,11 +126,8 @@ public static class CreateSuperAdminCommand_Do_Should
         Assert.True(superAdmin.EmailConfirmed);
     }
 
-    /// <summary>
-    /// Throws if user manager failed to create user.
-    /// </summary>
     [Fact]
-    public static async System.Threading.Tasks.Task Throw_If_UserManager_Failed_To_Create_User()
+    public static async Task Throw_If_UserManager_Failed_To_Create_User()
     {
         // Arrange
         var userManagerMock = UserManagerTestHelper.CreateUserManagerFake();
@@ -180,6 +148,4 @@ public static class CreateSuperAdminCommand_Do_Should
         // Assert
         await Assert.ThrowsAsync<InvalidOperationException>(act);
     }
-
-    #endregion Methods
 }

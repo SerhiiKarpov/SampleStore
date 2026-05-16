@@ -57,7 +57,7 @@ public class LoginModel : PageModelBase
     /// Gets or sets the error message.
     /// </summary>
     [TempData]
-    public string ErrorMessage
+    public string? ErrorMessage
     {
         get; set;
     }
@@ -65,7 +65,7 @@ public class LoginModel : PageModelBase
     /// <summary>
     /// Gets or sets the external logins.
     /// </summary>
-    public IList<AuthenticationScheme> ExternalLogins
+    public IList<AuthenticationScheme>? ExternalLogins
     {
         get; set;
     }
@@ -77,12 +77,12 @@ public class LoginModel : PageModelBase
     public LoginViewModel Input
     {
         get; set;
-    }
+    } = default!;
 
     /// <summary>
     /// Gets or sets the return URL.
     /// </summary>
-    public string ReturnUrl
+    public string? ReturnUrl
     {
         get; set;
     }
@@ -107,7 +107,7 @@ public class LoginModel : PageModelBase
     /// </summary>
     /// <param name="returnUrl">The return URL.</param>
     /// <returns>The task object.</returns>
-    public async Task OnGetAsync(string returnUrl = null)
+    public async Task OnGetAsync(string? returnUrl = null)
     {
         if (!string.IsNullOrEmpty(ErrorMessage))
         {
@@ -129,7 +129,7 @@ public class LoginModel : PageModelBase
     /// </summary>
     /// <param name="returnUrl">The return URL.</param>
     /// <returns>The <see cref="IActionResult"/>.</returns>
-    public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+    public async Task<IActionResult> OnPostAsync(string? returnUrl = null)
     {
         returnUrl = returnUrl ?? Url.Content("~/");
 
