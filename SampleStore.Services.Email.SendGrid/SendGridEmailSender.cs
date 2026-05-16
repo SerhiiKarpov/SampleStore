@@ -1,56 +1,21 @@
-﻿
+﻿using System;
 using System.Threading.Tasks;
 
-using global::SendGrid;
-using global::SendGrid.Helpers.Mail;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 
 using Microsoft.AspNetCore.Identity.UI.Services;
-
-using SampleStore.Common.Extensions;
+using Microsoft.Extensions.Options;
 
 namespace SampleStore.Services.Email.SendGrid;
-/// <summary>
-/// Class encapsulating send grid email sender.
-/// </summary>
-/// <seealso cref="IEmailSender" />
-public class SendGridEmailSender : IEmailSender
+
+internal sealed class SendGridEmailSender(IOptions<SendGridEmailSenderOptions> optionsAccessor) : IEmailSender
 {
-    #region Fields
+    private readonly SendGridEmailSenderOptions _options = optionsAccessor?.Value ?? throw new ArgumentNullException(nameof(optionsAccessor));
 
-    /// <summary>
-    /// The options
-    /// </summary>
-    private readonly SendGridEmailSenderOptions _options;
-
-    #endregion Fields
-
-    #region Constructors
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="SendGridEmailSender"/> class.
-    /// </summary>
-    /// <param name="options">The options.</param>
-    public SendGridEmailSender(SendGridEmailSenderOptions options)
+    public async Task SendEmailAsync(string email, string subject, string htmlMessage)
     {
-        _options = options.ThrowIfArgumentIsNull(nameof(options));
-    }
-
-    #endregion Constructors
-
-    #region Methods
-
-    /// <summary>
-    /// Sends the email asynchronous.
-    /// </summary>
-    /// <param name="email">The email.</param>
-    /// <param name="subject">The subject.</param>
-    /// <param name="htmlMessage">The HTML message.</param>
-    /// <returns>
-    /// The email asynchronous.
-    /// </returns>
-    public Task SendEmailAsync(string email, string subject, string htmlMessage)
-    {
-        var client = new SendGridClient(_options.SendGridKey);
+        var client = new SendGridClient(_options.ApiKey);
         var message = new SendGridMessage
         {
             From = new EmailAddress(_options.SenderEmail),
@@ -63,8 +28,11 @@ public class SendGridEmailSender : IEmailSender
         // See https://sendgrid.com/docs/User_Guide/Settings/tracking.html
         message.SetClickTracking(false, false);
 
-        return client.SendEmailAsync(message);
+        var response = await client.SendEmailAsync(message);
+        if (!response.IsSuccessStatusCode)
+        {
+            var content = await response.Body.ReadAsStringAsync();
+            throw new Exception($"Failed to send email with code {response.StatusCode}: {content}");
+        }
     }
-
-    #endregion Methods
 }

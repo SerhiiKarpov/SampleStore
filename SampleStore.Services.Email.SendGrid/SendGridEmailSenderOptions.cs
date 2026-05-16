@@ -1,44 +1,14 @@
-﻿namespace SampleStore.Services.Email.SendGrid;
+﻿using System.ComponentModel.DataAnnotations;
 
-/// <summary>
-/// Class encapsulating send grid email sender options.
-/// </summary>
-public class SendGridEmailSenderOptions
+namespace SampleStore.Services.Email.SendGrid;
+
+public sealed class SendGridEmailSenderOptions
 {
-    #region Properties
+    public const string Key = "SendGrid";
 
-    /// <summary>
-    /// Gets or sets the send grid key.
-    /// </summary>
-    /// <value>
-    /// The send grid key.
-    /// </value>
-    public string? SendGridKey
-    {
-        get; set;
-    }
+    [Required]
+    public string ApiKey { get; set; } = string.Empty;
 
-    /// <summary>
-    /// Gets or sets the send grid user.
-    /// </summary>
-    /// <value>
-    /// The send grid user.
-    /// </value>
-    public string? SendGridUser
-    {
-        get; set;
-    }
-
-    /// <summary>
-    /// Gets or sets the sender email.
-    /// </summary>
-    /// <value>
-    /// The sender email.
-    /// </value>
-    public string? SenderEmail
-    {
-        get; set;
-    }
-
-    #endregion Properties
+    [Required]
+    public string SenderEmail { get; set; } = string.Empty;
 }

@@ -14,7 +14,7 @@ using SampleStore.Data.EF.Extensions;
 using SampleStore.Data.Seed.Extensions;
 using SampleStore.Host.Configuration;
 using SampleStore.Host.Extensions;
-using SampleStore.Services.Email.SendGrid.Extensions;
+using SampleStore.Services.Email.SendGrid;
 using SampleStore.Services.Identity.Extensions;
 using SampleStore.UI.Extensions;
 
@@ -59,12 +59,9 @@ builder.Services.AddAuthentication()
         options.CallbackPath = elo.CallbackPath;
     });
 
-builder.Services.AddSendGridEmailSender(options =>
-{
-    options.SenderEmail = builder.Configuration["EmailSender:SenderEmail"];
-    options.SendGridUser = builder.Configuration["EmailSender:SendGrid:User"];
-    options.SendGridKey = builder.Configuration["EmailSender:SendGrid:Key"];
-});
+builder.Services
+    .AddSendGridEmailSender()
+    .Configure<SendGridEmailSenderOptions>(builder.Configuration.GetSection(SendGridEmailSenderOptions.Key));
 
 builder.Services.Configure<IdentityOptions>(builder.Configuration.GetSection("Identity"));
 builder.Services.Configure<CookieAuthenticationOptions>(
