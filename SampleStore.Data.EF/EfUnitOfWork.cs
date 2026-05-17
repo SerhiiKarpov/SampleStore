@@ -20,7 +20,7 @@ public class EfUnitOfWork : IUnitOfWork
     public IRepository<TEntity> GetRepository<TEntity>()
         where TEntity : class
     {
-        return new EfRepository<TEntity>(this, _context.Set<TEntity>());
+        return new EfRepository<TEntity>(_context.Set<TEntity>());
     }
 
     public async Task SaveChanges(CancellationToken cancellationToken = default(CancellationToken))

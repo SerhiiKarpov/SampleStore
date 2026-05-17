@@ -9,7 +9,7 @@ using SampleStore.Data.Entities;
 
 namespace SampleStore.Data.Extensions;
 
-public static class EntityRepositoryExtensions
+public static class RepositoryExtensions
 {
     public static async Task<TEntity?> Find<TEntity>(
         this IRepository<TEntity> repository,
@@ -37,26 +37,5 @@ public static class EntityRepositoryExtensions
     {
         cancellationToken.ThrowIfCancellationRequested();
         return repository.Find(e => e.Id == id, queryMaterializer, cancellationToken);
-    }
-
-    public static async Task Update<TEntity>(
-        this IRepository<TEntity> repository,
-        TEntity entity,
-        IQueryMaterializer queryMaterializer,
-        CancellationToken cancellationToken = default(CancellationToken))
-        where TEntity : Entity
-    {
-        cancellationToken.ThrowIfCancellationRequested();
-        repository.ThrowIfArgumentIsNull(nameof(repository));
-
-        var query = repository.Query.Where(e => e.Id == entity.Id);
-        var found = await queryMaterializer.FirstOrDefault(query, cancellationToken);
-        if (found == null)
-        {
-            return;
-        }
-
-        entity.CopyTo(found);
-        await repository.UnitOfWork.SaveChanges(cancellationToken);
     }
 }

@@ -12,15 +12,12 @@ public class EfRepository<TEntity> : IRepository<TEntity>
 {
     private readonly DbSet<TEntity> _set;
 
-    public EfRepository(IUnitOfWork unitOfWork, DbSet<TEntity> set)
+    public EfRepository(DbSet<TEntity> set)
     {
-        UnitOfWork = unitOfWork.ThrowIfArgumentIsNull(nameof(unitOfWork));
         _set = set.ThrowIfArgumentIsNull(nameof(set));
     }
 
     public IQueryable<TEntity> Query => _set;
-
-    public IUnitOfWork UnitOfWork { get; }
 
     public void Add(IEnumerable<TEntity> entities)
     {

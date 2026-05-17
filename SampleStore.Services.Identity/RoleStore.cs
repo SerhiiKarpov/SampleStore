@@ -101,7 +101,7 @@ public partial class RoleStore : Disposable, IRoleStore<Role>
         cancellationToken.ThrowIfCancellationRequested();
         role.ThrowIfArgumentIsNull(nameof(role));
 
-        await _unitOfWork.GetRepository<Role>().Update(role, _queryMaterializer, cancellationToken);
+        await _unitOfWork.Update(role, _queryMaterializer, cancellationToken);
         return IdentityResult.Success;
     }
 }

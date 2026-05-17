@@ -8,8 +8,6 @@ public interface IRepository<TEntity>
 {
     IQueryable<TEntity> Query { get; }
 
-    IUnitOfWork UnitOfWork { get; }
-
     void Add(IEnumerable<TEntity> entities);
 
     void Remove(IEnumerable<TEntity> entities);

@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
 using SampleStore.Common.Extensions;
 using SampleStore.Data;
@@ -27,13 +26,7 @@ public class EditModel : PageModelBase
     [BindProperty]
     public Product? Product { get; set; }
 
-    public override string Title
-    {
-        get
-        {
-            return "Edit";
-        }
-    }
+    public override string Title => "Edit";
 
     public async Task<IActionResult> OnGetAsync(Guid? id)
     {
@@ -59,7 +52,7 @@ public class EditModel : PageModelBase
             return Page();
         }
 
-        await _unitOfWork.GetRepository<Product>().Update(Product!, _queryMaterializer);
+        await _unitOfWork.Update(Product!, _queryMaterializer);
 
         try
         {

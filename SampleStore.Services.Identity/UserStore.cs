@@ -107,7 +107,7 @@ public partial class UserStore : Disposable, IUserStore<User>
         cancellationToken.ThrowIfCancellationRequested();
         user.ThrowIfArgumentIsNull(nameof(user));
 
-        await _unitOfWork.GetRepository<User>().Update(user, _queryMaterializer, cancellationToken);
+        await _unitOfWork.Update(user, _queryMaterializer, cancellationToken);
         return IdentityResult.Success;
     }
 }
