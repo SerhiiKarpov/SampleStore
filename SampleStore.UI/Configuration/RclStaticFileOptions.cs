@@ -1,8 +1,8 @@
+using System;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Options;
-
-using SampleStore.Common.Extensions;
 
 namespace SampleStore.UI.Configuration;
 
@@ -12,7 +12,7 @@ public class RclStaticFileOptions : IPostConfigureOptions<StaticFileOptions>
 
     public RclStaticFileOptions(IWebHostEnvironment environment)
     {
-        _environment = environment.ThrowIfArgumentIsNull(nameof(environment));
+        _environment = environment ?? throw new ArgumentNullException(nameof(environment));
     }
 
     public void PostConfigure(string? name, StaticFileOptions options)

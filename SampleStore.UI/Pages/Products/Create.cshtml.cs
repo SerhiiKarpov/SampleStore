@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,7 +16,7 @@ public class CreateModel : PageModelBase
 
     public CreateModel(IUnitOfWork unitOfWork)
     {
-        _unitOfWork = unitOfWork.ThrowIfArgumentIsNull(nameof(unitOfWork)) ;
+        _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork)) ;
     }
 
     [BindProperty]

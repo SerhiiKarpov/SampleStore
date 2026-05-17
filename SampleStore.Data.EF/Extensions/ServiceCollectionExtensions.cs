@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+﻿using System;
 
-using SampleStore.Common.Extensions;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace SampleStore.Data.EF.Extensions;
 
@@ -9,7 +9,7 @@ public static class ServiceCollectionExtensions
 {
     public static void AddEntityFrameworkDataAccess(this IServiceCollection services, string connectionString)
     {
-        services.ThrowIfArgumentIsNull(nameof(services));
+        ArgumentNullException.ThrowIfNull(services);
 
         services.AddDbContext<DbContext, SampleStoreContext>(options => options.UseSqlServer(connectionString));
         services.AddScoped<IUnitOfWork, EfUnitOfWork>();

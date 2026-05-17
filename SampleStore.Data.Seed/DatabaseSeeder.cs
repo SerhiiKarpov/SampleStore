@@ -1,9 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Identity;
 
-using SampleStore.Common.Extensions;
 using SampleStore.Data.Entities.Identity;
 using SampleStore.Data.Extensions;
 using SampleStore.Data.Seed.Commands;
@@ -29,11 +29,11 @@ public class DatabaseSeeder
         ICreateRolesCommandFactory createRolesCommandFactory,
         IAddUserToRolesCommandFactory addUserToRolesCommandFactory)
     {
-        _userManager = userManager.ThrowIfArgumentIsNull(nameof(userManager));
-        _queryMaterializer = queryMaterializer.ThrowIfArgumentIsNull(nameof(queryMaterializer));
-        _createSuperAdminCommandFactory = createSuperAdminCommandFactory.ThrowIfArgumentIsNull(nameof(createSuperAdminCommandFactory));
-        _createRolesCommandFactory = createRolesCommandFactory.ThrowIfArgumentIsNull(nameof(createRolesCommandFactory));
-        _addUserToRolesCommandFactory = addUserToRolesCommandFactory.ThrowIfArgumentIsNull(nameof(addUserToRolesCommandFactory));
+        _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
+        _queryMaterializer = queryMaterializer ?? throw new ArgumentNullException(nameof(queryMaterializer));
+        _createSuperAdminCommandFactory = createSuperAdminCommandFactory ?? throw new ArgumentNullException(nameof(createSuperAdminCommandFactory));
+        _createRolesCommandFactory = createRolesCommandFactory ?? throw new ArgumentNullException(nameof(createRolesCommandFactory));
+        _addUserToRolesCommandFactory = addUserToRolesCommandFactory ?? throw new ArgumentNullException(nameof(addUserToRolesCommandFactory));
     }
 
     public async Task<bool> NeedsSeeding()

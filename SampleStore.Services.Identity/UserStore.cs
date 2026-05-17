@@ -25,15 +25,15 @@ public partial class UserStore : Disposable, IUserStore<User>
         IQueryMaterializer queryMaterializer,
         IRoleStore<Role> roleStore)
     {
-        _unitOfWork = unitOfWork.ThrowIfArgumentIsNull(nameof(unitOfWork));
-        _queryMaterializer = queryMaterializer.ThrowIfArgumentIsNull(nameof(queryMaterializer));
-        _roleStore = roleStore.ThrowIfArgumentIsNull(nameof(roleStore));
+        _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+        _queryMaterializer = queryMaterializer ?? throw new ArgumentNullException(nameof(queryMaterializer));
+        _roleStore = roleStore ?? throw new ArgumentNullException(nameof(roleStore));
     }
 
     public async Task<IdentityResult> CreateAsync(User user, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        user.ThrowIfArgumentIsNull(nameof(user));
+        ArgumentNullException.ThrowIfNull(user);
 
         _unitOfWork.GetRepository<User>().Add(user);
         await _unitOfWork.SaveChanges(cancellationToken);
@@ -83,7 +83,7 @@ public partial class UserStore : Disposable, IUserStore<User>
     public Task<string> GetUserIdAsync(User user, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        user.ThrowIfArgumentIsNull(nameof(user));
+        ArgumentNullException.ThrowIfNull(user);
         return Task.FromResult(user.Id.ToString());
     }
 
@@ -105,7 +105,7 @@ public partial class UserStore : Disposable, IUserStore<User>
     public async Task<IdentityResult> UpdateAsync(User user, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        user.ThrowIfArgumentIsNull(nameof(user));
+        ArgumentNullException.ThrowIfNull(user);
 
         await _unitOfWork.Update(user, _queryMaterializer, cancellationToken);
         return IdentityResult.Success;

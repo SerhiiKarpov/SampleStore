@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
@@ -8,7 +9,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-using SampleStore.Common.Extensions;
 using SampleStore.Data.Entities.Identity;
 using SampleStore.UI.Pages;
 using SampleStore.UI.ViewModels.Identity;
@@ -28,9 +28,9 @@ public class EnableAuthenticatorModel : PageModelBase
         ILogger<EnableAuthenticatorModel> logger,
         UrlEncoder urlEncoder)
     {
-        _userManager = userManager.ThrowIfArgumentIsNull(nameof(userManager));
-        _logger = logger.ThrowIfArgumentIsNull(nameof(logger));
-        _urlEncoder = urlEncoder.ThrowIfArgumentIsNull(nameof(urlEncoder));
+        _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        _urlEncoder = urlEncoder ?? throw new ArgumentNullException(nameof(urlEncoder));
     }
 
     public string? AuthenticatorUri { get; set; }

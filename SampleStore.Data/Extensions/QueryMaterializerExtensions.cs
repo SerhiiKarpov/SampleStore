@@ -1,8 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-
-using SampleStore.Common.Extensions;
 
 namespace SampleStore.Data.Extensions;
 
@@ -14,8 +13,8 @@ public static class QueryMaterializerExtensions
         CancellationToken cancellationToken = default(CancellationToken))
     {
         cancellationToken.ThrowIfCancellationRequested();
-        queryMaterializer.ThrowIfArgumentIsNull(nameof(queryMaterializer));
-        query.ThrowIfArgumentIsNull(nameof(query));
+        ArgumentNullException.ThrowIfNull(queryMaterializer);
+        ArgumentNullException.ThrowIfNull(query);
 
         var count = await queryMaterializer.Count(query, cancellationToken);
         var any = count != 0;
@@ -28,8 +27,8 @@ public static class QueryMaterializerExtensions
         CancellationToken cancellationToken = default(CancellationToken))
     {
         cancellationToken.ThrowIfCancellationRequested();
-        queryMaterializer.ThrowIfArgumentIsNull(nameof(queryMaterializer));
-        query.ThrowIfArgumentIsNull(nameof(query));
+        ArgumentNullException.ThrowIfNull(queryMaterializer);
+        ArgumentNullException.ThrowIfNull(query);
 
         var items = await queryMaterializer.ToList(query.Take(1), cancellationToken);
         return items.First();
@@ -41,8 +40,8 @@ public static class QueryMaterializerExtensions
         CancellationToken cancellationToken = default(CancellationToken))
     {
         cancellationToken.ThrowIfCancellationRequested();
-        queryMaterializer.ThrowIfArgumentIsNull(nameof(queryMaterializer));
-        query.ThrowIfArgumentIsNull(nameof(query));
+        ArgumentNullException.ThrowIfNull(queryMaterializer);
+        ArgumentNullException.ThrowIfNull(query);
 
         var items = await queryMaterializer.ToList(query.Take(1), cancellationToken);
         return items.FirstOrDefault();
@@ -54,8 +53,8 @@ public static class QueryMaterializerExtensions
         CancellationToken cancellationToken = default(CancellationToken))
     {
         cancellationToken.ThrowIfCancellationRequested();
-        queryMaterializer.ThrowIfArgumentIsNull(nameof(queryMaterializer));
-        query.ThrowIfArgumentIsNull(nameof(query));
+        ArgumentNullException.ThrowIfNull(queryMaterializer);
+        ArgumentNullException.ThrowIfNull(query);
 
         var items = await queryMaterializer.ToList(query.Take(2), cancellationToken);
         return items.Single();
@@ -67,8 +66,8 @@ public static class QueryMaterializerExtensions
         CancellationToken cancellationToken = default(CancellationToken))
     {
         cancellationToken.ThrowIfCancellationRequested();
-        queryMaterializer.ThrowIfArgumentIsNull(nameof(queryMaterializer));
-        query.ThrowIfArgumentIsNull(nameof(query));
+        ArgumentNullException.ThrowIfNull(queryMaterializer);
+        ArgumentNullException.ThrowIfNull(query);
 
         var items = await queryMaterializer.ToList(query.Take(2), cancellationToken);
         return items.SingleOrDefault();

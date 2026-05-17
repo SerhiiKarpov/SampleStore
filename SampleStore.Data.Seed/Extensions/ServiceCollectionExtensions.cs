@@ -1,6 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System;
 
-using SampleStore.Common.Extensions;
+using Microsoft.Extensions.DependencyInjection;
+
 using SampleStore.Data.Seed.Commands;
 
 namespace SampleStore.Data.Seed.Extensions;
@@ -9,7 +10,7 @@ public static class ServiceCollectionExtensions
 {
     public static void AddDatabaseSeeder(this IServiceCollection services)
     {
-        services.ThrowIfArgumentIsNull(nameof(services));
+        ArgumentNullException.ThrowIfNull(services);
 
         services.AddScoped<DatabaseSeeder>();
         services.AddTransient<ICreateSuperAdminCommandFactory, SeederCommandFactory>();

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading;
@@ -6,7 +7,6 @@ using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Identity;
 
-using SampleStore.Common.Extensions;
 using SampleStore.Data.Entities.Identity;
 using SampleStore.Services.Identity.Mapping;
 
@@ -17,7 +17,7 @@ public partial class UserStore : IUserClaimStore<User>
     public async Task AddClaimsAsync(User user, IEnumerable<Claim> claims, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        user.ThrowIfArgumentIsNull(nameof(user));
+        ArgumentNullException.ThrowIfNull(user);
 
         if (claims == null)
         {
@@ -37,7 +37,7 @@ public partial class UserStore : IUserClaimStore<User>
     public async Task<IList<Claim>> GetClaimsAsync(User user, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        user.ThrowIfArgumentIsNull(nameof(user));
+        ArgumentNullException.ThrowIfNull(user);
 
         var userClaims = await DoGetClaims(user, cancellationToken);
         var claims = userClaims.Select(x => x.ToClaim()).ToList();
@@ -47,7 +47,7 @@ public partial class UserStore : IUserClaimStore<User>
     public async Task<IList<User>> GetUsersForClaimAsync(Claim claim, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        claim.ThrowIfArgumentIsNull(nameof(claim));
+        ArgumentNullException.ThrowIfNull(claim);
 
         var userClaims = _unitOfWork.GetRepository<UserClaim>().Query;
         var query =
@@ -61,7 +61,7 @@ public partial class UserStore : IUserClaimStore<User>
     public async Task RemoveClaimsAsync(User user, IEnumerable<Claim> claims, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        user.ThrowIfArgumentIsNull(nameof(user));
+        ArgumentNullException.ThrowIfNull(user);
 
         if (claims == null)
         {
@@ -79,9 +79,9 @@ public partial class UserStore : IUserClaimStore<User>
     public async Task ReplaceClaimAsync(User user, Claim claim, Claim newClaim, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        user.ThrowIfArgumentIsNull(nameof(user));
-        claim.ThrowIfArgumentIsNull(nameof(claim));
-        newClaim.ThrowIfArgumentIsNull(nameof(newClaim));
+        ArgumentNullException.ThrowIfNull(user);
+        ArgumentNullException.ThrowIfNull(claim);
+        ArgumentNullException.ThrowIfNull(newClaim);
 
         var query =
             from uc in _unitOfWork.GetRepository<UserClaim>().Query
@@ -100,7 +100,7 @@ public partial class UserStore : IUserClaimStore<User>
     private async Task<List<UserClaim>> DoGetClaims(User user, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        user.ThrowIfArgumentIsNull(nameof(user));
+        ArgumentNullException.ThrowIfNull(user);
 
         var query =
             from uc in _unitOfWork.GetRepository<UserClaim>().Query

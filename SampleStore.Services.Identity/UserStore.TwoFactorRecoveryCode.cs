@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Identity;
 
-using SampleStore.Common.Extensions;
 using SampleStore.Data.Entities.Identity;
 
 namespace SampleStore.Services.Identity;
@@ -22,7 +21,7 @@ public partial class UserStore : IUserTwoFactorRecoveryCodeStore<User>
     public async Task<int> CountCodesAsync(User user, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        user.ThrowIfArgumentIsNull(nameof(user));
+        ArgumentNullException.ThrowIfNull(user);
         var codes = await GetTwoFactoryRecoveryCodes(user, cancellationToken);
         return codes.Count();
     }
@@ -30,8 +29,8 @@ public partial class UserStore : IUserTwoFactorRecoveryCodeStore<User>
     public async Task<bool> RedeemCodeAsync(User user, string code, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        user.ThrowIfArgumentIsNull(nameof(user));
-        code.ThrowIfArgumentIsNull(nameof(code));
+        ArgumentNullException.ThrowIfNull(user);
+        ArgumentNullException.ThrowIfNull(code);
 
         var codes = await GetTwoFactoryRecoveryCodes(user, cancellationToken);
         if (!codes.Contains(code))

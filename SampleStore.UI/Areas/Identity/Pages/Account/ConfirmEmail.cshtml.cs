@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-using SampleStore.Common.Extensions;
 using SampleStore.Data.Entities.Identity;
 using SampleStore.UI.Pages;
 
@@ -18,16 +17,10 @@ public class ConfirmEmailModel : PageModelBase
 
     public ConfirmEmailModel(UserManager<User> userManager)
     {
-        _userManager = userManager.ThrowIfArgumentIsNull(nameof(userManager));
+        _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
     }
 
-    public override string Title
-    {
-        get
-        {
-            return "Confirm email";
-        }
-    }
+    public override string Title => "Confirm email";
 
     public async Task<IActionResult> OnGetAsync(string userId, string code)
     {

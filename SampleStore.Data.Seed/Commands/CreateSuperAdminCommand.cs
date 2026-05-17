@@ -23,10 +23,10 @@ public class CreateSuperAdminCommand : ICommand<User>
 
     public CreateSuperAdminCommand(UserManager<User> userManager, IDateTime dateTimeService, User prototype, string password)
     {
-        _userManager = userManager.ThrowIfArgumentIsNull(nameof(userManager));
-        _dateTimeService = dateTimeService.ThrowIfArgumentIsNull(nameof(dateTimeService));
-        _prototype = prototype.ThrowIfArgumentIsNull(nameof(prototype));
-        _password = password.ThrowIfArgumentIsNull(nameof(password));
+        _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
+        _dateTimeService = dateTimeService ?? throw new ArgumentNullException(nameof(dateTimeService));
+        _prototype = prototype ?? throw new ArgumentNullException(nameof(prototype));
+        _password = password ?? throw new ArgumentNullException(nameof(password));
     }
 
     public async Task<User> Do()

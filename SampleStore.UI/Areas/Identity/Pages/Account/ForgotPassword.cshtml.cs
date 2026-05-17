@@ -1,3 +1,4 @@
+using System;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 
@@ -6,7 +7,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 
-using SampleStore.Common.Extensions;
 using SampleStore.Data.Entities.Identity;
 using SampleStore.UI.Pages;
 using SampleStore.UI.ViewModels.Identity;
@@ -21,8 +21,8 @@ public class ForgotPasswordModel : PageModelBase
 
     public ForgotPasswordModel(UserManager<User> userManager, IEmailSender emailSender)
     {
-        _userManager = userManager.ThrowIfArgumentIsNull(nameof(userManager));
-        _emailSender = emailSender.ThrowIfArgumentIsNull(nameof(emailSender));
+        _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
+        _emailSender = emailSender ?? throw new ArgumentNullException(nameof(emailSender));
     }
 
     [BindProperty]

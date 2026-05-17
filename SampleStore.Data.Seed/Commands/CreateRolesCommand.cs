@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 
 using SampleStore.Common.Commands;
-using SampleStore.Common.Extensions;
 using SampleStore.Data.Entities.Identity;
 using SampleStore.Data.Seed.Extensions;
 using SampleStore.Services.Identity.Constants;
@@ -21,8 +20,8 @@ public class CreateRolesCommand : ICommand<List<Role>>
 
     public CreateRolesCommand(RoleManager<Role> roleManager, IQueryMaterializer queryMaterializer)
     {
-        _roleManager = roleManager.ThrowIfArgumentIsNull(nameof(roleManager));
-        _queryMaterializer = queryMaterializer.ThrowIfArgumentIsNull(nameof(queryMaterializer));
+        _roleManager = roleManager ?? throw new ArgumentNullException(nameof(roleManager));
+        _queryMaterializer = queryMaterializer ?? throw new ArgumentNullException(nameof(queryMaterializer));
     }
 
     public async Task<List<Role>> Do()

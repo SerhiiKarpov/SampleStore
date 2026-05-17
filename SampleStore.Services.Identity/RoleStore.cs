@@ -20,14 +20,14 @@ public partial class RoleStore : Disposable, IRoleStore<Role>
 
     public RoleStore(IUnitOfWork unitOfWork, IQueryMaterializer queryMaterializer)
     {
-        _unitOfWork = unitOfWork.ThrowIfArgumentIsNull(nameof(unitOfWork));
-        _queryMaterializer = queryMaterializer.ThrowIfArgumentIsNull(nameof(queryMaterializer));
+        _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+        _queryMaterializer = queryMaterializer ?? throw new ArgumentNullException(nameof(queryMaterializer));
     }
 
     public async Task<IdentityResult> CreateAsync(Role role, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        role.ThrowIfArgumentIsNull(nameof(role));
+        ArgumentNullException.ThrowIfNull(role);
 
         _unitOfWork.GetRepository<Role>().Add(role);
         await _unitOfWork.SaveChanges(cancellationToken);
@@ -37,7 +37,7 @@ public partial class RoleStore : Disposable, IRoleStore<Role>
     public async Task<IdentityResult> DeleteAsync(Role role, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        role.ThrowIfArgumentIsNull(nameof(role));
+        ArgumentNullException.ThrowIfNull(role);
 
         _unitOfWork.GetRepository<Role>().Remove(role);
         await _unitOfWork.SaveChanges(cancellationToken);
@@ -65,21 +65,21 @@ public partial class RoleStore : Disposable, IRoleStore<Role>
     public Task<string?> GetNormalizedRoleNameAsync(Role role, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        role.ThrowIfArgumentIsNull(nameof(role));
+        ArgumentNullException.ThrowIfNull(role);
         return Task.FromResult<string?>(role.Name);
     }
 
     public Task<string> GetRoleIdAsync(Role role, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        role.ThrowIfArgumentIsNull(nameof(role));
+        ArgumentNullException.ThrowIfNull(role);
         return Task.FromResult(role.Id.ToString());
     }
 
     public Task<string?> GetRoleNameAsync(Role role, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        role.ThrowIfArgumentIsNull(nameof(role));
+        ArgumentNullException.ThrowIfNull(role);
         return Task.FromResult<string?>(role.Name);
     }
 
@@ -91,7 +91,7 @@ public partial class RoleStore : Disposable, IRoleStore<Role>
     public Task SetRoleNameAsync(Role role, string? roleName, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        role.ThrowIfArgumentIsNull(nameof(role));
+        ArgumentNullException.ThrowIfNull(role);
         role.Name = roleName!;
         return Task.CompletedTask;
     }
@@ -99,7 +99,7 @@ public partial class RoleStore : Disposable, IRoleStore<Role>
     public async Task<IdentityResult> UpdateAsync(Role role, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        role.ThrowIfArgumentIsNull(nameof(role));
+        ArgumentNullException.ThrowIfNull(role);
 
         await _unitOfWork.Update(role, _queryMaterializer, cancellationToken);
         return IdentityResult.Success;

@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-using SampleStore.Common.Extensions;
 using SampleStore.Data.Entities.Identity;
 using SampleStore.UI.Pages;
 
@@ -21,8 +20,8 @@ public class Disable2faModel : PageModelBase
         UserManager<User> userManager,
         ILogger<Disable2faModel> logger)
     {
-        _userManager = userManager.ThrowIfArgumentIsNull(nameof(userManager));
-        _logger = logger.ThrowIfArgumentIsNull(nameof(logger));
+        _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     [TempData]

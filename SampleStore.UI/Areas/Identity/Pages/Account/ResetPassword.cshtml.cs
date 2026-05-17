@@ -1,10 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-using SampleStore.Common.Extensions;
 using SampleStore.Data.Entities.Identity;
 using SampleStore.UI.Pages;
 using SampleStore.UI.ViewModels.Identity;
@@ -18,7 +18,7 @@ public class ResetPasswordModel : PageModelBase
 
     public ResetPasswordModel(UserManager<User> userManager)
     {
-        _userManager = userManager.ThrowIfArgumentIsNull(nameof(userManager));
+        _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
     }
 
     [BindProperty]

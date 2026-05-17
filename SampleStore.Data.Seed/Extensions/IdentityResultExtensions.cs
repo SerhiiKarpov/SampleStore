@@ -11,8 +11,8 @@ public static class IdentityResultExtensions
 {
     public static void ThrowIfFailed(this IdentityResult result, Func<string> getMessage)
     {
-        result.ThrowIfArgumentIsNull(nameof(result));
-        getMessage.ThrowIfArgumentIsNull(nameof(getMessage));
+        ArgumentNullException.ThrowIfNull(result);
+        ArgumentNullException.ThrowIfNull(getMessage);
 
         if (result.Succeeded)
         {

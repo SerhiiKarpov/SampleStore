@@ -19,9 +19,9 @@ public static class RepositoryExtensions
         where TEntity : Entity
     {
         cancellationToken.ThrowIfCancellationRequested();
-        repository.ThrowIfArgumentIsNull(nameof(repository));
-        predicate.ThrowIfArgumentIsNull(nameof(predicate));
-        queryMaterializer.ThrowIfArgumentIsNull(nameof(queryMaterializer));
+        ArgumentNullException.ThrowIfNull(repository);
+        ArgumentNullException.ThrowIfNull(predicate);
+        ArgumentNullException.ThrowIfNull(queryMaterializer);
 
         var query = repository.Query.Where(predicate);
         var found = await queryMaterializer.FirstOrDefault(query, cancellationToken);

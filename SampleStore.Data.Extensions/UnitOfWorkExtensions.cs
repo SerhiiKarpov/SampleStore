@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -17,7 +18,7 @@ public static class UnitOfWorkExtensions
         where TEntity : Entity
     {
         cancellationToken.ThrowIfCancellationRequested();
-        unitOfWork.ThrowIfArgumentIsNull(nameof(unitOfWork));
+        ArgumentNullException.ThrowIfNull(unitOfWork);
 
         var repository = unitOfWork.GetRepository<TEntity>();
         var query = repository.Query.Where(e => e.Id == entity.Id);

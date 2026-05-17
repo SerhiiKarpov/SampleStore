@@ -21,17 +21,6 @@ public static class ObjectExtensions
         }
     }
 
-    public static TObject ThrowIfArgumentIsNull<TObject>(this TObject argument, string name)
-        where TObject : class
-    {
-        if (argument == null)
-        {
-            throw new ArgumentNullException(name);
-        }
-
-        return argument;
-    }
-
     public static IEnumerable<TObject> ToEnumerable<TObject>(this TObject item)
     {
         yield return item;

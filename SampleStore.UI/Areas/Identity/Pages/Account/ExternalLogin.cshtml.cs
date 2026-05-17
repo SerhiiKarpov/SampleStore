@@ -1,4 +1,5 @@
-﻿using System.Text.Encodings.Web;
+﻿using System;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Authorization;
@@ -7,7 +8,6 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-using SampleStore.Common.Extensions;
 using SampleStore.Data.Entities.Identity;
 using SampleStore.UI.Mapping;
 using SampleStore.UI.Pages;
@@ -32,10 +32,10 @@ public class ExternalLoginModel : PageModelBase
         IEmailSender emailSender,
         ILogger<ExternalLoginModel> logger)
     {
-        _signInManager = signInManager.ThrowIfArgumentIsNull(nameof(signInManager));
-        _userManager = userManager.ThrowIfArgumentIsNull(nameof(userManager));
-        _emailSender = emailSender.ThrowIfArgumentIsNull(nameof(emailSender));
-        _logger = logger.ThrowIfArgumentIsNull(nameof(logger));
+        _signInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
+        _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
+        _emailSender = emailSender ?? throw new ArgumentNullException(nameof(emailSender));
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     [TempData]

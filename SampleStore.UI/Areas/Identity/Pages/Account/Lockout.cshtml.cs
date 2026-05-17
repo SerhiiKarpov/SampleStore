@@ -7,11 +7,5 @@ namespace SampleStore.UI.Areas.Identity.Pages.Account;
 [AllowAnonymous]
 public class LockoutModel : PageModelBase
 {
-    public override string Title
-    {
-        get
-        {
-            return "Locked out";
-        }
-    }
+    public override string Title => "Locked out";
 }

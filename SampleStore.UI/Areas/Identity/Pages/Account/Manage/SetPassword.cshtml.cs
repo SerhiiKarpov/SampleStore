@@ -1,9 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-using SampleStore.Common.Extensions;
 using SampleStore.Data.Entities.Identity;
 using SampleStore.UI.Pages;
 using SampleStore.UI.ViewModels.Identity;
@@ -20,8 +20,8 @@ public class SetPasswordModel : PageModelBase
         UserManager<User> userManager,
         SignInManager<User> signInManager)
     {
-        _userManager = userManager.ThrowIfArgumentIsNull(nameof(userManager));
-        _signInManager = signInManager.ThrowIfArgumentIsNull(nameof(signInManager));
+        _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
+        _signInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
     }
 
     [BindProperty]

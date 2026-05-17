@@ -1,9 +1,9 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Identity;
 
-using SampleStore.Common.Extensions;
 using SampleStore.Data.Entities.Identity;
 using SampleStore.Data.Extensions;
 
@@ -19,14 +19,14 @@ public partial class UserStore : IUserEmailStore<User>
     public Task<string?> GetEmailAsync(User user, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        user.ThrowIfArgumentIsNull(nameof(user));
+        ArgumentNullException.ThrowIfNull(user);
         return Task.FromResult<string?>(user.Email);
     }
 
     public Task<bool> GetEmailConfirmedAsync(User user, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        user.ThrowIfArgumentIsNull(nameof(user));
+        ArgumentNullException.ThrowIfNull(user);
         return Task.FromResult(user.EmailConfirmed);
     }
 
@@ -38,7 +38,7 @@ public partial class UserStore : IUserEmailStore<User>
     public Task SetEmailAsync(User user, string? email, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        user.ThrowIfArgumentIsNull(nameof(user));
+        ArgumentNullException.ThrowIfNull(user);
         user.Email = email!;
         return Task.CompletedTask;
     }
@@ -46,7 +46,7 @@ public partial class UserStore : IUserEmailStore<User>
     public Task SetEmailConfirmedAsync(User user, bool confirmed, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        user.ThrowIfArgumentIsNull(nameof(user));
+        ArgumentNullException.ThrowIfNull(user);
         user.EmailConfirmed = confirmed;
         return Task.CompletedTask;
     }

@@ -4,9 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
-using SampleStore.Common.Extensions;
 using SampleStore.Data;
 using SampleStore.Data.Entities.Domain;
 using SampleStore.Data.Extensions;
@@ -21,8 +19,8 @@ public class DeleteModel : PageModelBase
 
     public DeleteModel(IUnitOfWork unitOfWork, IQueryMaterializer queryMaterializer)
     {
-        _unitOfWork = unitOfWork.ThrowIfArgumentIsNull(nameof(unitOfWork));
-        _queryMaterializer = queryMaterializer.ThrowIfArgumentIsNull(nameof(queryMaterializer));
+        _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+        _queryMaterializer = queryMaterializer ?? throw new ArgumentNullException(nameof(queryMaterializer));
     }
 
     [BindProperty]

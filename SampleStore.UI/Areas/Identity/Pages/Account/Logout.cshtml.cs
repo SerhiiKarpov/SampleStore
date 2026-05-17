@@ -1,11 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-using SampleStore.Common.Extensions;
 using SampleStore.Data.Entities.Identity;
 using SampleStore.UI.Pages;
 
@@ -20,8 +20,8 @@ public class LogoutModel : PageModelBase
 
     public LogoutModel(SignInManager<User> signInManager, ILogger<LogoutModel> logger)
     {
-        _signInManager = signInManager.ThrowIfArgumentIsNull(nameof(signInManager));
-        _logger = logger.ThrowIfArgumentIsNull(nameof(logger));
+        _signInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     public override string Title

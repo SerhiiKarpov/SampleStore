@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 using Microsoft.AspNetCore.Identity;
 
 using SampleStore.Common.Commands;
-using SampleStore.Common.Extensions;
 using SampleStore.Common.Services;
 using SampleStore.Data.Entities.Identity;
 
@@ -21,10 +21,10 @@ public class SeederCommandFactory : IAddUserToRolesCommandFactory, ICreateRolesC
 
     public SeederCommandFactory(UserManager<User> userManager, RoleManager<Role> roleManager, IQueryMaterializer queryMaterializer, IDateTime dateTimeService)
     {
-        _userManager = userManager.ThrowIfArgumentIsNull(nameof(userManager));
-        _roleManager = roleManager.ThrowIfArgumentIsNull(nameof(roleManager));
-        _queryMaterializer = queryMaterializer.ThrowIfArgumentIsNull(nameof(queryMaterializer));
-        _dateTimeService = dateTimeService.ThrowIfArgumentIsNull(nameof(dateTimeService));
+        _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
+        _roleManager = roleManager ?? throw new ArgumentNullException(nameof(roleManager));
+        _queryMaterializer = queryMaterializer ?? throw new ArgumentNullException(nameof(queryMaterializer));
+        _dateTimeService = dateTimeService ?? throw new ArgumentNullException(nameof(dateTimeService));
     }
 
     ICommand<bool> IAddUserToRolesCommandFactory.CreateCommand(User user, IEnumerable<Role> roles)

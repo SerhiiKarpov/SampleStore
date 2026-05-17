@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -17,8 +18,8 @@ public partial class UserStore : IUserLoginStore<User>
     public async Task AddLoginAsync(User user, UserLoginInfo login, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        user.ThrowIfArgumentIsNull(nameof(user));
-        login.ThrowIfArgumentIsNull(nameof(login));
+        ArgumentNullException.ThrowIfNull(user);
+        ArgumentNullException.ThrowIfNull(login);
 
         var userLogin = login.ToUserLogin();
         userLogin.UserId = user.Id;
@@ -44,7 +45,7 @@ public partial class UserStore : IUserLoginStore<User>
     public async Task<IList<UserLoginInfo>> GetLoginsAsync(User user, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        user.ThrowIfArgumentIsNull(nameof(user));
+        ArgumentNullException.ThrowIfNull(user);
 
         var query = _unitOfWork.GetRepository<UserLogin>().Query.Where(ul => ul.UserId == user.Id);
         var userLogins = await _queryMaterializer.ToList(query, cancellationToken);
@@ -55,7 +56,7 @@ public partial class UserStore : IUserLoginStore<User>
     public async Task RemoveLoginAsync(User user, string loginProvider, string providerKey, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        user.ThrowIfArgumentIsNull(nameof(user));
+        ArgumentNullException.ThrowIfNull(user);
 
         var repository = _unitOfWork.GetRepository<UserLogin>();
 

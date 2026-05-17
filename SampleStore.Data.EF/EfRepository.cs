@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Microsoft.EntityFrameworkCore;
-
-using SampleStore.Common.Extensions;
 
 namespace SampleStore.Data.EF;
 
@@ -14,7 +13,7 @@ public class EfRepository<TEntity> : IRepository<TEntity>
 
     public EfRepository(DbSet<TEntity> set)
     {
-        _set = set.ThrowIfArgumentIsNull(nameof(set));
+        _set = set ?? throw new ArgumentNullException(nameof(set));
     }
 
     public IQueryable<TEntity> Query => _set;

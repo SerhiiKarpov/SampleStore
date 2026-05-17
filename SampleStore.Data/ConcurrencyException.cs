@@ -13,7 +13,7 @@ public class ConcurrencyException : Exception
     public ConcurrencyException(IEnumerable conflictedEntities)
         : this(DefaultMessage)
     {
-        ConflictedEntities = conflictedEntities.ThrowIfArgumentIsNull(nameof(conflictedEntities));
+        ConflictedEntities = conflictedEntities ?? throw new ArgumentNullException(nameof(conflictedEntities));
     }
 
     public ConcurrencyException(string message)

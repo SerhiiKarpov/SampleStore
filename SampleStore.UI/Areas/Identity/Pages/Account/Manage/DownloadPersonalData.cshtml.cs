@@ -1,14 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-using System.Text.Json;
-
-using SampleStore.Common.Extensions;
 using SampleStore.Data.Entities.Identity;
 using SampleStore.UI.Pages;
 
@@ -24,8 +23,8 @@ public class DownloadPersonalDataModel : PageModelBase
         UserManager<User> userManager,
         ILogger<DownloadPersonalDataModel> logger)
     {
-        _userManager = userManager.ThrowIfArgumentIsNull(nameof(userManager));
-        _logger = logger.ThrowIfArgumentIsNull(nameof(logger));
+        _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     public override string Title

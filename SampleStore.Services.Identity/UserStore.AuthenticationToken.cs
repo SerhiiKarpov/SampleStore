@@ -16,7 +16,7 @@ public partial class UserStore : IUserAuthenticationTokenStore<User>
     public async Task<string?> GetTokenAsync(User user, string loginProvider, string name, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        user.ThrowIfArgumentIsNull(nameof(user));
+        ArgumentNullException.ThrowIfNull(user);
         var token = await _unitOfWork.GetRepository<UserToken>().Find(
             GetUserTokenPredicate(user.Id, loginProvider, name),
             _queryMaterializer,
@@ -27,7 +27,7 @@ public partial class UserStore : IUserAuthenticationTokenStore<User>
     public async Task RemoveTokenAsync(User user, string loginProvider, string name, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        user.ThrowIfArgumentIsNull(nameof(user));
+        ArgumentNullException.ThrowIfNull(user);
 
         var repository = _unitOfWork.GetRepository<UserToken>();
 
@@ -44,7 +44,7 @@ public partial class UserStore : IUserAuthenticationTokenStore<User>
     public async Task SetTokenAsync(User user, string loginProvider, string name, string? value, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        user.ThrowIfArgumentIsNull(nameof(user));
+        ArgumentNullException.ThrowIfNull(user);
 
         var repository = _unitOfWork.GetRepository<UserToken>();
 

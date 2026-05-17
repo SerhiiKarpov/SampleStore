@@ -18,8 +18,8 @@ public partial class UserStore : IUserRoleStore<User>
     public async Task AddToRoleAsync(User user, string roleName, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        user.ThrowIfArgumentIsNull(nameof(user));
-        roleName.ThrowIfArgumentIsNull(nameof(roleName));
+        ArgumentNullException.ThrowIfNull(user);
+        ArgumentNullException.ThrowIfNull(roleName);
 
         var role = await _roleStore.FindByNameAsync(roleName, cancellationToken);
         if (role == null)
@@ -35,7 +35,7 @@ public partial class UserStore : IUserRoleStore<User>
     public async Task<IList<string>> GetRolesAsync(User user, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        user.ThrowIfArgumentIsNull(nameof(user));
+        ArgumentNullException.ThrowIfNull(user);
 
         var roleQuery =
             from userRole in _unitOfWork.GetRepository<UserRole>().Query
@@ -81,7 +81,7 @@ public partial class UserStore : IUserRoleStore<User>
     public async Task<bool> IsInRoleAsync(User user, string roleName, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        user.ThrowIfArgumentIsNull(nameof(user));
+        ArgumentNullException.ThrowIfNull(user);
 
         if (string.IsNullOrEmpty(roleName))
         {
@@ -102,7 +102,7 @@ public partial class UserStore : IUserRoleStore<User>
     public async Task RemoveFromRoleAsync(User user, string roleName, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        user.ThrowIfArgumentIsNull(nameof(user));
+        ArgumentNullException.ThrowIfNull(user);
 
         if (string.IsNullOrEmpty(roleName))
         {

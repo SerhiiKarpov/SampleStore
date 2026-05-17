@@ -1,10 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.EntityFrameworkCore;
-
-using SampleStore.Common.Extensions;
 
 namespace SampleStore.Data.EF;
 
@@ -14,7 +13,7 @@ public class EfUnitOfWork : IUnitOfWork
 
     public EfUnitOfWork(DbContext context)
     {
-        _context = context.ThrowIfArgumentIsNull(nameof(context));
+        _context = context ?? throw new ArgumentNullException(nameof(context));
     }
 
     public IRepository<TEntity> GetRepository<TEntity>()

@@ -1,4 +1,6 @@
-﻿using SampleStore.Common.Extensions;
+﻿using System;
+
+using SampleStore.Common.Extensions;
 
 namespace SampleStore.Data.Extensions;
 
@@ -7,8 +9,8 @@ public static class RepositoryExtensions
     public static void Add<TEntity>(this IRepository<TEntity> repository, TEntity entity)
         where TEntity : class
     {
-        repository.ThrowIfArgumentIsNull(nameof(repository));
-        entity.ThrowIfArgumentIsNull(nameof(entity));
+        ArgumentNullException.ThrowIfNull(repository);
+        ArgumentNullException.ThrowIfNull(entity);
         repository.Add(entity.ToEnumerable());
     }
 
@@ -20,7 +22,7 @@ public static class RepositoryExtensions
             return;
         }
 
-        repository.ThrowIfArgumentIsNull(nameof(repository));
+        ArgumentNullException.ThrowIfNull(repository);
         repository.Remove(entity.ToEnumerable());
     }
 }

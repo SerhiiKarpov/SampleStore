@@ -5,9 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
-using SampleStore.Common.Extensions;
 using SampleStore.Data.Entities.Identity;
 using SampleStore.UI.Pages;
 using SampleStore.UI.ViewModels.Identity;
@@ -27,9 +25,9 @@ public class IndexModel : PageModelBase
         SignInManager<User> signInManager,
         IEmailSender emailSender)
     {
-        _userManager = userManager.ThrowIfArgumentIsNull(nameof(userManager));
-        _signInManager = signInManager.ThrowIfArgumentIsNull(nameof(signInManager));
-        _emailSender = emailSender.ThrowIfArgumentIsNull(nameof(emailSender));
+        _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
+        _signInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
+        _emailSender = emailSender ?? throw new ArgumentNullException(nameof(emailSender));
     }
 
     [BindProperty]

@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-using SampleStore.Common.Extensions;
 using SampleStore.Data.Entities.Identity;
 using SampleStore.UI.Pages;
 using SampleStore.UI.ViewModels.Identity;
@@ -22,8 +21,8 @@ public class LoginWith2faModel : PageModelBase
 
     public LoginWith2faModel(SignInManager<User> signInManager, ILogger<LoginWith2faModel> logger)
     {
-        _signInManager = signInManager.ThrowIfArgumentIsNull(nameof(signInManager));
-        _logger = logger.ThrowIfArgumentIsNull(nameof(logger));
+        _signInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     [BindProperty]
@@ -33,13 +32,7 @@ public class LoginWith2faModel : PageModelBase
 
     public string? ReturnUrl { get; set; }
 
-    public override string Title
-    {
-        get
-        {
-            return "Two-factor authentication";
-        }
-    }
+    public override string Title => "Two-factor authentication";
 
     public async Task<IActionResult> OnGetAsync(bool rememberMe, string? returnUrl = null)
     {

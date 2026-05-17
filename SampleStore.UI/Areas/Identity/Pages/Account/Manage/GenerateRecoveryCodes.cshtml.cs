@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -7,7 +6,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-using SampleStore.Common.Extensions;
 using SampleStore.Data.Entities.Identity;
 using SampleStore.UI.Pages;
 
@@ -22,8 +20,8 @@ public class GenerateRecoveryCodesModel : PageModelBase
         UserManager<User> userManager,
         ILogger<GenerateRecoveryCodesModel> logger)
     {
-        _userManager = userManager.ThrowIfArgumentIsNull(nameof(userManager));
-        _logger = logger.ThrowIfArgumentIsNull(nameof(logger));
+        _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     [TempData]

@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-using SampleStore.Common.Extensions;
 using SampleStore.Data.Entities.Identity;
 using SampleStore.UI.Pages;
 using SampleStore.UI.ViewModels.Identity;
@@ -23,9 +22,9 @@ public class DeletePersonalDataModel : PageModelBase
         SignInManager<User> signInManager,
         ILogger<DeletePersonalDataModel> logger)
     {
-        _userManager = userManager.ThrowIfArgumentIsNull(nameof(userManager));
-        _signInManager = signInManager.ThrowIfArgumentIsNull(nameof(signInManager));
-        _logger = logger.ThrowIfArgumentIsNull(nameof(logger));
+        _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
+        _signInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     [BindProperty]
