@@ -1,5 +1,11 @@
 [*.cs]
 
+# Place System.* directives first when sorting usings
+dotnet_sort_system_directives_first = true
+
+# Insert a blank line between different groups of using directives
+dotnet_separate_import_directive_groups = true
+
 # IDE0065: Misplaced using directive
 csharp_using_directive_placement = outside_namespace
 
