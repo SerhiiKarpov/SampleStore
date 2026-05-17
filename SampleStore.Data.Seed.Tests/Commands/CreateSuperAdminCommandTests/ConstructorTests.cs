@@ -9,12 +9,12 @@ using SampleStore.Data.Seed.Tests.Helpers;
 
 using Xunit;
 
-namespace SampleStore.Data.Seed.Tests.Commands;
+namespace SampleStore.Data.Seed.Tests.Commands.CreateSuperAdminCommandTests;
 
-public static class CreateSuperAdminCommand_Constructor_Should
+public static class ConstructorTests
 {
     [Fact]
-    public static void Throw_If_DateTimeService_Is_Null()
+    public static void Throws_If_DateTimeService_Is_Null()
     {
         // Arrange
         var userManagerStub = UserManagerTestHelper.CreateUserManagerFake();
@@ -29,7 +29,7 @@ public static class CreateSuperAdminCommand_Constructor_Should
     }
 
     [Fact]
-    public static void Throw_If_Password_Is_Null()
+    public static void Throws_If_Password_Is_Null()
     {
         // Arrange
         var userManagerStub = UserManagerTestHelper.CreateUserManagerFake();
@@ -44,7 +44,7 @@ public static class CreateSuperAdminCommand_Constructor_Should
     }
 
     [Fact]
-    public static void Throw_If_Prototype_Is_Null()
+    public static void Throws_If_Prototype_Is_Null()
     {
         // Arrange
         var userManagerStub = UserManagerTestHelper.CreateUserManagerFake();
@@ -59,7 +59,7 @@ public static class CreateSuperAdminCommand_Constructor_Should
     }
 
     [Fact]
-    public static void Throw_If_UserManager_Is_Null()
+    public static void Throws_If_UserManager_Is_Null()
     {
         // Arrange
         var dateTimeServiceStub = Substitute.For<IDateTime>();

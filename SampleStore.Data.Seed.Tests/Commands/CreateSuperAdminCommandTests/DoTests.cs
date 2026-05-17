@@ -17,12 +17,12 @@ using SampleStore.Data.Seed.Tests.Helpers;
 
 using Xunit;
 
-namespace SampleStore.Data.Seed.Tests.Commands;
+namespace SampleStore.Data.Seed.Tests.Commands.CreateSuperAdminCommandTests;
 
-public static class CreateSuperAdminCommand_Do_Should
+public static class DoTests
 {
     [Fact]
-    public static async Task Delegate_To_UserManager()
+    public static async Task Delegates_To_UserManager()
     {
         // Arrange
         var userManagerMock = UserManagerTestHelper.CreateUserManagerFake();
@@ -45,7 +45,7 @@ public static class CreateSuperAdminCommand_Do_Should
     }
 
     [Fact]
-    public static async Task Set_All_Properties_From_Prototype_Except_Id_DateOfBirth_EmailConfirmed()
+    public static async Task Sets_All_Properties_From_Prototype_Except_Id_DateOfBirth_EmailConfirmed()
     {
         // Arrange
         var userManagerStub = UserManagerTestHelper.CreateUserManagerFake();
@@ -80,7 +80,7 @@ public static class CreateSuperAdminCommand_Do_Should
     }
 
     [Fact]
-    public static async Task Set_DateOfBirth_To_UtcNow_Date()
+    public static async Task Sets_DateOfBirth_To_UtcNow_Date()
     {
         // Arrange
         var userManagerStub = UserManagerTestHelper.CreateUserManagerFake();
@@ -105,7 +105,7 @@ public static class CreateSuperAdminCommand_Do_Should
     }
 
     [Fact]
-    public static async Task Set_EmailConfirmed_To_True()
+    public static async Task Sets_EmailConfirmed_To_True()
     {
         // Arrange
         var userManagerStub = UserManagerTestHelper.CreateUserManagerFake();
@@ -127,7 +127,7 @@ public static class CreateSuperAdminCommand_Do_Should
     }
 
     [Fact]
-    public static async Task Throw_If_UserManager_Failed_To_Create_User()
+    public static async Task Throws_If_UserManager_Failed_To_Create_User()
     {
         // Arrange
         var userManagerMock = UserManagerTestHelper.CreateUserManagerFake();
