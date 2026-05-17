@@ -2,9 +2,11 @@
 
 namespace SampleStore.Data.Entities.Identity;
 
-public class Role : Entity
+public sealed class Role : Entity
 {
+    public const int NameMaxLength = 50;
+
     [Required]
-    [StringLength(50)]
-    public required string Name { get; set; }
+    [StringLength(NameMaxLength)]
+    public string Name { get; set; } = string.Empty;
 }

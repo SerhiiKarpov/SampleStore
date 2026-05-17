@@ -3,13 +3,16 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SampleStore.Data.Entities.Identity;
 
-public class UserClaim : Entity
+public sealed class UserClaim : Entity
 {
-    [StringLength(100)]
+    public const int TypeMaxLength = 100;
+    public const int ValueMaxLength = 200;
+
+    [StringLength(TypeMaxLength)]
     public string? Type { get; set; }
 
     public Guid UserId { get; set; }
 
-    [StringLength(200)]
+    [StringLength(ValueMaxLength)]
     public string? Value { get; set; }
 }

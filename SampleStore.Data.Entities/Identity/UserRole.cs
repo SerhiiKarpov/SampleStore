@@ -2,7 +2,7 @@
 
 namespace SampleStore.Data.Entities.Identity;
 
-public class UserRole : Entity
+public sealed class UserRole : Entity
 {
     public Guid RoleId { get; set; }
 

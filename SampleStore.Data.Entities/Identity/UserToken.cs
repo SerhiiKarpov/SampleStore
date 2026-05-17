@@ -3,18 +3,22 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SampleStore.Data.Entities.Identity;
 
-public class UserToken : Entity
+public sealed class UserToken : Entity
 {
-    [Required]
-    [StringLength(50)]
-    public required string LoginProvider { get; set; }
+    public const int LoginProviderMaxLength = 50;
+    public const int NameMaxLength = 100;
+    public const int ValueMaxLength = 500;
 
     [Required]
-    [StringLength(100)]
-    public required string Name { get; set; }
+    [StringLength(LoginProviderMaxLength)]
+    public string LoginProvider { get; set; } = string.Empty;
+
+    [Required]
+    [StringLength(NameMaxLength)]
+    public string Name { get; set; } = string.Empty;
 
     public Guid UserId { get; set; }
 
-    [StringLength(500)]
+    [StringLength(ValueMaxLength)]
     public string? Value { get; set; }
 }
