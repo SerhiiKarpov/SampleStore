@@ -1,27 +1,12 @@
-﻿
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 
 namespace SampleStore.UI.Pages;
-/// <summary>
-/// Class encapsulating contact model.
-/// </summary>
-/// <seealso cref="PageModelBase" />
+
 [AllowAnonymous]
 public class ContactModel : PageModelBase
 {
-    #region Properties
+    public string? Message { get; set; }
 
-    /// <summary>
-    /// Gets or sets the message.
-    /// </summary>
-    public string? Message
-    {
-        get; set;
-    }
-
-    /// <summary>
-    /// Gets the title.
-    /// </summary>
     public override string Title
     {
         get
@@ -30,17 +15,8 @@ public class ContactModel : PageModelBase
         }
     }
 
-    #endregion Properties
-
-    #region Methods
-
-    /// <summary>
-    /// Called when [get].
-    /// </summary>
     public void OnGet()
     {
         Message = "Your contact page.";
     }
-
-    #endregion Methods
 }

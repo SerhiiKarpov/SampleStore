@@ -15,46 +15,17 @@ using SampleStore.UI.ViewModels.Identity;
 
 namespace SampleStore.UI.Areas.Identity.Pages.Account;
 
-/// <summary>
-/// Class encapsulating register model.
-/// </summary>
-/// <seealso cref="PageModelBase" />
 [AllowAnonymous]
 public class RegisterModel : PageModelBase
 {
-    #region Fields
-
-    /// <summary>
-    /// The email sender
-    /// </summary>
     private readonly IEmailSender _emailSender;
 
-    /// <summary>
-    /// The logger
-    /// </summary>
     private readonly ILogger<RegisterModel> _logger;
 
-    /// <summary>
-    /// The sign in manager
-    /// </summary>
     private readonly SignInManager<User> _signInManager;
 
-    /// <summary>
-    /// The user manager
-    /// </summary>
     private readonly UserManager<User> _userManager;
 
-    #endregion Fields
-
-    #region Constructors
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="RegisterModel" /> class.
-    /// </summary>
-    /// <param name="userManager">The user manager.</param>
-    /// <param name="signInManager">The sign in manager.</param>
-    /// <param name="logger">The logger.</param>
-    /// <param name="emailSender">The email sender.</param>
     public RegisterModel(
         UserManager<User> userManager,
         SignInManager<User> signInManager,
@@ -67,30 +38,11 @@ public class RegisterModel : PageModelBase
         _emailSender = emailSender.ThrowIfArgumentIsNull(nameof(emailSender));
     }
 
-    #endregion Constructors
-
-    #region Properties
-
-    /// <summary>
-    /// Gets or sets the input.
-    /// </summary>
     [BindProperty]
-    public RegistrationViewModel Input
-    {
-        get; set;
-    } = default!;
+    public RegistrationViewModel Input { get; set; } = default!;
 
-    /// <summary>
-    /// Gets or sets the return URL.
-    /// </summary>
-    public string? ReturnUrl
-    {
-        get; set;
-    }
+    public string? ReturnUrl { get; set; }
 
-    /// <summary>
-    /// Gets the title.
-    /// </summary>
     public override string Title
     {
         get
@@ -99,24 +51,11 @@ public class RegisterModel : PageModelBase
         }
     }
 
-    #endregion Properties
-
-    #region Methods
-
-    /// <summary>
-    /// Called when [get].
-    /// </summary>
-    /// <param name="returnUrl">The return URL.</param>
     public void OnGet(string? returnUrl = null)
     {
         ReturnUrl = returnUrl;
     }
 
-    /// <summary>
-    /// Called when [post asynchronous].
-    /// </summary>
-    /// <param name="returnUrl">The return URL.</param>
-    /// <returns>The <see cref="IActionResult"/>.</returns>
     public async Task<IActionResult> OnPostAsync(string? returnUrl = null)
     {
         returnUrl = returnUrl ?? Url.Content("~/");
@@ -154,6 +93,4 @@ public class RegisterModel : PageModelBase
 
         return LocalRedirect(returnUrl);
     }
-
-    #endregion Methods
 }

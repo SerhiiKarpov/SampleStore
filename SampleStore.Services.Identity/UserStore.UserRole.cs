@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -13,23 +12,9 @@ using SampleStore.Data.Entities.Identity;
 using SampleStore.Data.Extensions;
 
 namespace SampleStore.Services.Identity;
-/// <summary>
-/// Class encapsulating user store.
-/// </summary>
-/// <seealso cref="IUserRoleStore{User}" />
+
 public partial class UserStore : IUserRoleStore<User>
 {
-    #region Methods
-
-    /// <summary>
-    /// Add the specified <paramref name="user" /> to the named role.
-    /// </summary>
-    /// <param name="user">The user to add to the named role.</param>
-    /// <param name="roleName">The name of the role to add the user to.</param>
-    /// <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken" /> used to propagate notifications that the operation should be canceled.</param>
-    /// <returns>
-    /// The <see cref="T:System.Threading.Tasks.Task" /> that represents the asynchronous operation.
-    /// </returns>
     public async Task AddToRoleAsync(User user, string roleName, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -47,14 +32,6 @@ public partial class UserStore : IUserRoleStore<User>
         await _unitOfWork.SaveChanges(cancellationToken);
     }
 
-    /// <summary>
-    /// Gets a list of role names the specified <paramref name="user" /> belongs to.
-    /// </summary>
-    /// <param name="user">The user whose role names to retrieve.</param>
-    /// <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken" /> used to propagate notifications that the operation should be canceled.</param>
-    /// <returns>
-    /// The <see cref="T:System.Threading.Tasks.Task" /> that represents the asynchronous operation, containing a list of role names.
-    /// </returns>
     public async Task<IList<string>> GetRolesAsync(User user, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -77,14 +54,6 @@ public partial class UserStore : IUserRoleStore<User>
         return roleNames;
     }
 
-    /// <summary>
-    /// Returns a list of Users who are members of the named role.
-    /// </summary>
-    /// <param name="roleName">The name of the role whose membership should be returned.</param>
-    /// <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken" /> used to propagate notifications that the operation should be canceled.</param>
-    /// <returns>
-    /// The <see cref="T:System.Threading.Tasks.Task" /> that represents the asynchronous operation, containing a list of users who are in the named role.
-    /// </returns>
     public async Task<IList<User>> GetUsersInRoleAsync(string roleName, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -109,16 +78,6 @@ public partial class UserStore : IUserRoleStore<User>
         return users;
     }
 
-    /// <summary>
-    /// Returns a flag indicating whether the specified <paramref name="user" /> is a member of the given named role.
-    /// </summary>
-    /// <param name="user">The user whose role membership should be checked.</param>
-    /// <param name="roleName">The name of the role to be checked.</param>
-    /// <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken" /> used to propagate notifications that the operation should be canceled.</param>
-    /// <returns>
-    /// The <see cref="T:System.Threading.Tasks.Task" /> that represents the asynchronous operation, containing a flag indicating whether the specified <paramref name="user" /> is
-    /// a member of the named role.
-    /// </returns>
     public async Task<bool> IsInRoleAsync(User user, string roleName, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -140,15 +99,6 @@ public partial class UserStore : IUserRoleStore<User>
         return isInRole;
     }
 
-    /// <summary>
-    /// Remove the specified <paramref name="user" /> from the named role.
-    /// </summary>
-    /// <param name="user">The user to remove the named role from.</param>
-    /// <param name="roleName">The name of the role to remove.</param>
-    /// <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken" /> used to propagate notifications that the operation should be canceled.</param>
-    /// <returns>
-    /// The <see cref="T:System.Threading.Tasks.Task" /> that represents the asynchronous operation.
-    /// </returns>
     public async Task RemoveFromRoleAsync(User user, string roleName, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -172,18 +122,9 @@ public partial class UserStore : IUserRoleStore<User>
         await _unitOfWork.SaveChanges(cancellationToken);
     }
 
-    /// <summary>
-    /// Gets the user role query.
-    /// </summary>
-    /// <param name="repository">The repository.</param>
-    /// <param name="userId">The user identifier.</param>
-    /// <param name="roleId">The role identifier.</param>
-    /// <returns>The user role query.</returns>
     private static IQueryable<UserRole> GetUserRoleQuery(IRepository<UserRole> repository, Guid userId, Guid roleId)
     {
         var userRoleQuery = repository.Query.Where(ur => ur.UserId == userId && ur.RoleId == roleId);
         return userRoleQuery;
     }
-
-    #endregion Methods
 }

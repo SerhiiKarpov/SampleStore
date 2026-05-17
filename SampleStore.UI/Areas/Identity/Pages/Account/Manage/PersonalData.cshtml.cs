@@ -1,5 +1,4 @@
-﻿
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -10,33 +9,13 @@ using SampleStore.Data.Entities.Identity;
 using SampleStore.UI.Pages;
 
 namespace SampleStore.UI.Areas.Identity.Pages.Account.Manage;
-/// <summary>
-/// Class encapsulating personal data model.
-/// </summary>
-/// <seealso cref="PageModelBase" />
+
 public class PersonalDataModel : PageModelBase
 {
-    #region Fields
-
-    /// <summary>
-    /// The logger
-    /// </summary>
     private readonly ILogger<PersonalDataModel> _logger;
 
-    /// <summary>
-    /// The user manager
-    /// </summary>
     private readonly UserManager<User> _userManager;
 
-    #endregion Fields
-
-    #region Constructors
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="PersonalDataModel"/> class.
-    /// </summary>
-    /// <param name="userManager">The user manager.</param>
-    /// <param name="logger">The logger.</param>
     public PersonalDataModel(
         UserManager<User> userManager,
         ILogger<PersonalDataModel> logger)
@@ -45,13 +24,6 @@ public class PersonalDataModel : PageModelBase
         _logger = logger.ThrowIfArgumentIsNull(nameof(logger));
     }
 
-    #endregion Constructors
-
-    #region Properties
-
-    /// <summary>
-    /// Gets the title.
-    /// </summary>
     public override string Title
     {
         get
@@ -60,14 +32,6 @@ public class PersonalDataModel : PageModelBase
         }
     }
 
-    #endregion Properties
-
-    #region Methods
-
-    /// <summary>
-    /// Called when [get].
-    /// </summary>
-    /// <returns>The <see cref="IActionResult"/>.</returns>
     public async Task<IActionResult> OnGet()
     {
         var user = await _userManager.GetUserAsync(User);
@@ -78,6 +42,4 @@ public class PersonalDataModel : PageModelBase
 
         return Page();
     }
-
-    #endregion Methods
 }

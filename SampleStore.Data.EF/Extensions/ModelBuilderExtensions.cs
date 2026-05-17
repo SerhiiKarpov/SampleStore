@@ -1,31 +1,14 @@
-﻿
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 using SampleStore.Data.Entities.Domain;
 using SampleStore.Data.Entities.Identity;
 
 namespace SampleStore.Data.EF.Extensions;
-/// <summary>
-/// Class encapsulating model builder extensions.
-/// </summary>
+
 public static class ModelBuilderExtensions
 {
-    #region Fields
-
-    /// <summary>
-    /// The identity schema
-    /// </summary>
     private const string IdentitySchema = "identity";
 
-    #endregion Fields
-
-    #region Methods
-
-    /// <summary>
-    /// Builds the domain model.
-    /// </summary>
-    /// <param name="builder">The builder.</param>
-    /// <returns>The specified builder to chain method calls.</returns>
     public static ModelBuilder BuildDomainModel(this ModelBuilder builder)
     {
         builder.Entity<Product>(
@@ -42,11 +25,6 @@ public static class ModelBuilderExtensions
         return builder;
     }
 
-    /// <summary>
-    /// Builds the identity model.
-    /// </summary>
-    /// <param name="builder">The builder.</param>
-    /// <returns>The specified builder to chain method calls.</returns>
     public static ModelBuilder BuildIdentityModel(this ModelBuilder builder)
     {
         builder.Entity<User>(
@@ -73,6 +51,4 @@ public static class ModelBuilderExtensions
 
         return builder;
     }
-
-    #endregion Methods
 }

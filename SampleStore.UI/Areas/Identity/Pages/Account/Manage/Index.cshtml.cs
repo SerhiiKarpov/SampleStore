@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 
@@ -14,39 +13,15 @@ using SampleStore.UI.Pages;
 using SampleStore.UI.ViewModels.Identity;
 
 namespace SampleStore.UI.Areas.Identity.Pages.Account.Manage;
-/// <summary>
-/// Class encapsulating index model.
-/// </summary>
-/// <seealso cref="PageModel" />
+
 public class IndexModel : PageModelBase
 {
-    #region Fields
-
-    /// <summary>
-    /// The email sender
-    /// </summary>
     private readonly IEmailSender _emailSender;
 
-    /// <summary>
-    /// The sign in manager
-    /// </summary>
     private readonly SignInManager<User> _signInManager;
 
-    /// <summary>
-    /// The user manager
-    /// </summary>
     private readonly UserManager<User> _userManager;
 
-    #endregion Fields
-
-    #region Constructors
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="IndexModel"/> class.
-    /// </summary>
-    /// <param name="userManager">The user manager.</param>
-    /// <param name="signInManager">The sign in manager.</param>
-    /// <param name="emailSender">The email sender.</param>
     public IndexModel(
         UserManager<User> userManager,
         SignInManager<User> signInManager,
@@ -57,42 +32,14 @@ public class IndexModel : PageModelBase
         _emailSender = emailSender.ThrowIfArgumentIsNull(nameof(emailSender));
     }
 
-    #endregion Constructors
-
-    #region Properties
-
-    /// <summary>
-    /// Gets or sets the input.
-    /// </summary>
     [BindProperty]
-    public AccountViewModel? Input
-    {
-        get; set;
-    }
+    public AccountViewModel? Input { get; set; }
 
-    /// <summary>
-    /// Gets or sets a value indicating whether this instance is email confirmed.
-    /// </summary>
-    public bool IsEmailConfirmed
-    {
-        get; set;
-    }
+    public bool IsEmailConfirmed { get; set; }
 
-    /// <summary>
-    /// Gets or sets the status message.
-    /// </summary>
     [TempData]
-    public string? StatusMessage
-    {
-        get; set;
-    }
+    public string? StatusMessage { get; set; }
 
-    /// <summary>
-    /// Gets the title.
-    /// </summary>
-    /// <value>
-    /// The title.
-    /// </value>
     public override string Title
     {
         get
@@ -101,22 +48,8 @@ public class IndexModel : PageModelBase
         }
     }
 
-    /// <summary>
-    /// Gets or sets the username.
-    /// </summary>
-    public string? Username
-    {
-        get; set;
-    }
+    public string? Username { get; set; }
 
-    #endregion Properties
-
-    #region Methods
-
-    /// <summary>
-    /// Called when [get asynchronous].
-    /// </summary>
-    /// <returns>The <see cref="IActionResult"/>.</returns>
     public async Task<IActionResult> OnGetAsync()
     {
         var user = await _userManager.GetUserAsync(User);
@@ -144,11 +77,6 @@ public class IndexModel : PageModelBase
         return Page();
     }
 
-    /// <summary>
-    /// Called when [post asynchronous].
-    /// </summary>
-    /// <returns>The <see cref="IActionResult"/>.</returns>
-    /// <exception cref="InvalidOperationException">When unexpected error occurs.</exception>
     public async Task<IActionResult> OnPostAsync()
     {
         if (!ModelState.IsValid)
@@ -201,10 +129,6 @@ public class IndexModel : PageModelBase
         return RedirectToPage();
     }
 
-    /// <summary>
-    /// Called when [post send verification email asynchronous].
-    /// </summary>
-    /// <returns>The <see cref="IActionResult"/>.</returns>
     public async Task<IActionResult> OnPostSendVerificationEmailAsync()
     {
         if (!ModelState.IsValid)
@@ -234,6 +158,4 @@ public class IndexModel : PageModelBase
         StatusMessage = "Verification email sent. Please check your email.";
         return RedirectToPage();
     }
-
-    #endregion Methods
 }

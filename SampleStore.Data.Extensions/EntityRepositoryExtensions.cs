@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
@@ -9,24 +8,9 @@ using SampleStore.Common.Extensions;
 using SampleStore.Data.Entities;
 
 namespace SampleStore.Data.Extensions;
-/// <summary>
-/// Class encapsulating entity repository extensions.
-/// </summary>
+
 public static class EntityRepositoryExtensions
 {
-    #region Methods
-
-    /// <summary>
-    /// Finds an entity using the specified predicate.
-    /// </summary>
-    /// <typeparam name="TEntity">The type of the entity.</typeparam>
-    /// <param name="repository">The repository.</param>
-    /// <param name="predicate">The predicate.</param>
-    /// <param name="queryMaterializer">The query materializer.</param>
-    /// <param name="cancellationToken">The cancellation token.</param>
-    /// <returns>
-    /// A found entity.
-    /// </returns>
     public static async Task<TEntity?> Find<TEntity>(
         this IRepository<TEntity> repository,
         Expression<Func<TEntity, bool>> predicate,
@@ -44,17 +28,6 @@ public static class EntityRepositoryExtensions
         return found;
     }
 
-    /// <summary>
-    /// Finds and entity by the identifier asynchronous.
-    /// </summary>
-    /// <typeparam name="TEntity">The type of the entity.</typeparam>
-    /// <param name="repository">The repository.</param>
-    /// <param name="id">The identifier.</param>
-    /// <param name="queryMaterializer">The query materializer.</param>
-    /// <param name="cancellationToken">The cancellation token.</param>
-    /// <returns>
-    /// The found entity.
-    /// </returns>
     public static Task<TEntity?> FindById<TEntity>(
         this IRepository<TEntity> repository,
         Guid id,
@@ -66,15 +39,6 @@ public static class EntityRepositoryExtensions
         return repository.Find(e => e.Id == id, queryMaterializer, cancellationToken);
     }
 
-    /// <summary>
-    /// Updates the specified entity.
-    /// </summary>
-    /// <typeparam name="TEntity">The type of the entity.</typeparam>
-    /// <param name="repository">The repository.</param>
-    /// <param name="entity">The entity.</param>
-    /// <param name="queryMaterializer">The query materializer.</param>
-    /// <param name="cancellationToken">The cancellation token.</param>
-    /// <returns>A task object.</returns>
     public static async Task Update<TEntity>(
         this IRepository<TEntity> repository,
         TEntity entity,
@@ -95,6 +59,4 @@ public static class EntityRepositoryExtensions
         entity.CopyTo(found);
         await repository.UnitOfWork.SaveChanges(cancellationToken);
     }
-
-    #endregion Methods
 }

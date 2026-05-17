@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,47 +12,19 @@ using SampleStore.Data.Seed.Extensions;
 using SampleStore.Services.Identity.Constants;
 
 namespace SampleStore.Data.Seed.Commands;
-/// <summary>
-/// Class encapsulating create roles command.
-/// </summary>
-/// <seealso cref="ICreateRolesCommandFactory" />
+
 public class CreateRolesCommand : ICommand<List<Role>>
 {
-    #region Fields
-
-    /// <summary>
-    /// The query materializer
-    /// </summary>
     private readonly IQueryMaterializer _queryMaterializer;
 
-    /// <summary>
-    /// The role manager
-    /// </summary>
     private readonly RoleManager<Role> _roleManager;
 
-    #endregion Fields
-
-    #region Constructors
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="CreateRolesCommand" /> class.
-    /// </summary>
-    /// <param name="roleManager">The role manager.</param>
-    /// <param name="queryMaterializer">The query materializer.</param>
     public CreateRolesCommand(RoleManager<Role> roleManager, IQueryMaterializer queryMaterializer)
     {
         _roleManager = roleManager.ThrowIfArgumentIsNull(nameof(roleManager));
         _queryMaterializer = queryMaterializer.ThrowIfArgumentIsNull(nameof(queryMaterializer));
     }
 
-    #endregion Constructors
-
-    #region Methods
-
-    /// <summary>
-    /// Creates the roles.
-    /// </summary>
-    /// <returns>The created roles.</returns>
     public async Task<List<Role>> Do()
     {
         var existingRoles = await _queryMaterializer.ToList(_roleManager.Roles);
@@ -77,6 +48,4 @@ public class CreateRolesCommand : ICommand<List<Role>>
         var roles = await _queryMaterializer.ToList(_roleManager.Roles);
         return roles;
     }
-
-    #endregion Methods
 }

@@ -1,20 +1,9 @@
-﻿
-using SampleStore.Common.Extensions;
+﻿using SampleStore.Common.Extensions;
 
 namespace SampleStore.Data.Extensions;
-/// <summary>
-/// Class encapsulating repository extensions.
-/// </summary>
+
 public static class RepositoryExtensions
 {
-    #region Methods
-
-    /// <summary>
-    /// Adds the specified entity.
-    /// </summary>
-    /// <typeparam name="TEntity">The type of the entity.</typeparam>
-    /// <param name="repository">The repository.</param>
-    /// <param name="entity">The entity.</param>
     public static void Add<TEntity>(this IRepository<TEntity> repository, TEntity entity)
         where TEntity : class
     {
@@ -23,12 +12,6 @@ public static class RepositoryExtensions
         repository.Add(entity.ToEnumerable());
     }
 
-    /// <summary>
-    /// Removes the specified entity.
-    /// </summary>
-    /// <typeparam name="TEntity">The type of the entity.</typeparam>
-    /// <param name="repository">The repository.</param>
-    /// <param name="entity">The entity.</param>
     public static void Remove<TEntity>(this IRepository<TEntity> repository, TEntity entity)
         where TEntity : class
     {
@@ -40,6 +23,4 @@ public static class RepositoryExtensions
         repository.ThrowIfArgumentIsNull(nameof(repository));
         repository.Remove(entity.ToEnumerable());
     }
-
-    #endregion Methods
 }

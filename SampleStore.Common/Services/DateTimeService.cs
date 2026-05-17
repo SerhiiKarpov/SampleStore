@@ -1,21 +1,9 @@
-﻿
-using System;
+﻿using System;
 
 namespace SampleStore.Common.Services;
-/// <summary>
-/// Class encapsulating date time service.
-/// </summary>
-/// <seealso cref="SampleStore.Common.Services.IDateTime" />
+
 public class DateTimeService : IDateTime
 {
-    #region Properties
-
-    /// <summary>
-    /// Gets the UTC now.
-    /// </summary>
-    /// <value>
-    /// The UTC now.
-    /// </value>
     public DateTime UtcNow
     {
         get
@@ -23,6 +11,4 @@ public class DateTimeService : IDateTime
             return DateTime.UtcNow;
         }
     }
-
-    #endregion Properties
 }

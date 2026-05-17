@@ -1,22 +1,8 @@
-﻿
-using System;
+﻿using System;
 
 namespace SampleStore.Data.Entities.Identity;
-/// <summary>
-/// Class encapsulating role claim.
-/// </summary>
-/// <seealso cref="Entity" />
+
 public class RoleClaim : Entity
 {
-    #region Properties
-
-    /// <summary>
-    /// Gets or sets the role identifier.
-    /// </summary>
-    public Guid RoleId
-    {
-        get; set;
-    }
-
-    #endregion Properties
+    public Guid RoleId { get; set; }
 }

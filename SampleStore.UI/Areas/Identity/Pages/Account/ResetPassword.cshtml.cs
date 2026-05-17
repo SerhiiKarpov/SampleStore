@@ -1,5 +1,4 @@
-﻿
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -11,49 +10,20 @@ using SampleStore.UI.Pages;
 using SampleStore.UI.ViewModels.Identity;
 
 namespace SampleStore.UI.Areas.Identity.Pages.Account;
-/// <summary>
-/// Class encapsulating reset password model.
-/// </summary>
-/// <seealso cref="PageModelBase" />
+
 [AllowAnonymous]
 public class ResetPasswordModel : PageModelBase
 {
-    #region Fields
-
-    /// <summary>
-    /// The user manager
-    /// </summary>
     private readonly UserManager<User> _userManager;
 
-    #endregion Fields
-
-    #region Constructors
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="ResetPasswordModel"/> class.
-    /// </summary>
-    /// <param name="userManager">The user manager.</param>
     public ResetPasswordModel(UserManager<User> userManager)
     {
         _userManager = userManager.ThrowIfArgumentIsNull(nameof(userManager));
     }
 
-    #endregion Constructors
-
-    #region Properties
-
-    /// <summary>
-    /// Gets or sets the input.
-    /// </summary>
     [BindProperty]
-    public ResetPasswordViewModel Input
-    {
-        get; set;
-    } = default!;
+    public ResetPasswordViewModel Input { get; set; } = default!;
 
-    /// <summary>
-    /// Gets the title.
-    /// </summary>
     public override string Title
     {
         get
@@ -62,15 +32,6 @@ public class ResetPasswordModel : PageModelBase
         }
     }
 
-    #endregion Properties
-
-    #region Methods
-
-    /// <summary>
-    /// Called when [get].
-    /// </summary>
-    /// <param name="code">The code.</param>
-    /// <returns>The <see cref="IActionResult"/>.</returns>
     public IActionResult OnGet(string? code = null)
     {
         if (code == null)
@@ -85,10 +46,6 @@ public class ResetPasswordModel : PageModelBase
         return Page();
     }
 
-    /// <summary>
-    /// Called when [post asynchronous].
-    /// </summary>
-    /// <returns>The <see cref="IActionResult"/>.</returns>
     public async Task<IActionResult> OnPostAsync()
     {
         if (!ModelState.IsValid)
@@ -116,6 +73,4 @@ public class ResetPasswordModel : PageModelBase
 
         return Page();
     }
-
-    #endregion Methods
 }

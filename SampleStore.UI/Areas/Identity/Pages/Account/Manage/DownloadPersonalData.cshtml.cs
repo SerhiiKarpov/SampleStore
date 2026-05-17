@@ -1,5 +1,4 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,33 +13,13 @@ using SampleStore.Data.Entities.Identity;
 using SampleStore.UI.Pages;
 
 namespace SampleStore.UI.Areas.Identity.Pages.Account.Manage;
-/// <summary>
-/// Class encapsulating download personal data model.
-/// </summary>
-/// <seealso cref="PageModelBase" />
+
 public class DownloadPersonalDataModel : PageModelBase
 {
-    #region Fields
-
-    /// <summary>
-    /// The logger
-    /// </summary>
     private readonly ILogger<DownloadPersonalDataModel> _logger;
 
-    /// <summary>
-    /// The user manager
-    /// </summary>
     private readonly UserManager<User> _userManager;
 
-    #endregion Fields
-
-    #region Constructors
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="DownloadPersonalDataModel"/> class.
-    /// </summary>
-    /// <param name="userManager">The user manager.</param>
-    /// <param name="logger">The logger.</param>
     public DownloadPersonalDataModel(
         UserManager<User> userManager,
         ILogger<DownloadPersonalDataModel> logger)
@@ -49,16 +28,6 @@ public class DownloadPersonalDataModel : PageModelBase
         _logger = logger.ThrowIfArgumentIsNull(nameof(logger));
     }
 
-    #endregion Constructors
-
-    #region Properties
-
-    /// <summary>
-    /// Gets the title.
-    /// </summary>
-    /// <value>
-    /// The title.
-    /// </value>
     public override string Title
     {
         get
@@ -67,14 +36,6 @@ public class DownloadPersonalDataModel : PageModelBase
         }
     }
 
-    #endregion Properties
-
-    #region Methods
-
-    /// <summary>
-    /// Called when post asynchronous.
-    /// </summary>
-    /// <returns>The <see cref="IActionResult"/>.</returns>
     public async Task<IActionResult> OnPostAsync()
     {
         var user = await _userManager.GetUserAsync(User);
@@ -98,6 +59,4 @@ public class DownloadPersonalDataModel : PageModelBase
         Response.Headers["Content-Disposition"] = "attachment; filename=PersonalData.json";
         return new FileContentResult(Encoding.UTF8.GetBytes(JsonSerializer.Serialize(personalData)), "text/json");
     }
-
-    #endregion Methods
 }

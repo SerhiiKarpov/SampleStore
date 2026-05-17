@@ -1,62 +1,21 @@
-﻿
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace SampleStore.Data.Entities.Identity;
-/// <summary>
-/// Class encapsulating user login.
-/// </summary>
-/// <seealso cref="Entity" />
+
 public class UserLogin : Entity
 {
-    #region Properties
-
-    /// <summary>
-    /// Gets or sets the login provider.
-    /// </summary>
-    /// <value>
-    /// The login provider.
-    /// </value>
     [Required]
     [StringLength(50)]
-    public required string LoginProvider
-    {
-        get; set;
-    }
+    public required string LoginProvider { get; set; }
 
-    /// <summary>
-    /// Gets or sets the display name of the provider.
-    /// </summary>
-    /// <value>
-    /// The display name of the provider.
-    /// </value>
     [Required]
     [StringLength(100)]
-    public required string ProviderDisplayName
-    {
-        get; set;
-    }
+    public required string ProviderDisplayName { get; set; }
 
-    /// <summary>
-    /// Gets or sets the provider key.
-    /// </summary>
-    /// <value>
-    /// The provider key.
-    /// </value>
     [Required]
     [StringLength(500)]
-    public required string ProviderKey
-    {
-        get; set;
-    }
+    public required string ProviderKey { get; set; }
 
-    /// <summary>
-    /// Gets or sets the user identifier.
-    /// </summary>
-    public Guid UserId
-    {
-        get; set;
-    }
-
-    #endregion Properties
+    public Guid UserId { get; set; }
 }

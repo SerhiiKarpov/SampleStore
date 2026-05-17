@@ -1,24 +1,10 @@
-﻿
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace SampleStore.Data.Entities.Identity;
-/// <summary>
-/// Class encapsulating role.
-/// </summary>
-/// <seealso cref="Entity" />
+
 public class Role : Entity
 {
-    #region Properties
-
-    /// <summary>
-    /// Gets or sets the name.
-    /// </summary>
     [Required]
     [StringLength(50)]
-    public required string Name
-    {
-        get; set;
-    }
-
-    #endregion Properties
+    public required string Name { get; set; }
 }

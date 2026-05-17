@@ -1,5 +1,4 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,81 +14,30 @@ using SampleStore.UI.Pages;
 using SampleStore.UI.ViewModels.Identity;
 
 namespace SampleStore.UI.Areas.Identity.Pages.Account;
-/// <summary>
-/// Class encapsulating login model.
-/// </summary>
-/// <seealso cref="PageModelBase" />
+
 [AllowAnonymous]
 public class LoginModel : PageModelBase
 {
-    #region Fields
-
-    /// <summary>
-    /// The logger
-    /// </summary>
     private readonly ILogger<LoginModel> _logger;
 
-    /// <summary>
-    /// The sign in manager
-    /// </summary>
     private readonly SignInManager<User> _signInManager;
 
-    #endregion Fields
-
-    #region Constructors
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="LoginModel"/> class.
-    /// </summary>
-    /// <param name="signInManager">The sign in manager.</param>
-    /// <param name="logger">The logger.</param>
     public LoginModel(SignInManager<User> signInManager, ILogger<LoginModel> logger)
     {
         _signInManager = signInManager.ThrowIfArgumentIsNull(nameof(signInManager));
         _logger = logger.ThrowIfArgumentIsNull(nameof(logger));
     }
 
-    #endregion Constructors
-
-    #region Properties
-
-    /// <summary>
-    /// Gets or sets the error message.
-    /// </summary>
     [TempData]
-    public string? ErrorMessage
-    {
-        get; set;
-    }
+    public string? ErrorMessage { get; set; }
 
-    /// <summary>
-    /// Gets or sets the external logins.
-    /// </summary>
-    public IList<AuthenticationScheme>? ExternalLogins
-    {
-        get; set;
-    }
+    public IList<AuthenticationScheme>? ExternalLogins { get; set; }
 
-    /// <summary>
-    /// Gets or sets the input.
-    /// </summary>
     [BindProperty]
-    public LoginViewModel Input
-    {
-        get; set;
-    } = default!;
+    public LoginViewModel Input { get; set; } = default!;
 
-    /// <summary>
-    /// Gets or sets the return URL.
-    /// </summary>
-    public string? ReturnUrl
-    {
-        get; set;
-    }
+    public string? ReturnUrl { get; set; }
 
-    /// <summary>
-    /// Gets the title.
-    /// </summary>
     public override string Title
     {
         get
@@ -98,15 +46,6 @@ public class LoginModel : PageModelBase
         }
     }
 
-    #endregion Properties
-
-    #region Methods
-
-    /// <summary>
-    /// Called when [get asynchronous].
-    /// </summary>
-    /// <param name="returnUrl">The return URL.</param>
-    /// <returns>The task object.</returns>
     public async Task OnGetAsync(string? returnUrl = null)
     {
         if (!string.IsNullOrEmpty(ErrorMessage))
@@ -124,11 +63,6 @@ public class LoginModel : PageModelBase
         ReturnUrl = returnUrl;
     }
 
-    /// <summary>
-    /// Called when [post asynchronous].
-    /// </summary>
-    /// <param name="returnUrl">The return URL.</param>
-    /// <returns>The <see cref="IActionResult"/>.</returns>
     public async Task<IActionResult> OnPostAsync(string? returnUrl = null)
     {
         returnUrl = returnUrl ?? Url.Content("~/");
@@ -165,6 +99,4 @@ public class LoginModel : PageModelBase
             return Page();
         }
     }
-
-    #endregion Methods
 }

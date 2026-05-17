@@ -1,31 +1,16 @@
-
 using System.Diagnostics;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace SampleStore.UI.Pages;
-/// <summary>
-/// Class encapsulating error model.
-/// </summary>
-/// <seealso cref="PageModelBase" />
+
 [AllowAnonymous]
 [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
 public class ErrorModel : PageModelBase
 {
-    #region Properties
+    public string? RequestId { get; set; }
 
-    /// <summary>
-    /// Gets or sets the request identifier.
-    /// </summary>
-    public string? RequestId
-    {
-        get; set;
-    }
-
-    /// <summary>
-    /// Gets a value indicating whether [show request identifier].
-    /// </summary>
     public bool ShowRequestId
     {
         get
@@ -34,9 +19,6 @@ public class ErrorModel : PageModelBase
         }
     }
 
-    /// <summary>
-    /// Gets the title.
-    /// </summary>
     public override string Title
     {
         get
@@ -45,17 +27,8 @@ public class ErrorModel : PageModelBase
         }
     }
 
-    #endregion Properties
-
-    #region Methods
-
-    /// <summary>
-    /// Called when [get].
-    /// </summary>
     public void OnGet()
     {
         RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
     }
-
-    #endregion Methods
 }

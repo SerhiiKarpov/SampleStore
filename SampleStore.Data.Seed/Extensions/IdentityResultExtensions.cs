@@ -1,24 +1,14 @@
-﻿
-using System;
+﻿using System;
 using System.Text;
 
 using Microsoft.AspNetCore.Identity;
+
 using SampleStore.Common.Extensions;
 
 namespace SampleStore.Data.Seed.Extensions;
-/// <summary>
-/// Class encapsulating identity result extensions.
-/// </summary>
+
 public static class IdentityResultExtensions
 {
-    #region Methods
-
-    /// <summary>
-    /// Throws the error.
-    /// </summary>
-    /// <param name="result">The result.</param>
-    /// <param name="getMessage">The message getter.</param>
-    /// <exception cref="InvalidOperationException">The thrown error.</exception>
     public static void ThrowIfFailed(this IdentityResult result, Func<string> getMessage)
     {
         result.ThrowIfArgumentIsNull(nameof(result));
@@ -40,6 +30,4 @@ public static class IdentityResultExtensions
 
         throw new InvalidOperationException(messageBuilder.ToString());
     }
-
-    #endregion Methods
 }

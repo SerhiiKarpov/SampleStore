@@ -1,52 +1,20 @@
-﻿
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace SampleStore.Data.Entities.Identity;
-/// <summary>
-/// Class encapsulating user token.
-/// </summary>
-/// <seealso cref="Entity" />
+
 public class UserToken : Entity
 {
-    #region Properties
-
-    /// <summary>
-    /// Gets or sets the login provider.
-    /// </summary>
     [Required]
     [StringLength(50)]
-    public required string LoginProvider
-    {
-        get; set;
-    }
+    public required string LoginProvider { get; set; }
 
-    /// <summary>
-    /// Gets or sets the name.
-    /// </summary>
     [Required]
     [StringLength(100)]
-    public required string Name
-    {
-        get; set;
-    }
+    public required string Name { get; set; }
 
-    /// <summary>
-    /// Gets or sets the user identifier.
-    /// </summary>
-    public Guid UserId
-    {
-        get; set;
-    }
+    public Guid UserId { get; set; }
 
-    /// <summary>
-    /// Gets or sets the value.
-    /// </summary>
     [StringLength(500)]
-    public string? Value
-    {
-        get; set;
-    }
-
-    #endregion Properties
+    public string? Value { get; set; }
 }

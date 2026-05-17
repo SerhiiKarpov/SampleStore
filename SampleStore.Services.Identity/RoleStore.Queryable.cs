@@ -1,25 +1,13 @@
-﻿
-using System.Linq;
+﻿using System.Linq;
 
 using Microsoft.AspNetCore.Identity;
 
 using SampleStore.Data.Entities.Identity;
 
 namespace SampleStore.Services.Identity;
-/// <summary>
-/// Class encapsulating role store.
-/// </summary>
-/// <seealso cref="IQueryableRoleStore{Role}" />
+
 public partial class RoleStore : IQueryableRoleStore<Role>
 {
-    #region Properties
-
-    /// <summary>
-    /// Returns an <see cref="T:System.Linq.IQueryable`1" /> collection of roles.
-    /// </summary>
-    /// <value>
-    /// An <see cref="T:System.Linq.IQueryable`1" /> collection of roles.
-    /// </value>
     public IQueryable<Role> Roles
     {
         get
@@ -27,6 +15,4 @@ public partial class RoleStore : IQueryableRoleStore<Role>
             return _unitOfWork.GetRepository<Role>().Query;
         }
     }
-
-    #endregion Properties
 }

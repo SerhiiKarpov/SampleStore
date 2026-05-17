@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Authorization;
@@ -11,40 +10,17 @@ using SampleStore.Data.Entities.Identity;
 using SampleStore.UI.Pages;
 
 namespace SampleStore.UI.Areas.Identity.Pages.Account;
-/// <summary>
-/// Class encapsulating confirm email model.
-/// </summary>
-/// <seealso cref="PageModelBase" />
+
 [AllowAnonymous]
 public class ConfirmEmailModel : PageModelBase
 {
-    #region Fields
-
-    /// <summary>
-    /// The user manager
-    /// </summary>
     private readonly UserManager<User> _userManager;
 
-    #endregion Fields
-
-    #region Constructors
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="ConfirmEmailModel"/> class.
-    /// </summary>
-    /// <param name="userManager">The user manager.</param>
     public ConfirmEmailModel(UserManager<User> userManager)
     {
         _userManager = userManager.ThrowIfArgumentIsNull(nameof(userManager));
     }
 
-    #endregion Constructors
-
-    #region Properties
-
-    /// <summary>
-    /// Gets the title.
-    /// </summary>
     public override string Title
     {
         get
@@ -53,17 +29,6 @@ public class ConfirmEmailModel : PageModelBase
         }
     }
 
-    #endregion Properties
-
-    #region Methods
-
-    /// <summary>
-    /// Called when [get asynchronous].
-    /// </summary>
-    /// <param name="userId">The user identifier.</param>
-    /// <param name="code">The code.</param>
-    /// <returns>The <see cref="IActionResult"/>.</returns>
-    /// <exception cref="InvalidOperationException">If error occurred when confirming user email in user manager.</exception>
     public async Task<IActionResult> OnGetAsync(string userId, string code)
     {
         if (userId == null || code == null)
@@ -85,6 +50,4 @@ public class ConfirmEmailModel : PageModelBase
 
         return Page();
     }
-
-    #endregion Methods
 }

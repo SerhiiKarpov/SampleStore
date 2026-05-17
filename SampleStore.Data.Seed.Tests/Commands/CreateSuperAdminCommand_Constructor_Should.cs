@@ -1,4 +1,3 @@
-
 using System;
 
 using NSubstitute;
@@ -11,16 +10,9 @@ using SampleStore.Data.Seed.Tests.Helpers;
 using Xunit;
 
 namespace SampleStore.Data.Seed.Tests.Commands;
-/// <summary>
-/// Class encapsulating <see cref="CreateSuperAdminCommand"/> constructor unit-tests.
-/// </summary>
+
 public static class CreateSuperAdminCommand_Constructor_Should
 {
-    #region Methods
-
-    /// <summary>
-    /// Throws if date time service is null.
-    /// </summary>
     [Fact]
     public static void Throw_If_DateTimeService_Is_Null()
     {
@@ -36,9 +28,6 @@ public static class CreateSuperAdminCommand_Constructor_Should
         Assert.Throws<ArgumentNullException>(act);
     }
 
-    /// <summary>
-    /// Throws if password is null.
-    /// </summary>
     [Fact]
     public static void Throw_If_Password_Is_Null()
     {
@@ -54,9 +43,6 @@ public static class CreateSuperAdminCommand_Constructor_Should
         Assert.Throws<ArgumentNullException>(act);
     }
 
-    /// <summary>
-    /// Throws if prototype is null.
-    /// </summary>
     [Fact]
     public static void Throw_If_Prototype_Is_Null()
     {
@@ -72,9 +58,6 @@ public static class CreateSuperAdminCommand_Constructor_Should
         Assert.Throws<ArgumentNullException>(act);
     }
 
-    /// <summary>
-    /// Throws if user manager is null.
-    /// </summary>
     [Fact]
     public static void Throw_If_UserManager_Is_Null()
     {
@@ -89,6 +72,4 @@ public static class CreateSuperAdminCommand_Constructor_Should
         // Assert
         Assert.Throws<ArgumentNullException>(act);
     }
-
-    #endregion Methods
 }

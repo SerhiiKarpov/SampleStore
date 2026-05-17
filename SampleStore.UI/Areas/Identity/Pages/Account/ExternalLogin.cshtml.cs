@@ -15,46 +15,17 @@ using SampleStore.UI.ViewModels.Identity;
 
 namespace SampleStore.UI.Areas.Identity.Pages.Account;
 
-/// <summary>
-/// Class encapsulating external login model.
-/// </summary>
-/// <seealso cref="PageModelBase" />
 [AllowAnonymous]
 public class ExternalLoginModel : PageModelBase
 {
-    #region Fields
-
-    /// <summary>
-    /// The email sender
-    /// </summary>
     private readonly IEmailSender _emailSender;
 
-    /// <summary>
-    /// The logger
-    /// </summary>
     private readonly ILogger<ExternalLoginModel> _logger;
 
-    /// <summary>
-    /// The sign in manager
-    /// </summary>
     private readonly SignInManager<User> _signInManager;
 
-    /// <summary>
-    /// The user manager
-    /// </summary>
     private readonly UserManager<User> _userManager;
 
-    #endregion Fields
-
-    #region Constructors
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="ExternalLoginModel" /> class.
-    /// </summary>
-    /// <param name="signInManager">The sign in manager.</param>
-    /// <param name="userManager">The user manager.</param>
-    /// <param name="emailSender">The email sender.</param>
-    /// <param name="logger">The logger.</param>
     public ExternalLoginModel(
         SignInManager<User> signInManager,
         UserManager<User> userManager,
@@ -67,47 +38,16 @@ public class ExternalLoginModel : PageModelBase
         _logger = logger.ThrowIfArgumentIsNull(nameof(logger));
     }
 
-    #endregion Constructors
-
-    #region Properties
-
-    /// <summary>
-    /// Gets or sets the error message.
-    /// </summary>
     [TempData]
-    public string? ErrorMessage
-    {
-        get; set;
-    }
+    public string? ErrorMessage { get; set; }
 
-    /// <summary>
-    /// Gets or sets the input.
-    /// </summary>
     [BindProperty]
-    public ExternalLoginViewModel Input
-    {
-        get; set;
-    } = default!;
+    public ExternalLoginViewModel Input { get; set; } = default!;
 
-    /// <summary>
-    /// Gets or sets the login provider.
-    /// </summary>
-    public string? LoginProvider
-    {
-        get; set;
-    }
+    public string? LoginProvider { get; set; }
 
-    /// <summary>
-    /// Gets or sets the return URL.
-    /// </summary>
-    public string? ReturnUrl
-    {
-        get; set;
-    }
+    public string? ReturnUrl { get; set; }
 
-    /// <summary>
-    /// Gets the title.
-    /// </summary>
     public override string Title
     {
         get
@@ -116,25 +56,11 @@ public class ExternalLoginModel : PageModelBase
         }
     }
 
-    #endregion Properties
-
-    #region Methods
-
-    /// <summary>
-    /// Called when [get asynchronous].
-    /// </summary>
-    /// <returns>The <see cref="IActionResult"/>.</returns>
     public IActionResult OnGetAsync()
     {
         return RedirectToPage("./Login");
     }
 
-    /// <summary>
-    /// Called when [get callback asynchronous].
-    /// </summary>
-    /// <param name="returnUrl">The return URL.</param>
-    /// <param name="remoteError">The remote error.</param>
-    /// <returns>The <see cref="IActionResult"/>.</returns>
     public async Task<IActionResult> OnGetCallbackAsync(string? returnUrl = null, string? remoteError = null)
     {
         returnUrl = returnUrl ?? Url.Content("~/");
@@ -172,12 +98,6 @@ public class ExternalLoginModel : PageModelBase
         return Page();
     }
 
-    /// <summary>
-    /// Called when [post].
-    /// </summary>
-    /// <param name="provider">The provider.</param>
-    /// <param name="returnUrl">The return URL.</param>
-    /// <returns>The <see cref="IActionResult"/>.</returns>
     public IActionResult OnPost(string provider, string? returnUrl = null)
     {
         // Request a redirect to the external login provider.
@@ -186,11 +106,6 @@ public class ExternalLoginModel : PageModelBase
         return new ChallengeResult(provider, properties);
     }
 
-    /// <summary>
-    /// Called when [post confirmation asynchronous].
-    /// </summary>
-    /// <param name="returnUrl">The return URL.</param>
-    /// <returns>The <see cref="IActionResult"/>.</returns>
     public async Task<IActionResult> OnPostConfirmationAsync(string? returnUrl = null)
     {
         returnUrl = returnUrl ?? Url.Content("~/");
@@ -242,6 +157,4 @@ public class ExternalLoginModel : PageModelBase
         ReturnUrl = returnUrl;
         return Page();
     }
-
-    #endregion Methods
 }

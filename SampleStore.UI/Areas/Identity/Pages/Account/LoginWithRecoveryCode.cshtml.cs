@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Authorization;
@@ -13,64 +12,25 @@ using SampleStore.UI.Pages;
 using SampleStore.UI.ViewModels.Identity;
 
 namespace SampleStore.UI.Areas.Identity.Pages.Account;
-/// <summary>
-/// Class encapsulating login with recovery code model.
-/// </summary>
-/// <seealso cref="PageModelBase" />
+
 [AllowAnonymous]
 public class LoginWithRecoveryCodeModel : PageModelBase
 {
-    #region Fields
-
-    /// <summary>
-    /// The logger
-    /// </summary>
     private readonly ILogger<LoginWithRecoveryCodeModel> _logger;
 
-    /// <summary>
-    /// The sign in manager
-    /// </summary>
     private readonly SignInManager<User> _signInManager;
 
-    #endregion Fields
-
-    #region Constructors
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="LoginWithRecoveryCodeModel"/> class.
-    /// </summary>
-    /// <param name="signInManager">The sign in manager.</param>
-    /// <param name="logger">The logger.</param>
     public LoginWithRecoveryCodeModel(SignInManager<User> signInManager, ILogger<LoginWithRecoveryCodeModel> logger)
     {
         _signInManager = signInManager.ThrowIfArgumentIsNull(nameof(signInManager));
         _logger = logger.ThrowIfArgumentIsNull(nameof(logger));
     }
 
-    #endregion Constructors
-
-    #region Properties
-
-    /// <summary>
-    /// Gets or sets the input.
-    /// </summary>
     [BindProperty]
-    public LoginWithRecoveryCodeViewModel Input
-    {
-        get; set;
-    } = default!;
+    public LoginWithRecoveryCodeViewModel Input { get; set; } = default!;
 
-    /// <summary>
-    /// Gets or sets the return URL.
-    /// </summary>
-    public string? ReturnUrl
-    {
-        get; set;
-    }
+    public string? ReturnUrl { get; set; }
 
-    /// <summary>
-    /// Gets the title.
-    /// </summary>
     public override string Title
     {
         get
@@ -79,16 +39,6 @@ public class LoginWithRecoveryCodeModel : PageModelBase
         }
     }
 
-    #endregion Properties
-
-    #region Methods
-
-    /// <summary>
-    /// Called when [get asynchronous].
-    /// </summary>
-    /// <param name="returnUrl">The return URL.</param>
-    /// <returns>The <see cref="IActionResult"/>.</returns>
-    /// <exception cref="InvalidOperationException">If unable to load two-factor authentication user</exception>
     public async Task<IActionResult> OnGetAsync(string? returnUrl = null)
     {
         // Ensure the user has gone through the username & password screen first
@@ -103,12 +53,6 @@ public class LoginWithRecoveryCodeModel : PageModelBase
         return Page();
     }
 
-    /// <summary>
-    /// Called when [post asynchronous].
-    /// </summary>
-    /// <param name="returnUrl">The return URL.</param>
-    /// <returns>The <see cref="IActionResult"/>.</returns>
-    /// <exception cref="InvalidOperationException"></exception>
     public async Task<IActionResult> OnPostAsync(string? returnUrl = null)
     {
         if (!ModelState.IsValid)
@@ -143,6 +87,4 @@ public class LoginWithRecoveryCodeModel : PageModelBase
             return Page();
         }
     }
-
-    #endregion Methods
 }

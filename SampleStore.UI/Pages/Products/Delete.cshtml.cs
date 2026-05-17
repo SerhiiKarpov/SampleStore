@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,55 +12,22 @@ using SampleStore.Data.Entities.Domain;
 using SampleStore.Data.Extensions;
 
 namespace SampleStore.UI.Pages.Products;
-/// <summary>
-/// Class encapsulating delete model.
-/// </summary>
-/// <seealso cref="PageModel" />
+
 public class DeleteModel : PageModelBase
 {
-    #region Fields
-
-    /// <summary>
-    /// The query materializer
-    /// </summary>
     private readonly IQueryMaterializer _queryMaterializer;
 
-    /// <summary>
-    /// The unit of work
-    /// </summary>
     private readonly IUnitOfWork _unitOfWork;
 
-    #endregion Fields
-
-    #region Constructors
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="DeleteModel"/> class.
-    /// </summary>
-    /// <param name="unitOfWork">The unit of work.</param>
-    /// <param name="queryMaterializer">The query materializer.</param>
     public DeleteModel(IUnitOfWork unitOfWork, IQueryMaterializer queryMaterializer)
     {
         _unitOfWork = unitOfWork.ThrowIfArgumentIsNull(nameof(unitOfWork));
         _queryMaterializer = queryMaterializer.ThrowIfArgumentIsNull(nameof(queryMaterializer));
     }
 
-    #endregion Constructors
-
-    #region Properties
-
-    /// <summary>
-    /// Gets or sets the product.
-    /// </summary>
     [BindProperty]
-    public Product? Product
-    {
-        get; set;
-    }
+    public Product? Product { get; set; }
 
-    /// <summary>
-    /// Gets the title.
-    /// </summary>
     public override string Title
     {
         get
@@ -70,15 +36,6 @@ public class DeleteModel : PageModelBase
         }
     }
 
-    #endregion Properties
-
-    #region Methods
-
-    /// <summary>
-    /// Called when [get asynchronous].
-    /// </summary>
-    /// <param name="id">The identifier.</param>
-    /// <returns>The <see cref="IActionResult"/>.</returns>
     public async Task<IActionResult> OnGetAsync(Guid? id)
     {
         if (id == null)
@@ -97,11 +54,6 @@ public class DeleteModel : PageModelBase
         return Page();
     }
 
-    /// <summary>
-    /// Called when [post asynchronous].
-    /// </summary>
-    /// <param name="id">The identifier.</param>
-    /// <returns>The <see cref="IActionResult"/>.</returns>
     public async Task<IActionResult> OnPostAsync(Guid? id)
     {
         if (!id.HasValue)
@@ -120,6 +72,4 @@ public class DeleteModel : PageModelBase
 
         return RedirectToPage("./Index");
     }
-
-    #endregion Methods
 }

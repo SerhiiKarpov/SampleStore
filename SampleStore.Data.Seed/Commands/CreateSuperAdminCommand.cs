@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Identity;
@@ -11,45 +10,17 @@ using SampleStore.Data.Entities.Identity;
 using SampleStore.Data.Seed.Extensions;
 
 namespace SampleStore.Data.Seed.Commands;
-/// <summary>
-/// Class encapsulating create super admin command.
-/// </summary>
-/// <seealso cref="ICreateSuperAdminCommandFactory" />
+
 public class CreateSuperAdminCommand : ICommand<User>
 {
-    #region Fields
-
-    /// <summary>
-    /// The date time service
-    /// </summary>
     private readonly IDateTime _dateTimeService;
 
-    /// <summary>
-    /// The password
-    /// </summary>
     private readonly string _password;
 
-    /// <summary>
-    /// The prototype
-    /// </summary>
     private readonly User _prototype;
 
-    /// <summary>
-    /// The user manager
-    /// </summary>
     private readonly UserManager<User> _userManager;
 
-    #endregion Fields
-
-    #region Constructors
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="CreateSuperAdminCommand" /> class.
-    /// </summary>
-    /// <param name="userManager">The user manager.</param>
-    /// <param name="dateTimeService">The date time service.</param>
-    /// <param name="prototype">The prototype.</param>
-    /// <param name="password">The password.</param>
     public CreateSuperAdminCommand(UserManager<User> userManager, IDateTime dateTimeService, User prototype, string password)
     {
         _userManager = userManager.ThrowIfArgumentIsNull(nameof(userManager));
@@ -58,16 +29,6 @@ public class CreateSuperAdminCommand : ICommand<User>
         _password = password.ThrowIfArgumentIsNull(nameof(password));
     }
 
-    #endregion Constructors
-
-    #region Methods
-
-    /// <summary>
-    /// Creates the super admin.
-    /// </summary>
-    /// <returns>
-    /// The super admin user.
-    /// </returns>
     public async Task<User> Do()
     {
         var superAdmin = new User { Email = string.Empty, FullName = string.Empty };
@@ -80,6 +41,4 @@ public class CreateSuperAdminCommand : ICommand<User>
 
         return superAdmin;
     }
-
-    #endregion Methods
 }
