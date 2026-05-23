@@ -120,8 +120,14 @@ public class ExternalLoginModel : PageModelBase
 
         if (ModelState.IsValid)
         {
-            var user = Input.ToUser();
-            var result = await _userManager.CreateAsync(user);
+            var result = IdentityResult.Success;
+            var user = await _userManager.FindByEmailAsync(Input.Email);
+            if (user is null)
+            {
+                user = Input.ToUser();
+                result = await _userManager.CreateAsync(user);
+            }
+            
             if (result.Succeeded)
             {
                 result = await _userManager.AddLoginAsync(user, info);
@@ -129,18 +135,21 @@ public class ExternalLoginModel : PageModelBase
                 {
                     await _userManager.AddClaimsAsync(user, info.Principal.Claims);
 
-                    // TODO: Copy of this code exists in Register.cshtml.cs. Please extract it.
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    var callbackUrl = Url.Page(
-                        "/Account/ConfirmEmail",
-                        pageHandler: null,
-                        values: new { userId = user.Id, code },
-                        protocol: Request.Scheme);
+                    if (!user.EmailConfirmed)
+                    {
+                        // TODO: Copy of this code exists in Register.cshtml.cs. Please extract it.
+                        var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                        var callbackUrl = Url.Page(
+                            "/Account/ConfirmEmail",
+                            pageHandler: null,
+                            values: new { userId = user.Id, code },
+                            protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(
-                        Input.Email,
-                        "Confirm your email",
-                        $"Please confirm your account by clicking <a href='{HtmlEncoder.Default.Encode(callbackUrl!)}'>here</a>.");
+                        await _emailSender.SendEmailAsync(
+                            Input.Email,
+                            "Confirm your email",
+                            $"Please confirm your account by clicking <a href='{HtmlEncoder.Default.Encode(callbackUrl!)}'>here</a>.");
+                    }
 
                     _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
                     return LocalRedirect(returnUrl);
