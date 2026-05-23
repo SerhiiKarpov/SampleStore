@@ -2,7 +2,7 @@
 
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Sendgrid" Version="9.29.1" />
+    <PackageReference Include="Sendgrid" />
   </ItemGroup>
 
   <ItemGroup>

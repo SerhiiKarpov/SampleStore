@@ -48,13 +48,7 @@ public class ExternalLoginModel : PageModelBase
 
     public string? ReturnUrl { get; set; }
 
-    public override string Title
-    {
-        get
-        {
-            return "Register";
-        }
-    }
+    public override string Title => "Register";
 
     public IActionResult OnGetAsync()
     {
@@ -63,7 +57,7 @@ public class ExternalLoginModel : PageModelBase
 
     public async Task<IActionResult> OnGetCallbackAsync(string? returnUrl = null, string? remoteError = null)
     {
-        returnUrl = returnUrl ?? Url.Content("~/");
+        returnUrl ??= Url.Content("~/");
         if (remoteError != null)
         {
             ErrorMessage = $"Error from external provider: {remoteError}";
