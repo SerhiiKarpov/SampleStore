@@ -6,11 +6,5 @@ namespace SampleStore.UI.Pages;
 [AllowAnonymous]
 public class IndexModel : PageModelBase
 {
-    public override string Title
-    {
-        get
-        {
-            return "Home page";
-        }
-    }
+    public override string Title => "Home page";
 }

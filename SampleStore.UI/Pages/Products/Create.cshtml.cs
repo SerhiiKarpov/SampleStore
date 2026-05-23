@@ -22,13 +22,7 @@ public class CreateModel : PageModelBase
     [BindProperty]
     public Product? Product { get; set; }
 
-    public override string Title
-    {
-        get
-        {
-            return "Create";
-        }
-    }
+    public override string Title => "Create";
 
     public IActionResult OnGet()
     {

@@ -30,13 +30,7 @@ public class LoginWithRecoveryCodeModel : PageModelBase
 
     public string? ReturnUrl { get; set; }
 
-    public override string Title
-    {
-        get
-        {
-            return "Recovery code verification";
-        }
-    }
+    public override string Title => "Recovery code verification";
 
     public async Task<IActionResult> OnGetAsync(string? returnUrl = null)
     {

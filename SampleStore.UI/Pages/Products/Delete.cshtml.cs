@@ -26,13 +26,7 @@ public class DeleteModel : PageModelBase
     [BindProperty]
     public Product? Product { get; set; }
 
-    public override string Title
-    {
-        get
-        {
-            return "Delete";
-        }
-    }
+    public override string Title => "Delete";
 
     public async Task<IActionResult> OnGetAsync(Guid? id)
     {

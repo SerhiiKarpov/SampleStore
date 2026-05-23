@@ -24,13 +24,7 @@ public class ResetPasswordModel : PageModelBase
     [BindProperty]
     public ResetPasswordViewModel Input { get; set; } = default!;
 
-    public override string Title
-    {
-        get
-        {
-            return "Reset password";
-        }
-    }
+    public override string Title => "Reset password";
 
     public IActionResult OnGet(string? code = null)
     {

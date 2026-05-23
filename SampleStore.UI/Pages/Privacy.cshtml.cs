@@ -5,11 +5,5 @@ namespace SampleStore.UI.Pages;
 [AllowAnonymous]
 public class PrivacyModel : PageModelBase
 {
-    public override string Title
-    {
-        get
-        {
-            return "Privacy Policy";
-        }
-    }
+    public override string Title => "Privacy Policy";
 }

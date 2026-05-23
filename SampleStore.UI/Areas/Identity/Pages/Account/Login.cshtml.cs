@@ -38,13 +38,7 @@ public class LoginModel : PageModelBase
 
     public string? ReturnUrl { get; set; }
 
-    public override string Title
-    {
-        get
-        {
-            return "Log in";
-        }
-    }
+    public override string Title => "Log in";
 
     public async Task OnGetAsync(string? returnUrl = null)
     {

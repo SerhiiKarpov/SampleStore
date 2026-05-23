@@ -24,13 +24,7 @@ public class LogoutModel : PageModelBase
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    public override string Title
-    {
-        get
-        {
-            return "Log out";
-        }
-    }
+    public override string Title => "Log out";
 
     public async Task<IActionResult> OnPost(string? returnUrl = null)
     {

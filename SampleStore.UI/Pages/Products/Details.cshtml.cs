@@ -23,13 +23,7 @@ public class DetailsModel : PageModelBase
 
     public Product? Product { get; set; }
 
-    public override string Title
-    {
-        get
-        {
-            return "Details";
-        }
-    }
+    public override string Title => "Details";
 
     public async Task<IActionResult> OnGetAsync(Guid? id)
     {

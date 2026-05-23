@@ -7,13 +7,7 @@ public class ContactModel : PageModelBase
 {
     public string? Message { get; set; }
 
-    public override string Title
-    {
-        get
-        {
-            return "Contact";
-        }
-    }
+    public override string Title => "Contact";
 
     public void OnGet()
     {

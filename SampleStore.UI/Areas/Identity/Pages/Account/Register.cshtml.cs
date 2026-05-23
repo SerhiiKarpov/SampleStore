@@ -43,13 +43,7 @@ public class RegisterModel : PageModelBase
 
     public string? ReturnUrl { get; set; }
 
-    public override string Title
-    {
-        get
-        {
-            return "Register";
-        }
-    }
+    public override string Title => "Register";
 
     public void OnGet(string? returnUrl = null)
     {
