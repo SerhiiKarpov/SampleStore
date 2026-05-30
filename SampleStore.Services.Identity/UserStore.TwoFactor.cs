@@ -8,7 +8,7 @@ using SampleStore.Data.Entities.Identity;
 
 namespace SampleStore.Services.Identity;
 
-public partial class UserStore : IUserTwoFactorStore<User>
+internal partial class UserStore : IUserTwoFactorStore<User>
 {
     public Task<bool> GetTwoFactorEnabledAsync(User user, CancellationToken cancellationToken)
     {

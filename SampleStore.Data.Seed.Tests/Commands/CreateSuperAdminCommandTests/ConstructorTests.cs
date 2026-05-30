@@ -5,7 +5,7 @@ using NSubstitute;
 using SampleStore.Common.Services;
 using SampleStore.Data.Entities.Identity;
 using SampleStore.Data.Seed.Commands;
-using SampleStore.Data.Seed.Tests.Helpers;
+using SampleStore.Services.Identity;
 
 using Xunit;
 
@@ -17,7 +17,7 @@ public static class ConstructorTests
     public static void Throws_If_DateTimeService_Is_Null()
     {
         // Arrange
-        var userManagerStub = UserManagerTestHelper.CreateUserManagerFake();
+        var userManagerStub = Substitute.For<IUserManager>();
         var passwordStub = string.Empty;
         var prototypeStub = new User();
 
@@ -32,7 +32,7 @@ public static class ConstructorTests
     public static void Throws_If_Password_Is_Null()
     {
         // Arrange
-        var userManagerStub = UserManagerTestHelper.CreateUserManagerFake();
+        var userManagerStub = Substitute.For<IUserManager>();
         var dateTimeServiceStub = Substitute.For<IDateTime>();
         var prototypeStub = new User();
 
@@ -47,7 +47,7 @@ public static class ConstructorTests
     public static void Throws_If_Prototype_Is_Null()
     {
         // Arrange
-        var userManagerStub = UserManagerTestHelper.CreateUserManagerFake();
+        var userManagerStub = Substitute.For<IUserManager>();
         var dateTimeServiceStub = Substitute.For<IDateTime>();
         var passwordStub = string.Empty;
 

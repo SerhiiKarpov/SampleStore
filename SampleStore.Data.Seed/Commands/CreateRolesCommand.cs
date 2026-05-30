@@ -3,48 +3,38 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using Microsoft.AspNetCore.Identity;
-
 using SampleStore.Common.Commands;
 using SampleStore.Data.Entities.Identity;
 using SampleStore.Data.Seed.Extensions;
+using SampleStore.Services.Identity;
 using SampleStore.Services.Identity.Constants;
 
 namespace SampleStore.Data.Seed.Commands;
 
-public class CreateRolesCommand : ICommand<List<Role>>
+public class CreateRolesCommand(IRoleManager roleManager, IQueryMaterializer queryMaterializer) : ICommand<List<Role>>
 {
-    private readonly IQueryMaterializer _queryMaterializer;
-
-    private readonly RoleManager<Role> _roleManager;
-
-    public CreateRolesCommand(RoleManager<Role> roleManager, IQueryMaterializer queryMaterializer)
-    {
-        _roleManager = roleManager ?? throw new ArgumentNullException(nameof(roleManager));
-        _queryMaterializer = queryMaterializer ?? throw new ArgumentNullException(nameof(queryMaterializer));
-    }
+    private readonly IQueryMaterializer _queryMaterializer = queryMaterializer ?? throw new ArgumentNullException(nameof(queryMaterializer));
+    private readonly IRoleManager _roleManager = roleManager ?? throw new ArgumentNullException(nameof(roleManager));
 
     public async Task<List<Role>> Do()
     {
         var existingRoles = await _queryMaterializer.ToList(_roleManager.Roles);
-        var existingRoleNames = await Task.WhenAll(existingRoles.Select(_roleManager.GetRoleNameAsync));
+        var existingRoleNames = existingRoles.Select(x => x.Name).ToHashSet(StringComparer.OrdinalIgnoreCase);
 
-        foreach (var role in RolePrototypes.Roles.ToList())
+        foreach (var roleName in Roles.All)
         {
-            var roleName = await _roleManager.GetRoleNameAsync(role);
-            if (existingRoleNames.Any(existingRoleName => string.Equals(existingRoleName, roleName, StringComparison.OrdinalIgnoreCase)))
+            if (existingRoleNames.Contains(roleName))
             {
                 continue;
             }
 
-            var roleResult = await _roleManager.CreateAsync(role);
+            var roleResult = await _roleManager.CreateAsync(new() { Name = roleName });
             if (!roleResult.Succeeded)
             {
                 roleResult.ThrowIfFailed(() => $"Failed to create role {roleName}.");
             }
         }
 
-        var roles = await _queryMaterializer.ToList(_roleManager.Roles);
-        return roles;
+        return await _queryMaterializer.ToList(_roleManager.Roles);
     }
 }

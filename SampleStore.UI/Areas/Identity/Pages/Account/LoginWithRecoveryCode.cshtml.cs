@@ -2,28 +2,20 @@
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-using SampleStore.Data.Entities.Identity;
+using SampleStore.Services.Identity;
 using SampleStore.UI.Pages;
 using SampleStore.UI.ViewModels.Identity;
 
 namespace SampleStore.UI.Areas.Identity.Pages.Account;
 
 [AllowAnonymous]
-public class LoginWithRecoveryCodeModel : PageModelBase
+public class LoginWithRecoveryCodeModel(ISignInManager signInManager, ILogger<LoginWithRecoveryCodeModel> logger) : PageModelBase
 {
-    private readonly ILogger<LoginWithRecoveryCodeModel> _logger;
-
-    private readonly SignInManager<User> _signInManager;
-
-    public LoginWithRecoveryCodeModel(SignInManager<User> signInManager, ILogger<LoginWithRecoveryCodeModel> logger)
-    {
-        _signInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
-        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-    }
+    private readonly ILogger<LoginWithRecoveryCodeModel> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+    private readonly ISignInManager _signInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
 
     [BindProperty]
     public LoginWithRecoveryCodeViewModel Input { get; set; } = default!;

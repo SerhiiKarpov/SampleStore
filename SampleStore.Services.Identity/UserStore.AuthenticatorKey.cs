@@ -7,7 +7,7 @@ using SampleStore.Data.Entities.Identity;
 
 namespace SampleStore.Services.Identity;
 
-public partial class UserStore : IUserAuthenticatorKeyStore<User>
+internal partial class UserStore : IUserAuthenticatorKeyStore<User>
 {
     private const string AuthenticatorKeyTokenLoginProvider = "AuthenticatorKeyTokenLoginProvider";
 

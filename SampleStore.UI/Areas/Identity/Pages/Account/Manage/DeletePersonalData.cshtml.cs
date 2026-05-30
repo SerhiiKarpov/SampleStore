@@ -1,31 +1,23 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-using SampleStore.Data.Entities.Identity;
+using SampleStore.Services.Identity;
 using SampleStore.UI.Pages;
 using SampleStore.UI.ViewModels.Identity;
 
 namespace SampleStore.UI.Areas.Identity.Pages.Account.Manage;
 
-public class DeletePersonalDataModel : PageModelBase
+public class DeletePersonalDataModel(
+    IUserManager userManager,
+    ISignInManager signInManager,
+    ILogger<DeletePersonalDataModel> logger) : PageModelBase
 {
-    private readonly ILogger<DeletePersonalDataModel> _logger;
-    private readonly SignInManager<User> _signInManager;
-    private readonly UserManager<User> _userManager;
-
-    public DeletePersonalDataModel(
-        UserManager<User> userManager,
-        SignInManager<User> signInManager,
-        ILogger<DeletePersonalDataModel> logger)
-    {
-        _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
-        _signInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
-        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-    }
+    private readonly ILogger<DeletePersonalDataModel> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+    private readonly ISignInManager _signInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
+    private readonly IUserManager _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
 
     [BindProperty]
     public DeletePersonalDataViewModel? Input { get; set; }
@@ -63,15 +55,14 @@ public class DeletePersonalDataModel : PageModelBase
         }
 
         var result = await _userManager.DeleteAsync(user);
-        var userId = await _userManager.GetUserIdAsync(user);
         if (!result.Succeeded)
         {
-            throw new InvalidOperationException($"Unexpected error occurred deleteing user with ID '{userId}'.");
+            throw new InvalidOperationException($"Unexpected error occurred deleteing user with ID '{user.Id}'.");
         }
 
         await _signInManager.SignOutAsync();
 
-        _logger.LogInformation("User with ID '{UserId}' deleted themselves.", userId);
+        _logger.LogInformation("User with ID '{UserId}' deleted themselves.", user.Id);
 
         return Redirect("~/");
     }

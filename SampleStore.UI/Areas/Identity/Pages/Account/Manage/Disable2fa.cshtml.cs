@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-using SampleStore.Data.Entities.Identity;
+using SampleStore.Services.Identity;
 using SampleStore.UI.Pages;
 
 namespace SampleStore.UI.Areas.Identity.Pages.Account.Manage;
@@ -14,10 +13,10 @@ public class Disable2faModel : PageModelBase
 {
     private readonly ILogger<Disable2faModel> _logger;
 
-    private readonly UserManager<User> _userManager;
+    private readonly IUserManager _userManager;
 
     public Disable2faModel(
-        UserManager<User> userManager,
+        IUserManager userManager,
         ILogger<Disable2faModel> logger)
     {
         _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
@@ -27,13 +26,7 @@ public class Disable2faModel : PageModelBase
     [TempData]
     public string? StatusMessage { get; set; }
 
-    public override string Title
-    {
-        get
-        {
-            return "Disable two-factor authentication (2FA)";
-        }
-    }
+    public override string Title => "Disable two-factor authentication (2FA)";
 
     public async Task<IActionResult> OnGet()
     {

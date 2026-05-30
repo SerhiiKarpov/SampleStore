@@ -19,13 +19,7 @@ public static class WebHostExtensions
 
     private const string SuperAdminPrototypeSection = "SuperAdminPrototype";
 
-    public static IHost EnsureSeeded(this IHost host)
-    {
-        DoEnsureSeeded(host).GetAwaiter().GetResult();
-        return host;
-    }
-
-    private static async Task DoEnsureSeeded(IHost host)
+    public static async Task EnsureSeeded(this IHost host)
     {
         using var scope = host.Services.CreateScope();
         var services = scope.ServiceProvider;

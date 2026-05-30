@@ -10,7 +10,7 @@ using SampleStore.Data.Entities.Identity;
 
 namespace SampleStore.Services.Identity;
 
-public partial class UserStore : IUserTwoFactorRecoveryCodeStore<User>
+internal partial class UserStore : IUserTwoFactorRecoveryCodeStore<User>
 {
     private const string TwoFactoryRecoveryCodeDelimiter = ";";
 

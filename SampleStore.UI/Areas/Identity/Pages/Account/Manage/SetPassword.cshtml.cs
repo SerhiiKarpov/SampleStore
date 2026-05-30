@@ -1,28 +1,20 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-using SampleStore.Data.Entities.Identity;
+using SampleStore.Services.Identity;
 using SampleStore.UI.Pages;
 using SampleStore.UI.ViewModels.Identity;
 
 namespace SampleStore.UI.Areas.Identity.Pages.Account.Manage;
 
-public class SetPasswordModel : PageModelBase
+public class SetPasswordModel(
+    IUserManager userManager,
+    ISignInManager signInManager) : PageModelBase
 {
-    private readonly SignInManager<User> _signInManager;
-
-    private readonly UserManager<User> _userManager;
-
-    public SetPasswordModel(
-        UserManager<User> userManager,
-        SignInManager<User> signInManager)
-    {
-        _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
-        _signInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
-    }
+    private readonly ISignInManager _signInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
+    private readonly IUserManager _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
 
     [BindProperty]
     public SetPasswordViewModel? Input { get; set; }
@@ -30,18 +22,12 @@ public class SetPasswordModel : PageModelBase
     [TempData]
     public string? StatusMessage { get; set; }
 
-    public override string Title
-    {
-        get
-        {
-            return "Set password";
-        }
-    }
+    public override string Title => "Set password";
 
     public async Task<IActionResult> OnGetAsync()
     {
         var user = await _userManager.GetUserAsync(User);
-        if (user == null)
+        if (user is null)
         {
             return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
         }
@@ -76,6 +62,7 @@ public class SetPasswordModel : PageModelBase
             {
                 ModelState.AddModelError(string.Empty, error.Description);
             }
+
             return Page();
         }
 

@@ -9,24 +9,17 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-using SampleStore.Data.Entities.Identity;
+using SampleStore.Services.Identity;
 using SampleStore.UI.Pages;
 using SampleStore.UI.ViewModels.Identity;
 
 namespace SampleStore.UI.Areas.Identity.Pages.Account;
 
 [AllowAnonymous]
-public class LoginModel : PageModelBase
+public class LoginModel(ISignInManager signInManager, ILogger<LoginModel> logger) : PageModelBase
 {
-    private readonly ILogger<LoginModel> _logger;
-
-    private readonly SignInManager<User> _signInManager;
-
-    public LoginModel(SignInManager<User> signInManager, ILogger<LoginModel> logger)
-    {
-        _signInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
-        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-    }
+    private readonly ILogger<LoginModel> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+    private readonly ISignInManager _signInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
 
     [TempData]
     public string? ErrorMessage { get; set; }

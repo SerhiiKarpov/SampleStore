@@ -12,7 +12,7 @@ using SampleStore.Services.Identity.Mapping;
 
 namespace SampleStore.Services.Identity;
 
-public partial class UserStore : IUserClaimStore<User>
+internal partial class UserStore : IUserClaimStore<User>
 {
     public async Task AddClaimsAsync(User user, IEnumerable<Claim> claims, CancellationToken cancellationToken)
     {

@@ -1,34 +1,19 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
-using SampleStore.Data.Entities.Identity;
+using SampleStore.Services.Identity;
 using SampleStore.UI.Pages;
 
 namespace SampleStore.UI.Areas.Identity.Pages.Account.Manage;
 
-public class TwoFactorAuthenticationModel : PageModelBase
+public class TwoFactorAuthenticationModel(
+    IUserManager userManager,
+    ISignInManager signInManager) : PageModelBase
 {
-    private const string AuthenicatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}";
-
-    private readonly ILogger<TwoFactorAuthenticationModel> _logger;
-
-    private readonly SignInManager<User> _signInManager;
-
-    private readonly UserManager<User> _userManager;
-
-    public TwoFactorAuthenticationModel(
-        UserManager<User> userManager,
-        SignInManager<User> signInManager,
-        ILogger<TwoFactorAuthenticationModel> logger)
-    {
-        _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
-        _signInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
-        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-    }
+    private readonly ISignInManager _signInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
+    private readonly IUserManager _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
 
     public bool HasAuthenticator { get; set; }
 
@@ -42,18 +27,12 @@ public class TwoFactorAuthenticationModel : PageModelBase
     [TempData]
     public string? StatusMessage { get; set; }
 
-    public override string Title
-    {
-        get
-        {
-            return "Two-factor authentication (2FA)";
-        }
-    }
+    public override string Title => "Two-factor authentication (2FA)";
 
     public async Task<IActionResult> OnGet()
     {
         var user = await _userManager.GetUserAsync(User);
-        if (user == null)
+        if (user is null)
         {
             return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
         }

@@ -2,28 +2,23 @@
 using System.Linq;
 using System.Threading.Tasks;
 
-using Microsoft.AspNetCore.Identity;
-
 using SampleStore.Data.Entities.Identity;
 using SampleStore.Data.Extensions;
 using SampleStore.Data.Seed.Commands;
+using SampleStore.Services.Identity;
 
 namespace SampleStore.Data.Seed;
 
 public class DatabaseSeeder
 {
     private readonly IAddUserToRolesCommandFactory _addUserToRolesCommandFactory;
-
     private readonly ICreateRolesCommandFactory _createRolesCommandFactory;
-
     private readonly ICreateSuperAdminCommandFactory _createSuperAdminCommandFactory;
-
     private readonly IQueryMaterializer _queryMaterializer;
-
-    private readonly UserManager<User> _userManager;
+    private readonly IUserManager _userManager;
 
     public DatabaseSeeder(
-        UserManager<User> userManager,
+        IUserManager userManager,
         IQueryMaterializer queryMaterializer,
         ICreateSuperAdminCommandFactory createSuperAdminCommandFactory,
         ICreateRolesCommandFactory createRolesCommandFactory,
@@ -46,6 +41,6 @@ public class DatabaseSeeder
     {
         var roles = await _createRolesCommandFactory.CreateCommand().Do();
         var superAdmin = await _createSuperAdminCommandFactory.CreateCommand(superAdminPrototype, defaultPassword).Do();
-        await _addUserToRolesCommandFactory.CreateCommand(superAdmin, roles).Do();
+        await _addUserToRolesCommandFactory.CreateCommand(superAdmin, roles.Select(x => x.Name)).Do();
     }
 }

@@ -3,11 +3,10 @@ using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 
-using SampleStore.Data.Entities.Identity;
+using SampleStore.Services.Identity;
 using SampleStore.UI.Pages;
 using SampleStore.UI.ViewModels.Identity;
 
@@ -17,9 +16,9 @@ namespace SampleStore.UI.Areas.Identity.Pages.Account;
 public class ForgotPasswordModel : PageModelBase
 {
     private readonly IEmailSender _emailSender;
-    private readonly UserManager<User> _userManager;
+    private readonly IUserManager _userManager;
 
-    public ForgotPasswordModel(UserManager<User> userManager, IEmailSender emailSender)
+    public ForgotPasswordModel(IUserManager userManager, IEmailSender emailSender)
     {
         _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
         _emailSender = emailSender ?? throw new ArgumentNullException(nameof(emailSender));

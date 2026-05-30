@@ -5,11 +5,11 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 using SampleStore.Data.Entities.Identity;
+using SampleStore.Services.Identity;
 using SampleStore.UI.Pages;
 using SampleStore.UI.ViewModels.Identity;
 
@@ -21,10 +21,10 @@ public class EnableAuthenticatorModel : PageModelBase
 
     private readonly ILogger<EnableAuthenticatorModel> _logger;
     private readonly UrlEncoder _urlEncoder;
-    private readonly UserManager<User> _userManager;
+    private readonly IUserManager _userManager;
 
     public EnableAuthenticatorModel(
-        UserManager<User> userManager,
+        IUserManager userManager,
         ILogger<EnableAuthenticatorModel> logger,
         UrlEncoder urlEncoder)
     {
@@ -64,7 +64,7 @@ public class EnableAuthenticatorModel : PageModelBase
     public async Task<IActionResult> OnPostAsync()
     {
         var user = await _userManager.GetUserAsync(User);
-        if (user == null)
+        if (user is null)
         {
             return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
         }
@@ -78,8 +78,11 @@ public class EnableAuthenticatorModel : PageModelBase
         // Strip spaces and hypens
         var verificationCode = Input!.Code.Replace(" ", string.Empty).Replace("-", string.Empty);
 
-        var is2faTokenValid = await _userManager.VerifyTwoFactorTokenAsync(
-            user, _userManager.Options.Tokens.AuthenticatorTokenProvider, verificationCode);
+        var is2faTokenValid =
+            await _userManager.VerifyTwoFactorTokenAsync(
+                user,
+                _userManager.Options.Tokens.AuthenticatorTokenProvider,
+                verificationCode);
 
         if (!is2faTokenValid)
         {
@@ -89,15 +92,14 @@ public class EnableAuthenticatorModel : PageModelBase
         }
 
         await _userManager.SetTwoFactorEnabledAsync(user, true);
-        var userId = await _userManager.GetUserIdAsync(user);
-        _logger.LogInformation("User with ID '{UserId}' has enabled 2FA with an authenticator app.", userId);
+        _logger.LogInformation("User with ID '{UserId}' has enabled 2FA with an authenticator app.", user.Id);
 
         StatusMessage = "Your authenticator app has been verified.";
 
         if (await _userManager.CountRecoveryCodesAsync(user) == 0)
         {
             var recoveryCodes = await _userManager.GenerateNewTwoFactorRecoveryCodesAsync(user, 10);
-            RecoveryCodes = recoveryCodes!.ToArray();
+            RecoveryCodes = recoveryCodes?.ToArray() ?? [];
             return RedirectToPage("./ShowRecoveryCodes");
         }
         else
@@ -144,7 +146,6 @@ public class EnableAuthenticatorModel : PageModelBase
 
         SharedKey = FormatKey(unformattedKey!);
 
-        var email = await _userManager.GetEmailAsync(user);
-        AuthenticatorUri = GenerateQrCodeUri(email ?? string.Empty, unformattedKey!);
+        AuthenticatorUri = GenerateQrCodeUri(user.Email, unformattedKey!);
     }
 }

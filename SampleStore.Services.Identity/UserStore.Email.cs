@@ -9,7 +9,7 @@ using SampleStore.Data.Extensions;
 
 namespace SampleStore.Services.Identity;
 
-public partial class UserStore : IUserEmailStore<User>
+internal partial class UserStore : IUserEmailStore<User>
 {
     public Task<User?> FindByEmailAsync(string normalizedEmail, CancellationToken cancellationToken)
     {

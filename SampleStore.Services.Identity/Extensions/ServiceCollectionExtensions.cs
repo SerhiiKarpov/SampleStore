@@ -9,14 +9,18 @@ namespace SampleStore.Services.Identity.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    public static void AddCustomizedIdentity(this IServiceCollection services)
+    public static IServiceCollection AddCustomizedIdentity(this IServiceCollection services)
     {
         ArgumentNullException.ThrowIfNull(services);
 
         services.AddIdentity<User, Role>()
             .AddDefaultTokenProviders();
 
-        services.AddScoped<IUserStore<User>, UserStore>();
-        services.AddScoped<IRoleStore<Role>, RoleStore>();
+        return services
+            .AddScoped<IUserManager, UserManagerWrapper>()
+            .AddScoped<IUserStore<User>, UserStore>()
+            .AddScoped<IRoleManager, RoleManagerWrapper>()
+            .AddScoped<IRoleStore<Role>, RoleStore>()
+            .AddScoped<ISignInManager, SignInManagerWrapper>();
     }
 }

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-using SampleStore.Data.Entities.Identity;
+using SampleStore.Services.Identity;
 using SampleStore.UI.Mapping;
 using SampleStore.UI.Pages;
 using SampleStore.UI.ViewModels.Identity;
@@ -16,27 +16,16 @@ using SampleStore.UI.ViewModels.Identity;
 namespace SampleStore.UI.Areas.Identity.Pages.Account;
 
 [AllowAnonymous]
-public class ExternalLoginModel : PageModelBase
+public class ExternalLoginModel(
+    ISignInManager signInManager,
+    IUserManager userManager,
+    IEmailSender emailSender,
+    ILogger<ExternalLoginModel> logger) : PageModelBase
 {
-    private readonly IEmailSender _emailSender;
-
-    private readonly ILogger<ExternalLoginModel> _logger;
-
-    private readonly SignInManager<User> _signInManager;
-
-    private readonly UserManager<User> _userManager;
-
-    public ExternalLoginModel(
-        SignInManager<User> signInManager,
-        UserManager<User> userManager,
-        IEmailSender emailSender,
-        ILogger<ExternalLoginModel> logger)
-    {
-        _signInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
-        _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
-        _emailSender = emailSender ?? throw new ArgumentNullException(nameof(emailSender));
-        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-    }
+    private readonly IEmailSender _emailSender = emailSender ?? throw new ArgumentNullException(nameof(emailSender));
+    private readonly ILogger<ExternalLoginModel> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+    private readonly ISignInManager _signInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
+    private readonly IUserManager _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
 
     [TempData]
     public string? ErrorMessage { get; set; }
@@ -65,7 +54,7 @@ public class ExternalLoginModel : PageModelBase
         }
 
         var info = await _signInManager.GetExternalLoginInfoAsync();
-        if (info == null)
+        if (info is null)
         {
             ErrorMessage = "Error loading external login information.";
             return RedirectToPage("./Login", new { ReturnUrl = returnUrl });

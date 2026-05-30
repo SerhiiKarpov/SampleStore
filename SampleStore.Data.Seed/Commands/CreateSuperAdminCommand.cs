@@ -1,27 +1,23 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-using Microsoft.AspNetCore.Identity;
-
 using SampleStore.Common.Commands;
 using SampleStore.Common.Extensions;
 using SampleStore.Common.Services;
 using SampleStore.Data.Entities.Identity;
 using SampleStore.Data.Seed.Extensions;
+using SampleStore.Services.Identity;
 
 namespace SampleStore.Data.Seed.Commands;
 
 public class CreateSuperAdminCommand : ICommand<User>
 {
     private readonly IDateTime _dateTimeService;
-
     private readonly string _password;
-
     private readonly User _prototype;
+    private readonly IUserManager _userManager;
 
-    private readonly UserManager<User> _userManager;
-
-    public CreateSuperAdminCommand(UserManager<User> userManager, IDateTime dateTimeService, User prototype, string password)
+    public CreateSuperAdminCommand(IUserManager userManager, IDateTime dateTimeService, User prototype, string password)
     {
         _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
         _dateTimeService = dateTimeService ?? throw new ArgumentNullException(nameof(dateTimeService));

@@ -7,23 +7,17 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-using SampleStore.Data.Entities.Identity;
+using SampleStore.Services.Identity;
 using SampleStore.UI.Pages;
 
 namespace SampleStore.UI.Areas.Identity.Pages.Account.Manage;
 
-public class ExternalLoginsModel : PageModelBase
+public class ExternalLoginsModel(
+    IUserManager userManager,
+    ISignInManager signInManager) : PageModelBase
 {
-    private readonly SignInManager<User> _signInManager;
-    private readonly UserManager<User> _userManager;
-
-    public ExternalLoginsModel(
-        UserManager<User> userManager,
-        SignInManager<User> signInManager)
-    {
-        _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
-        _signInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
-    }
+    private readonly ISignInManager _signInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
+    private readonly IUserManager _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
 
     public IList<UserLoginInfo> CurrentLogins { get; set; } = [];
 
@@ -55,17 +49,14 @@ public class ExternalLoginsModel : PageModelBase
     public async Task<IActionResult> OnGetLinkLoginCallbackAsync()
     {
         var user = await _userManager.GetUserAsync(User);
-        if (user == null)
+        if (user is null)
         {
             return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
         }
 
-        var info = await _signInManager.GetExternalLoginInfoAsync(await _userManager.GetUserIdAsync(user));
-        if (info == null)
-        {
-            throw new InvalidOperationException($"Unexpected error occurred loading external login info for user with ID '{user.Id}'.");
-        }
-
+        var info =
+            await _signInManager.GetExternalLoginInfoAsync(user.Id.ToString())
+                ?? throw new InvalidOperationException($"Unexpected error occurred loading external login info for user with ID '{user.Id}'.");
         var result = await _userManager.AddLoginAsync(user, info);
         if (!result.Succeeded)
         {
@@ -101,8 +92,7 @@ public class ExternalLoginsModel : PageModelBase
         var result = await _userManager.RemoveLoginAsync(user, loginProvider, providerKey);
         if (!result.Succeeded)
         {
-            var userId = await _userManager.GetUserIdAsync(user);
-            throw new InvalidOperationException($"Unexpected error occurred removing external login for user with ID '{userId}'.");
+            throw new InvalidOperationException($"Unexpected error occurred removing external login for user with ID '{user.Id}'.");
         }
 
         await _signInManager.RefreshSignInAsync(user);

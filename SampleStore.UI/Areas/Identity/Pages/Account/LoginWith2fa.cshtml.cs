@@ -2,28 +2,20 @@
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-using SampleStore.Data.Entities.Identity;
+using SampleStore.Services.Identity;
 using SampleStore.UI.Pages;
 using SampleStore.UI.ViewModels.Identity;
 
 namespace SampleStore.UI.Areas.Identity.Pages.Account;
 
 [AllowAnonymous]
-public class LoginWith2faModel : PageModelBase
+public class LoginWith2faModel(ISignInManager signInManager, ILogger<LoginWith2faModel> logger) : PageModelBase
 {
-    private readonly ILogger<LoginWith2faModel> _logger;
-
-    private readonly SignInManager<User> _signInManager;
-
-    public LoginWith2faModel(SignInManager<User> signInManager, ILogger<LoginWith2faModel> logger)
-    {
-        _signInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
-        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-    }
+    private readonly ILogger<LoginWith2faModel> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+    private readonly ISignInManager _signInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
 
     [BindProperty]
     public LoginWith2faViewModel Input { get; set; } = default!;
@@ -39,7 +31,7 @@ public class LoginWith2faModel : PageModelBase
         // Ensure the user has gone through the username & password screen first
         var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
 
-        if (user == null)
+        if (user is null)
         {
             throw new InvalidOperationException($"Unable to load two-factor authentication user.");
         }

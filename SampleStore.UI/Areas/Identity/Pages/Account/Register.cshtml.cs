@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 using SampleStore.Data.Entities.Identity;
+using SampleStore.Services.Identity;
 using SampleStore.UI.Mapping;
 using SampleStore.UI.Pages;
 using SampleStore.UI.ViewModels.Identity;
@@ -19,21 +20,15 @@ namespace SampleStore.UI.Areas.Identity.Pages.Account;
 public class RegisterModel : PageModelBase
 {
     private readonly IEmailSender _emailSender;
-
     private readonly ILogger<RegisterModel> _logger;
-
-    private readonly SignInManager<User> _signInManager;
-
-    private readonly UserManager<User> _userManager;
+    private readonly IUserManager _userManager;
 
     public RegisterModel(
-        UserManager<User> userManager,
-        SignInManager<User> signInManager,
+        IUserManager userManager,
         ILogger<RegisterModel> logger,
         IEmailSender emailSender)
     {
         _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
-        _signInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _emailSender = emailSender ?? throw new ArgumentNullException(nameof(emailSender));
     }
@@ -52,7 +47,7 @@ public class RegisterModel : PageModelBase
 
     public async Task<IActionResult> OnPostAsync(string? returnUrl = null)
     {
-        returnUrl = returnUrl ?? Url.Content("~/");
+        returnUrl ??= Url.Content("~/");
         if (!ModelState.IsValid)
         {
             return Page();

@@ -11,7 +11,7 @@ using SampleStore.Data.Extensions;
 
 namespace SampleStore.Services.Identity;
 
-public partial class UserStore : IUserAuthenticationTokenStore<User>
+internal partial class UserStore : IUserAuthenticationTokenStore<User>
 {
     public async Task<string?> GetTokenAsync(User user, string loginProvider, string name, CancellationToken cancellationToken)
     {

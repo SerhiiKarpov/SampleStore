@@ -13,7 +13,7 @@ using SampleStore.Common.Helpers;
 using SampleStore.Common.Services;
 using SampleStore.Data.Entities.Identity;
 using SampleStore.Data.Seed.Commands;
-using SampleStore.Data.Seed.Tests.Helpers;
+using SampleStore.Services.Identity;
 
 using Xunit;
 
@@ -25,7 +25,7 @@ public static class DoTests
     public static async Task Delegates_To_UserManager()
     {
         // Arrange
-        var userManagerMock = UserManagerTestHelper.CreateUserManagerFake();
+        var userManagerMock = Substitute.For<IUserManager>();
         userManagerMock
             .CreateAsync(Arg.Any<User>(), Arg.Any<string>())
             .Returns(IdentityResult.Success);
@@ -48,7 +48,7 @@ public static class DoTests
     public static async Task Sets_All_Properties_From_Prototype_Except_Id_DateOfBirth_EmailConfirmed()
     {
         // Arrange
-        var userManagerStub = UserManagerTestHelper.CreateUserManagerFake();
+        var userManagerStub = Substitute.For<IUserManager>();
         userManagerStub.CreateAsync(Arg.Any<User>(), Arg.Any<string>()).Returns(IdentityResult.Success);
 
         var dateTimeServiceStub = Substitute.For<IDateTime>();
@@ -83,7 +83,7 @@ public static class DoTests
     public static async Task Sets_DateOfBirth_To_UtcNow_Date()
     {
         // Arrange
-        var userManagerStub = UserManagerTestHelper.CreateUserManagerFake();
+        var userManagerStub = Substitute.For<IUserManager>();
         userManagerStub.CreateAsync(Arg.Any<User>(), Arg.Any<string>()).Returns(IdentityResult.Success);
 
         var utcNowStub = new DateTime(2000, 1, 1, 1, 1, 1);
@@ -108,7 +108,7 @@ public static class DoTests
     public static async Task Sets_EmailConfirmed_To_True()
     {
         // Arrange
-        var userManagerStub = UserManagerTestHelper.CreateUserManagerFake();
+        var userManagerStub = Substitute.For<IUserManager>();
         userManagerStub.CreateAsync(Arg.Any<User>(), Arg.Any<string>()).Returns(IdentityResult.Success);
 
         var dateTimeServiceStub = Substitute.For<IDateTime>();
@@ -130,7 +130,7 @@ public static class DoTests
     public static async Task Throws_If_UserManager_Failed_To_Create_User()
     {
         // Arrange
-        var userManagerMock = UserManagerTestHelper.CreateUserManagerFake();
+        var userManagerMock = Substitute.For<IUserManager>();
         userManagerMock
             .CreateAsync(Arg.Any<User>(), Arg.Any<string>())
             .Returns(IdentityResult.Failed(new IdentityError()));

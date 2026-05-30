@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 using SampleStore.Data.Entities.Identity;
+using SampleStore.Services.Identity;
 using SampleStore.UI.Pages;
 using SampleStore.UI.ViewModels.Identity;
 
@@ -14,9 +15,9 @@ namespace SampleStore.UI.Areas.Identity.Pages.Account;
 [AllowAnonymous]
 public class ResetPasswordModel : PageModelBase
 {
-    private readonly UserManager<User> _userManager;
+    private readonly IUserManager _userManager;
 
-    public ResetPasswordModel(UserManager<User> userManager)
+    public ResetPasswordModel(IUserManager userManager)
     {
         _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
     }
@@ -28,7 +29,7 @@ public class ResetPasswordModel : PageModelBase
 
     public IActionResult OnGet(string? code = null)
     {
-        if (code == null)
+        if (string.IsNullOrWhiteSpace(code))
         {
             return BadRequest("A code must be supplied for password reset.");
         }

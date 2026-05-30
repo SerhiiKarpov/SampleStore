@@ -12,7 +12,7 @@ using SampleStore.Data.Extensions;
 
 namespace SampleStore.Services.Identity;
 
-public partial class UserStore : Disposable, IUserStore<User>
+internal partial class UserStore : Disposable, IUserStore<User>
 {
     private readonly IQueryMaterializer _queryMaterializer;
 

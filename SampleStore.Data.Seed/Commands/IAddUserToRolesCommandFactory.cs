@@ -7,5 +7,5 @@ namespace SampleStore.Data.Seed.Commands;
 
 public interface IAddUserToRolesCommandFactory
 {
-    ICommand<bool> CreateCommand(User user, IEnumerable<Role> roles);
+    ICommand<bool> CreateCommand(User user, IEnumerable<string> roleNames);
 }

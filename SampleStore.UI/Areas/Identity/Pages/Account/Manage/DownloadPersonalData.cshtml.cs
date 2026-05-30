@@ -4,36 +4,22 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-using SampleStore.Data.Entities.Identity;
+using SampleStore.Services.Identity;
 using SampleStore.UI.Pages;
 
 namespace SampleStore.UI.Areas.Identity.Pages.Account.Manage;
 
-public class DownloadPersonalDataModel : PageModelBase
+public class DownloadPersonalDataModel(
+    IUserManager userManager,
+    ILogger<DownloadPersonalDataModel> logger) : PageModelBase
 {
-    private readonly ILogger<DownloadPersonalDataModel> _logger;
+    private readonly ILogger<DownloadPersonalDataModel> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+    private readonly IUserManager _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
 
-    private readonly UserManager<User> _userManager;
-
-    public DownloadPersonalDataModel(
-        UserManager<User> userManager,
-        ILogger<DownloadPersonalDataModel> logger)
-    {
-        _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
-        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-    }
-
-    public override string Title
-    {
-        get
-        {
-            return "Download Your Data";
-        }
-    }
+    public override string Title => "Download Your Data";
 
     public async Task<IActionResult> OnPostAsync()
     {

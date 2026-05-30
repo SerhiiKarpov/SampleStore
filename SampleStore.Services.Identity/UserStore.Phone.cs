@@ -8,7 +8,7 @@ using SampleStore.Data.Entities.Identity;
 
 namespace SampleStore.Services.Identity;
 
-public partial class UserStore : IUserPhoneNumberStore<User>
+internal partial class UserStore : IUserPhoneNumberStore<User>
 {
     public Task<string?> GetPhoneNumberAsync(User user, CancellationToken cancellationToken)
     {

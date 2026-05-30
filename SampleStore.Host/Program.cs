@@ -95,5 +95,5 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapRazorPages();
 
-app.EnsureSeeded();
+await app.EnsureSeeded();
 app.Run();

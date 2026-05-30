@@ -6,13 +6,7 @@ using SampleStore.Data.Entities.Identity;
 
 namespace SampleStore.Services.Identity;
 
-public partial class RoleStore : IQueryableRoleStore<Role>
+internal partial class RoleStore : IQueryableRoleStore<Role>
 {
-    public IQueryable<Role> Roles
-    {
-        get
-        {
-            return _unitOfWork.GetRepository<Role>().Query;
-        }
-    }
+    public IQueryable<Role> Roles => _unitOfWork.GetRepository<Role>().Query;
 }

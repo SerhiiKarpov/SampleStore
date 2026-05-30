@@ -2,29 +2,23 @@
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-using SampleStore.Data.Entities.Identity;
+using SampleStore.Services.Identity;
 using SampleStore.UI.Pages;
 
 namespace SampleStore.UI.Areas.Identity.Pages.Account;
 
 [AllowAnonymous]
-public class ConfirmEmailModel : PageModelBase
+public class ConfirmEmailModel(IUserManager userManager) : PageModelBase
 {
-    private readonly UserManager<User> _userManager;
-
-    public ConfirmEmailModel(UserManager<User> userManager)
-    {
-        _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
-    }
+    private readonly IUserManager _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
 
     public override string Title => "Confirm email";
 
     public async Task<IActionResult> OnGetAsync(string userId, string code)
     {
-        if (userId == null || code == null)
+        if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(code))
         {
             return RedirectToPage("/Index");
         }

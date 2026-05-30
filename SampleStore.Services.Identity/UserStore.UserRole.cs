@@ -13,7 +13,7 @@ using SampleStore.Data.Extensions;
 
 namespace SampleStore.Services.Identity;
 
-public partial class UserStore : IUserRoleStore<User>
+internal partial class UserStore : IUserRoleStore<User>
 {
     public async Task AddToRoleAsync(User user, string roleName, CancellationToken cancellationToken)
     {

@@ -1,48 +1,32 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-using SampleStore.Data.Entities.Identity;
+using SampleStore.Services.Identity;
 using SampleStore.UI.Pages;
 
 namespace SampleStore.UI.Areas.Identity.Pages.Account.Manage;
 
-public class ResetAuthenticatorModel : PageModelBase
+public class ResetAuthenticatorModel(
+    IUserManager userManager,
+    ISignInManager signInManager,
+    ILogger<ResetAuthenticatorModel> logger) : PageModelBase
 {
-    private readonly SignInManager<User> _signInManager;
-
-    private ILogger<ResetAuthenticatorModel> _logger;
-
-    UserManager<User> _userManager;
-
-    public ResetAuthenticatorModel(
-        UserManager<User> userManager,
-        SignInManager<User> signInManager,
-        ILogger<ResetAuthenticatorModel> logger)
-    {
-        _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
-        _signInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
-        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-    }
+    private readonly ISignInManager _signInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
+    private readonly ILogger<ResetAuthenticatorModel> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+    private readonly IUserManager _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
 
     [TempData]
     public string? StatusMessage { get; set; }
 
-    public override string Title
-    {
-        get
-        {
-            return "Reset authenticator key";
-        }
-    }
+    public override string Title => "Reset authenticator key";
 
     public async Task<IActionResult> OnGet()
     {
         var user = await _userManager.GetUserAsync(User);
-        if (user == null)
+        if (user is null)
         {
             return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
         }
@@ -53,7 +37,7 @@ public class ResetAuthenticatorModel : PageModelBase
     public async Task<IActionResult> OnPostAsync()
     {
         var user = await _userManager.GetUserAsync(User);
-        if (user == null)
+        if (user is null)
         {
             return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
         }

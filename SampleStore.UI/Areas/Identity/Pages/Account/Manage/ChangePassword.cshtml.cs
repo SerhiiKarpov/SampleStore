@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-using SampleStore.Data.Entities.Identity;
+using SampleStore.Services.Identity;
 using SampleStore.UI.Pages;
 using SampleStore.UI.ViewModels.Identity;
 
@@ -14,12 +13,12 @@ namespace SampleStore.UI.Areas.Identity.Pages.Account.Manage;
 public class ChangePasswordModel : PageModelBase
 {
     private readonly ILogger<ChangePasswordModel> _logger;
-    private readonly SignInManager<User> _signInManager;
-    private readonly UserManager<User> _userManager;
+    private readonly ISignInManager _signInManager;
+    private readonly IUserManager _userManager;
 
     public ChangePasswordModel(
-        UserManager<User> userManager,
-        SignInManager<User> signInManager,
+        IUserManager userManager,
+        ISignInManager signInManager,
         ILogger<ChangePasswordModel> logger)
     {
         _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
@@ -44,7 +43,7 @@ public class ChangePasswordModel : PageModelBase
         }
 
         var hasPassword = await _userManager.HasPasswordAsync(user);
-        return !hasPassword ? RedirectToPage("./SetPassword") : (IActionResult)Page();
+        return !hasPassword ? RedirectToPage("./SetPassword") : Page();
     }
 
     public async Task<IActionResult> OnPostAsync()

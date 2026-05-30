@@ -13,7 +13,7 @@ using SampleStore.Services.Identity.Mapping;
 
 namespace SampleStore.Services.Identity;
 
-public partial class UserStore : IUserLoginStore<User>
+internal partial class UserStore : IUserLoginStore<User>
 {
     public async Task AddLoginAsync(User user, UserLoginInfo login, CancellationToken cancellationToken)
     {

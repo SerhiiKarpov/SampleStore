@@ -8,7 +8,7 @@ using SampleStore.Data.Entities.Identity;
 
 namespace SampleStore.Services.Identity;
 
-public partial class UserStore : IUserPasswordStore<User>
+internal partial class UserStore : IUserPasswordStore<User>
 {
     public Task<string?> GetPasswordHashAsync(User user, CancellationToken cancellationToken)
     {

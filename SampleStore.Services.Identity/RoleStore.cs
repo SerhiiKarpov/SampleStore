@@ -12,7 +12,7 @@ using SampleStore.Data.Extensions;
 
 namespace SampleStore.Services.Identity;
 
-public partial class RoleStore : Disposable, IRoleStore<Role>
+internal partial class RoleStore : Disposable, IRoleStore<Role>
 {
     private readonly IQueryMaterializer _queryMaterializer;
 
