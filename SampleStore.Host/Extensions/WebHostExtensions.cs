@@ -1,23 +1,17 @@
 using System;
 using System.Threading.Tasks;
 
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-using SampleStore.Data.Entities.Identity;
 using SampleStore.Data.Seed;
 
 namespace SampleStore.Host.Extensions;
 
 public static class WebHostExtensions
 {
-    private const string SeederPasswordKey = "SeederPassword";
-
-    private const string SeedingErrorMessage = "An error occurred creating the DB.";
-
-    private const string SuperAdminPrototypeSection = "SuperAdminPrototype";
+    private const string SeedingErrorMessage = "An error occurred seeding the DB.";
 
     public static async Task EnsureSeeded(this IHost host)
     {
@@ -26,20 +20,12 @@ public static class WebHostExtensions
 
         try
         {
-            var configuration = services.GetRequiredService<IConfiguration>();
-            var superAdminPrototype = configuration.GetSection(SuperAdminPrototypeSection).Get<User>();
-            var seederPassword = configuration[SeederPasswordKey];
-
-            var seeder = services.GetRequiredService<DatabaseSeeder>();
-            var needsSeeding = await seeder.NeedsSeeding();
-            if (needsSeeding)
-            {
-                await seeder.Seed(superAdminPrototype!, seederPassword!);
-            }
+            var seeder = services.GetRequiredService<IDatabaseSeeder>();
+            await seeder.EnsureSeeded();
         }
         catch (Exception x)
         {
-            var logger = services.GetRequiredService<ILogger<DatabaseSeeder>>();
+            var logger = services.GetRequiredService<ILogger<IDatabaseSeeder>>();
             logger.LogError(x, SeedingErrorMessage);
         }
     }

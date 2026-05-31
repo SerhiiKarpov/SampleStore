@@ -11,3 +11,24 @@ csharp_using_directive_placement = outside_namespace
 
 # IDE0160: Convert to block scoped namespace
 csharp_style_namespace_declarations = file_scoped
+
+# 1. Constants rule
+dotnet_naming_rule.constants_pascal_case.symbols = constant_symbols
+dotnet_naming_rule.constants_pascal_case.style = pascal_case_style
+dotnet_naming_rule.constants_pascal_case.severity = warning
+
+dotnet_naming_symbols.constant_symbols.applicable_kinds = field
+dotnet_naming_symbols.constant_symbols.required_modifiers = const
+
+dotnet_naming_style.pascal_case_style.capitalization = pascal_case
+
+# 2. Private fields rule
+dotnet_naming_rule.private_fields_underscore_camel_case.symbols = private_fields_symbols
+dotnet_naming_rule.private_fields_underscore_camel_case.style = camel_case_underscore_style
+dotnet_naming_rule.private_fields_underscore_camel_case.severity = warning
+
+dotnet_naming_symbols.private_fields_symbols.applicable_kinds = field
+dotnet_naming_symbols.private_fields_symbols.applicable_accessibilities = private
+
+dotnet_naming_style.camel_case_underscore_style.required_prefix = _
+dotnet_naming_style.camel_case_underscore_style.capitalization = camel_case

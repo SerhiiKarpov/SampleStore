@@ -11,7 +11,6 @@ using Microsoft.Extensions.Hosting;
 
 using SampleStore.Common.Extensions;
 using SampleStore.Data.EF.Extensions;
-using SampleStore.Data.Seed.Extensions;
 using SampleStore.Host.Configuration;
 using SampleStore.Host.Extensions;
 using SampleStore.Services.Email.SendGrid;
@@ -19,8 +18,6 @@ using SampleStore.Services.Identity.Extensions;
 using SampleStore.UI.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.AddCommonServices();
 
 builder.Services.Configure<CookiePolicyOptions>(options =>
 {

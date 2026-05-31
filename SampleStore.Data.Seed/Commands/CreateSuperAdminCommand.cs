@@ -1,40 +1,50 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
-using SampleStore.Common.Commands;
+using Microsoft.Extensions.Options;
+
 using SampleStore.Common.Extensions;
-using SampleStore.Common.Services;
 using SampleStore.Data.Entities.Identity;
+using SampleStore.Data.Seed.Configuration;
 using SampleStore.Data.Seed.Extensions;
 using SampleStore.Services.Identity;
 
 namespace SampleStore.Data.Seed.Commands;
 
-public class CreateSuperAdminCommand : ICommand<User>
+internal sealed class CreateSuperAdminCommand(
+    IUserManager userManager,
+    IOptions<SuperAdminOptions> options) : IDatabaseSeederCommand
 {
-    private readonly IDateTime _dateTimeService;
-    private readonly string _password;
-    private readonly User _prototype;
-    private readonly IUserManager _userManager;
+    internal static IEnumerable<string> Roles { get; } = [Services.Identity.Constants.Roles.SuperAdmin];
 
-    public CreateSuperAdminCommand(IUserManager userManager, IDateTime dateTimeService, User prototype, string password)
+    private readonly IOptions<SuperAdminOptions> _options = options ?? throw new ArgumentNullException(nameof(options));
+    private readonly IUserManager _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
+
+    public async Task Do()
     {
-        _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
-        _dateTimeService = dateTimeService ?? throw new ArgumentNullException(nameof(dateTimeService));
-        _prototype = prototype ?? throw new ArgumentNullException(nameof(prototype));
-        _password = password ?? throw new ArgumentNullException(nameof(password));
+        var options = _options.Value;
+        User superAdmin = CreateUser(options);
+
+        var userResult = await _userManager.CreateAsync(superAdmin, options.Password);
+        userResult.ThrowIfFailed(() => GetCreateUserErrorMessage(superAdmin.Email));
+
+        var rolesResult = await _userManager.AddToRolesAsync(superAdmin, Roles);
+        rolesResult.ThrowIfFailed(() => GetAddToRolesErrorMessage(superAdmin.Email, Roles));
     }
 
-    public async Task<User> Do()
+    internal static string GetCreateUserErrorMessage(string email) =>
+        $"Failed to create user {email}";
+
+    internal static string GetAddToRolesErrorMessage(string email, IEnumerable<string> roles) =>
+        $"Failed to add user {email} to roles: {string.Join(",", roles)}";
+
+    private static User CreateUser(SuperAdminOptions options)
     {
-        var superAdmin = new User { Email = string.Empty, FullName = string.Empty };
-        _prototype.CopyTo(superAdmin);
-        superAdmin.DateOfBirth = _dateTimeService.UtcNow.Date;
+        var superAdmin = new User();
+        options.Prototype.CopyTo(superAdmin);
+        superAdmin.DateOfBirth = DateTime.UtcNow.Date;
         superAdmin.EmailConfirmed = true;
-
-        var userResult = await _userManager.CreateAsync(superAdmin, _password);
-        userResult.ThrowIfFailed(() => $"Failed to create user {superAdmin.Email}");
-
         return superAdmin;
     }
 }

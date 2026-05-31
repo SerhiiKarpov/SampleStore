@@ -10,6 +10,8 @@ using Microsoft.Extensions.Logging;
 
 using SampleStore.Data.Entities.Identity;
 using SampleStore.Services.Identity;
+using SampleStore.Services.Identity.Constants;
+using SampleStore.UI.Extensions;
 using SampleStore.UI.Mapping;
 using SampleStore.UI.Pages;
 using SampleStore.UI.ViewModels.Identity;
@@ -57,11 +59,14 @@ public class RegisterModel : PageModelBase
         var result = await _userManager.CreateAsync(user, Input.Password);
         if (!result.Succeeded)
         {
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError(string.Empty, error.Description);
-            }
+            ModelState.AddModelErrors(result);
+            return Page();
+        }
 
+        var roleResult = await _userManager.AddToRolesAsync(user, [Roles.Client]);
+        if (!roleResult.Succeeded)
+        {
+            ModelState.AddModelErrors(result);
             return Page();
         }
 

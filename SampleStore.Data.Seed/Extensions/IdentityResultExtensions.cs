@@ -3,8 +3,6 @@ using System.Text;
 
 using Microsoft.AspNetCore.Identity;
 
-using SampleStore.Common.Extensions;
-
 namespace SampleStore.Data.Seed.Extensions;
 
 public static class IdentityResultExtensions
@@ -14,9 +12,21 @@ public static class IdentityResultExtensions
         ArgumentNullException.ThrowIfNull(result);
         ArgumentNullException.ThrowIfNull(getMessage);
 
+        var errorMessage = result.GetErrorMessage(getMessage);
+        if (errorMessage is not null)
+        {
+            throw new InvalidOperationException(errorMessage);
+        }
+    }
+
+    public static string? GetErrorMessage(this IdentityResult result, Func<string> getMessage)
+    {
+        ArgumentNullException.ThrowIfNull(result);
+        ArgumentNullException.ThrowIfNull(getMessage);
+
         if (result.Succeeded)
         {
-            return;
+            return null;
         }
 
         var messageBuilder = new StringBuilder();
@@ -25,9 +35,9 @@ public static class IdentityResultExtensions
         var errorCounter = 0;
         foreach (var error in result.Errors)
         {
-            messageBuilder.Append($"{++errorCounter}) Code: {error.Code}, Description: {error.Description}.");
+            messageBuilder.AppendLine($"{++errorCounter}) Code: {error.Code}, Description: {error.Description}.");
         }
 
-        throw new InvalidOperationException(messageBuilder.ToString());
+        return messageBuilder.ToString();
     }
 }

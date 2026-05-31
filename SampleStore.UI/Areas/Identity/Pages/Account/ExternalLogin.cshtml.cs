@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Authorization;
@@ -9,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 using SampleStore.Services.Identity;
+using SampleStore.Services.Identity.Constants;
+using SampleStore.UI.Extensions;
 using SampleStore.UI.Mapping;
 using SampleStore.UI.Pages;
 using SampleStore.UI.ViewModels.Identity;
@@ -39,10 +40,7 @@ public class ExternalLoginModel(
 
     public override string Title => "Register";
 
-    public IActionResult OnGetAsync()
-    {
-        return RedirectToPage("./Login");
-    }
+    public IActionResult OnGetAsync() => RedirectToPage("./Login");
 
     public async Task<IActionResult> OnGetCallbackAsync(string? returnUrl = null, string? remoteError = null)
     {
@@ -91,62 +89,54 @@ public class ExternalLoginModel(
 
     public async Task<IActionResult> OnPostConfirmationAsync(string? returnUrl = null)
     {
-        returnUrl = returnUrl ?? Url.Content("~/");
+        returnUrl ??= Url.Content("~/");
 
         // Get the information about the user from the external login provider
         var info = await _signInManager.GetExternalLoginInfoAsync();
-        if (info == null)
+        if (info is null)
         {
             ErrorMessage = "Error loading external login information during confirmation.";
             return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
         }
 
-        if (ModelState.IsValid)
+        LoginProvider = info.LoginProvider;
+        ReturnUrl = returnUrl;
+
+        if (!ModelState.IsValid)
         {
-            var result = IdentityResult.Success;
-            var user = await _userManager.FindByEmailAsync(Input.Email);
-            if (user is null)
-            {
-                user = Input.ToUser();
-                result = await _userManager.CreateAsync(user);
-            }
-            
+            return Page();
+        }
+
+        var result = IdentityResult.Success;
+        var user = await _userManager.FindByEmailAsync(Input.Email);
+        if (user is null)
+        {
+            user = Input.ToUser();
+            user.EmailConfirmed = true;
+            result = await _userManager.CreateAsync(user);
             if (result.Succeeded)
             {
-                result = await _userManager.AddLoginAsync(user, info);
-                if (result.Succeeded)
-                {
-                    await _userManager.AddClaimsAsync(user, info.Principal.Claims);
-
-                    if (!user.EmailConfirmed)
-                    {
-                        // TODO: Copy of this code exists in Register.cshtml.cs. Please extract it.
-                        var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                        var callbackUrl = Url.Page(
-                            "/Account/ConfirmEmail",
-                            pageHandler: null,
-                            values: new { userId = user.Id, code },
-                            protocol: Request.Scheme);
-
-                        await _emailSender.SendEmailAsync(
-                            Input.Email,
-                            "Confirm your email",
-                            $"Please confirm your account by clicking <a href='{HtmlEncoder.Default.Encode(callbackUrl!)}'>here</a>.");
-                    }
-
-                    _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
-                    return LocalRedirect(returnUrl);
-                }
-            }
-
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError(string.Empty, error.Description);
+                result = await _userManager.AddToRolesAsync(user, [Roles.Client]);
             }
         }
 
-        LoginProvider = info.LoginProvider;
-        ReturnUrl = returnUrl;
-        return Page();
+        if (result.Succeeded)
+        {
+            result = await _userManager.AddLoginAsync(user, info);
+        }
+
+        if (result.Succeeded)
+        {
+            result = await _userManager.AddClaimsAsync(user, info.Principal.Claims);
+        }
+
+        if (!result.Succeeded)
+        {
+            ModelState.AddModelErrors(result);
+            return Page();
+        }
+
+        _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
+        return LocalRedirect(returnUrl);
     }
 }

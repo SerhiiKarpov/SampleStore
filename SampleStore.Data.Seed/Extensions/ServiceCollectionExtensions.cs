@@ -1,10 +1,12 @@
 ﻿using System;
 
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
 
+using SampleStore.Data.Seed;
 using SampleStore.Data.Seed.Commands;
+using SampleStore.Data.Seed.Configuration;
 
-namespace SampleStore.Data.Seed.Extensions;
+namespace Microsoft.Extensions.DependencyInjection;
 
 public static class ServiceCollectionExtensions
 {
@@ -12,9 +14,17 @@ public static class ServiceCollectionExtensions
     {
         ArgumentNullException.ThrowIfNull(services);
 
-        services.AddScoped<DatabaseSeeder>();
-        services.AddTransient<ICreateSuperAdminCommandFactory, SeederCommandFactory>();
-        services.AddTransient<ICreateRolesCommandFactory, SeederCommandFactory>();
-        services.AddTransient<IAddUserToRolesCommandFactory, SeederCommandFactory>();
+        services
+            .AddOptions<SuperAdminOptions>()
+            .Configure<IConfiguration>(
+                (options, configuration) =>
+                     configuration
+                        .GetSection(SuperAdminOptions.Key)
+                        .Bind(options))
+            .ValidateDataAnnotations();
+
+        services.AddScoped<IDatabaseSeeder, DatabaseSeeder>();
+        services.AddTransient<IDatabaseSeederCommand, CreateRolesCommand>();
+        services.AddTransient<IDatabaseSeederCommand, CreateSuperAdminCommand>();
     }
 }
