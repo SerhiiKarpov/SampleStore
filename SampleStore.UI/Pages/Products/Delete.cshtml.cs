@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using SampleStore.Data;
+using SampleStore.Services.Identity.Constants;
 using SampleStore.Data.Entities.Domain;
 using SampleStore.Data.Extensions;
 
 namespace SampleStore.UI.Pages.Products;
 
+[Authorize(Roles = Roles.Admin)]
 public class DeleteModel : PageModelBase
 {
     private readonly IQueryMaterializer _queryMaterializer;

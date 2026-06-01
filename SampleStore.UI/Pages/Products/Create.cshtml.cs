@@ -3,16 +3,19 @@ using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Threading.Tasks;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 using SampleStore.Common.Extensions;
+using SampleStore.Services.Identity.Constants;
 using SampleStore.Data;
 using SampleStore.Data.Entities.Domain;
 using SampleStore.Data.Extensions;
 
 namespace SampleStore.UI.Pages.Products;
 
+[Authorize(Roles = Roles.Admin)]
 public class CreateModel : PageModelBase
 {
     private readonly IUnitOfWork _unitOfWork;
